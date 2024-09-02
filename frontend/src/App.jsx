@@ -17,6 +17,11 @@ import AboutChiefPage from './pages/AboutChiefPage/AboutChiefPage';
 import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 
+
+import Collection from './components/collectionPage/collections';
+import DetailsCollection from './components/collectionPage/DetailsCollection';
+
+
 function App() {
   return (
     <Router>
@@ -33,6 +38,8 @@ function App() {
             <Route path="/AboutChief" element={<AboutChiefPage />} />
             <Route path="/contact" element={<ContactUsPage />} />
             <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path = "/Collection" element={<Collection/>} />
+            <Route path="/product/:id" element={<DetailsCollection />} />
           </Routes>
         </main>
       </div>
