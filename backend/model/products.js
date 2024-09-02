@@ -6,7 +6,7 @@ const productSchema = new Schema({
   description: { type: String },
   price: { type: Number, required: true },
   category: { type: String },
-  recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }], // Reference to multiple recipes
+  recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }], 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
