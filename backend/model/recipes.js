@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
-
 const recipeSchema = new Schema({
   barista: { type: mongoose.Schema.Types.ObjectId, ref: 'Barista' }, 
   name: { type: String, required: true },
@@ -19,8 +17,6 @@ const recipeSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
-
-
 
 const Recipe = mongoose.model('Recipe', recipeSchema);
 module.exports = Recipe;

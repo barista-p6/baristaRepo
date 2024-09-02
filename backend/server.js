@@ -1,9 +1,22 @@
 require('dotenv').config(); 
 const express = require('express');
 const mongoose = require('mongoose');
-
+const cors = require('cors');
+const productRoutes = require('./routes/productRoutes')
 const app = express();
 const port = 3000;
+
+
+
+
+
+// middleware 
+app.use(cors());
+app.use(express.json());
+
+
+
+
 
 // Connect to MongoDB
 const mongoURI = process.env.MONGO_URI;
@@ -13,13 +26,24 @@ mongoose.connect(mongoURI).then(() => {
   console.error('Failed to connect to MongoDB', err);
 });
 
-app.use(express.json());
+
+// Routes
 
 const userRoutes = require('./routes/users')
 app.use("/api/users", userRoutes);
 
 
-// Middleware
+// Tasneem Routes 
+app.use("/api" , productRoutes )
+
+
+
+
+
+
+
+
+
 
 // Basic route
 app.get('/', (req, res) => {
