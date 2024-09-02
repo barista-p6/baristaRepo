@@ -8,7 +8,7 @@ const ReviewManagement = () => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/admin/reviews"
+          "http://localhost:3000/api/admin/reviews"
         );
         setReviews(response.data);
       } catch (error) {
@@ -21,7 +21,7 @@ const ReviewManagement = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/admin/reviews/${id}`);
+      await axios.delete(`http://localhost:3000/api/admin/reviews/${id}`);
       setReviews(reviews.filter((review) => review._id !== id));
     } catch (error) {
       console.error("Error deleting review:", error);
@@ -49,8 +49,8 @@ const ReviewManagement = () => {
               <td>{review.rating}</td>
               <td>{review.comment}</td>
               <td>
-                {/* <button onClick={() => handleViewDetails(review._id)}> View Details </button> */}
-                <button > View Details </button>
+                {/* <button onClick={() => handleViewDetails(review._id)}> View Details</button> */}
+                <button > View Details</button>
                 <button onClick={() => handleDelete(review._id)}>Delete</button>
               </td>
             </tr>

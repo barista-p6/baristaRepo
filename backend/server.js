@@ -1,6 +1,9 @@
 require('dotenv').config(); 
 const express = require('express');
+const cors = require("cors");
+
 const mongoose = require('mongoose');
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,23 +20,15 @@ mongoose.connect(mongoURI, {
 });
 
 
-
-
-
 // Middleware
 app.use(express.json());
-
-
-
-
-
-
+app.use(cors());
+app.use("/api/admin", adminRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
-
 
 
 app.listen(port, () => {
