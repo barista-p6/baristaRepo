@@ -2,13 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const baristaSchema = new Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  username: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  confirmPassword: { type: String, required: true },
+  profilePic: { type: String },
+  bio: { type: String },
+  isActive: { type: Boolean, default: true },
+  isBarista: { type: Boolean, default: false },
+  isDeleted: { type: Boolean, default: false },
   isApproved: { type: Boolean, default: false },
-  businessDetails: {
-    paymentInfo: { type: String },
-    address: { type: String },
-    balance: { type: Number, default: 0 },
-  },
+  balance: { type: Number, default: 0 },
   recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }],
   beverages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Beverage' }],
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
