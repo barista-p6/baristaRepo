@@ -7,6 +7,7 @@ const productSchema = new Schema({
   price: { type: Number, required: true },
   category: { type: String },
   recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }], 
+  beverages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Beverage' }], 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
