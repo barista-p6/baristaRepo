@@ -9,7 +9,6 @@ const userSchema = new Schema({
   profilePic: { type: String },
   bio: { type: String },
   isActive: { type: Boolean, default: true },
-  isBarista: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: false },
   socialLinks: {
     facebook: { type: String },

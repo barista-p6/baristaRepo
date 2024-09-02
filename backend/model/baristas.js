@@ -9,7 +9,6 @@ const baristaSchema = new Schema({
   profilePic: { type: String },
   bio: { type: String },
   isActive: { type: Boolean, default: true },
-  isBarista: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: false },
   isApproved: { type: Boolean, default: false },
   balance: { type: Number, default: 0 },
