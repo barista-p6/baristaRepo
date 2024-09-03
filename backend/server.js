@@ -3,23 +3,29 @@ const express = require('express');
 const cors = require("cors");
 
 const mongoose = require('mongoose');
-
 const adminRoutes = require("./routes/adminRoutes");
+
+
+
 
 
 
 const productRoutes = require('./routes/productRoutes')
 
 const app = express();
-const port = 3000;
+
+const port = process.env.PORT || 3000;
+app.use(cors());
+
 
 
 
 
 
 // middleware 
-app.use(cors());
+
 app.use(express.json());
+
 
 
 
@@ -54,7 +60,7 @@ app.use("/api" , productRoutes )
 
 
 
-
+app.use("/api/admin", adminRoutes);
 
 
 

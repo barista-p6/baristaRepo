@@ -8,7 +8,11 @@
 //     const fetchReviews = async () => {
 //       try {
 //         const response = await axios.get(
+
+//           "http://localhost:3000/api/admin/reviews"
+
 //           "http://localhost:5000/api/admin/reviews"
+
 //         );
 //         setReviews(response.data);
 //       } catch (error) {
@@ -21,7 +25,11 @@
 
 //   const handleDelete = async (id) => {
 //     try {
+
+//       await axios.delete(`http://localhost:3000/api/admin/reviews/${id}`);
+
 //       await axios.delete(`http://localhost:5000/api/admin/reviews/${id}`);
+
 //       setReviews(reviews.filter((review) => review._id !== id));
 //     } catch (error) {
 //       console.error("Error deleting review:", error);
@@ -60,5 +68,6 @@
 //     </div>
 //   );
 // };
+
 
 // export default ReviewManagement;
