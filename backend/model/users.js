@@ -5,11 +5,9 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  confirmPassword: { type: String, required: true },
   profilePic: { type: String },
   bio: { type: String },
   isActive: { type: Boolean, default: true },
-  isBarista: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: false },
   socialLinks: {
     facebook: { type: String },
@@ -27,6 +25,7 @@ const userSchema = new Schema({
     orderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
     addedAt: { type: Date, default: Date.now }  
   }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }], 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
