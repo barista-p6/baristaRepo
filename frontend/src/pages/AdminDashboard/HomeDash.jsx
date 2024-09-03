@@ -1,18 +1,53 @@
+import React from "react";
+import { Route, Routes, Link } from "react-router-dom";
+import Dashboard from "./Dashboard";
+import UserManagement from "./UserManagement";
+import BaristaManagement from "./BaristaManagement";
+import RecipeManagement from "./RecipeManagement";
+import BeverageManagement from "./BeverageManagement ";
+import OrderManagement from "./OrderManagement";
+import ReviewManagement from "./ReviewManagement";
 
-import React from 'react';
+const AdminDashboard = () => {
+  return (
+    <div className="admin-dashboard">
+      <nav>
+        <ul>
+          <li>
+            <Link to="/admin">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/admin/users">Users</Link>
+          </li>
+          <li>
+            <Link to="/admin/baristas">Baristas</Link>
+          </li>
+          <li>
+            <Link to="/admin/recipes">Recipes</Link>
+          </li>
+          <li>
+            <Link to="/admin/beverages">Beverages</Link>
+          </li>
+          <li>
+            <Link to="/admin/orders">Orders</Link>
+          </li>
+          <li>
+            <Link to="/admin/reviews">Reviews</Link>
+          </li>
+        </ul>
+      </nav>
 
-function AdminDashboard() {
-    return (
-        <div className="flex flex-col min-h-screen">
-
-            <main className="flex-grow">
-                <h1 className='text-pink-600 text-9xl'>
-                    Dash ⱺ ⱺ  board
-                </h1>
-            </main>
-
-        </div>
-    );
-}
+      <Routes>
+        <Route path="/admin" element={<Dashboard />} />
+        <Route path="/admin/users" element={<UserManagement />} />
+        <Route path="/admin/baristas" element={<BaristaManagement />} />
+        <Route path="/admin/recipes" element={<RecipeManagement />} />
+        <Route path="/admin/beverages" element={<BeverageManagement />} />
+        <Route path="/admin/orders" element={<OrderManagement />} />
+        <Route path="/admin/reviews" element={<ReviewManagement />} />
+      </Routes>
+    </div>
+  );
+};
 
 export default AdminDashboard;
