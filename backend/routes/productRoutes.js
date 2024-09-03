@@ -3,8 +3,8 @@ const router = express.Router();
 const Product = require('../model/products'); 
 const Recipe = require('../model/recipes') ;
 const Beverage = require('../model/beverages')
-
-
+const Barista = require('../model/baristas')
+const Ingredient = require('../model/ingredients')
 
 
 router.get('/Allproducts', async (req, res) => {
@@ -19,8 +19,25 @@ router.get('/product/:id', async (req, res) => {
   
 
       const product = await Product.findById(productId)
-        .populate('recipes')  
-        .populate('beverages');  
+      .populate({
+        path: 'recipes',
+        populate: [
+          {
+              path: 'baristaId',
+              select: 'username'
+          },
+          {
+              path: 'ingredients'
+          }
+      ]
+    })
+    .populate({
+        path: 'beverages',
+        populate: {
+            path: 'baristaId',
+            select: 'username' 
+        }
+    });
 
 
       if (!product) {
@@ -33,3 +50,8 @@ router.get('/product/:id', async (req, res) => {
   
 
 module.exports = router;
+
+
+
+
+
