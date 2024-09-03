@@ -1,3 +1,4 @@
+
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
 
@@ -70,18 +71,23 @@ const ReviewManagement = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
+
         setLoading(true);
+
         const response = await axios.get(
           "http://localhost:3000/api/admin/reviews"
         );
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
+
       } finally {
         setLoading(false);
+
       }
     };
 
@@ -96,6 +102,7 @@ const ReviewManagement = () => {
       console.error("Error deleting review:", error);
     }
   };
+
 
   const handleViewDetails = (id) => {
     // Implement view details functionality
@@ -174,8 +181,6 @@ const ReviewManagement = () => {
           </table>
         </div>
       )}
-    </div>
-  );
-};
+
 
 export default ReviewManagement;

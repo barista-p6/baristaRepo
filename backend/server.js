@@ -1,18 +1,39 @@
 require('dotenv').config(); 
 const express = require('express');
-const mongoose = require('mongoose');
-const adminRoutes = require("./routes/adminRoutes");
 const cors = require("cors");
 
+const mongoose = require('mongoose');
+const adminRoutes = require("./routes/adminRoutes");
+
+
+
+
+
+
+const productRoutes = require('./routes/productRoutes')
+
 const app = express();
+
 const port = process.env.PORT || 3000;
 app.use(cors());
+
+
+
+
+
+
+// middleware 
+
+app.use(express.json());
+
+
+
+
+
+
 // Connect to MongoDB
 const mongoURI = process.env.MONGO_URI;
-mongoose.connect(mongoURI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-}).then(() => {
+mongoose.connect(mongoURI).then(() => {
   console.log('Connected to MongoDB');
 }).catch((err) => {
   console.error('Failed to connect to MongoDB', err);
@@ -22,8 +43,21 @@ mongoose.connect(mongoURI, {
 
 
 
-// Middleware
-app.use(express.json());
+
+app.use("/api/admin", adminRoutes);
+
+// Routes
+
+const userRoutes = require('./routes/users')
+app.use("/api/users", userRoutes);
+
+
+// Tasneem Routes 
+app.use("/api" , productRoutes )
+
+
+
+
 
 
 app.use("/api/admin", adminRoutes);
@@ -35,7 +69,6 @@ app.use("/api/admin", adminRoutes);
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
-
 
 
 app.listen(port, () => {

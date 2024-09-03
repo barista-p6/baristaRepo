@@ -218,8 +218,8 @@ const UserManagement = () => {
           </table>
         </div>
       )}
-    </div>
-  );
-};
+
+
 
 export default UserManagement;
+

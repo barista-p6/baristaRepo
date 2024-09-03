@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../Controllers/adminController');
+
 const userController = require('../Controllers/user');
 const baristaController = require('../Controllers/barista');
 const recipeController = require('../Controllers/recipes');
@@ -22,5 +23,9 @@ router.get("/recipes", recipeController.getRecipes);
 router.get("/beverages", beverageController.getBeverages);
 router.get("/orders", orderController.getOrders);
 router.get("/reviews",reviewsController .getReviews);
+=======
+
+router.get('/dashboard-stats', adminController.getDashboardStats);
+
 
 module.exports = router;

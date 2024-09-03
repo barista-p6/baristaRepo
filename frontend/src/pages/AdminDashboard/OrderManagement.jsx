@@ -1,3 +1,4 @@
+
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';
 
@@ -68,23 +69,35 @@ const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const OrderManagement = () => {
+  const [orders, setOrders] = useState([]);
+
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+
         setLoading(true);
+
         const response = await axios.get(
           "http://localhost:3000/api/admin/orders"
         );
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
+
       } finally {
         setLoading(false);
+
       }
     };
 
     fetchOrders();
   }, []);
+
 
   const handleViewDetails = (id) => {
     // Implement view details functionality
@@ -178,5 +191,6 @@ const OrderManagement = () => {
     
 
     
+
 
 export default OrderManagement;
