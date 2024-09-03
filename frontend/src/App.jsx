@@ -16,13 +16,26 @@ import AboutChiefPage from './pages/AboutChiefPage/AboutChiefPage';
 
 import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
-
-function App() {
+import Dashboard from './pages/AdminDashboard/Dashboard';
+import UserManagement from './pages/AdminDashboard/UserManagement';
+import BaristaManagement from './pages/AdminDashboard/BaristaManagement';
+import RecipeManagement from './pages/AdminDashboard/RecipeManagement';
+import BeverageManagement from './pages/AdminDashboard/BeverageManagement';
+import OrderManagement from './pages/AdminDashboard/OrderManagement';
+import ReviewManagement from './pages/AdminDashboard/ReviewManagement';
+const App = () => {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
         <main className="flex-grow">
           <Routes>
+            <Route path="/admin/*" element={<Dashboard />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/baristas" element={<BaristaManagement />} />
+            <Route path="/admin/recipes" element={<RecipeManagement />} />
+            <Route path="/admin/beverages" element={<BeverageManagement />} />
+            <Route path="/admin/orders" element={<OrderManagement />} />
+            <Route path="/admin/reviews" element={<ReviewManagement />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
@@ -32,11 +45,14 @@ function App() {
             <Route path="/categories" element={<RecipeCategoriesPage />} />
             <Route path="/AboutChief" element={<AboutChiefPage />} />
             <Route path="/contact" element={<ContactUsPage />} />
-            <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/dashboard/*" element={<AdminDashboard />} />
           </Routes>
         </main>
       </div>
     </Router>
   );
-}
+};
 export default App;
+
+
+
