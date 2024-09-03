@@ -94,24 +94,47 @@ async function seed() {
     await Product.findByIdAndUpdate(product1._id, { beverages: [beverage1._id] });
     await Product.findByIdAndUpdate(product2._id, { beverages: [beverage2._id] });
 
+    // Create Ingredients
+    const ingredient1 = await Ingredient.create({
+      name: 'Vanilla Syrup',
+      type: 'Syrup',
+      quantity: '100ml'
+    });
+
+    const ingredient2 = await Ingredient.create({
+      name: 'Hazelnuts',
+      type: 'Nut',
+      quantity: '50g'
+    });
+
     // Create Recipes
     const recipe1 = await Recipe.create({
-      barista: barista1._id,
+      baristaId: barista1._id,
       name: 'Vanilla Syrup Recipe',
-      instructions: 'Mix sugar and water, add vanilla extract, simmer.',
+      preparation: [
+        { stepNumber: 1, description: 'Mix sugar and water.' },
+        { stepNumber: 2, description: 'Add vanilla extract and simmer.' }
+      ],
+      cookingTime: '30 minutes',
       categories: ['Syrup', 'Flavoring'],
       cuisine: 'American',
       dietaryRestrictions: ['Vegetarian'],
+      ingredients: [ingredient1._id], // Reference ingredient IDs
       products: [product1._id]
     });
 
     const recipe2 = await Recipe.create({
-      barista: barista2._id,
+      baristaId: barista2._id,
       name: 'Hazelnut Syrup Recipe',
-      instructions: 'Roast hazelnuts, blend with syrup, simmer.',
+      preparation: [
+        { stepNumber: 1, description: 'Roast hazelnuts.' },
+        { stepNumber: 2, description: 'Blend with syrup and simmer.' }
+      ],
+      cookingTime: '45 minutes',
       categories: ['Syrup', 'Flavoring'],
       cuisine: 'European',
       dietaryRestrictions: ['Vegan'],
+      ingredients: [ingredient2._id], // Reference ingredient IDs
       products: [product2._id]
     });
 
@@ -132,21 +155,6 @@ async function seed() {
       targetId: beverage1._id,
       targetType: 'Beverage',
       content: 'Love the vanilla flavor in this latte.'
-    });
-
-    // Create Ingredients
-    const ingredient1 = await Ingredient.create({
-      ingredientId: recipe1._id,
-      recipesId: [recipe1._id],
-      type: 'Syrup',
-      isAvailable: true
-    });
-
-    const ingredient2 = await Ingredient.create({
-      ingredientId: recipe2._id,
-      recipesId: [recipe2._id],
-      type: 'Syrup',
-      isAvailable: true
     });
 
     // Create Orders
