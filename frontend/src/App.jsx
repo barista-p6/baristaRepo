@@ -18,6 +18,11 @@ import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 import CartPage from './pages/Cart/CartPage';
 
+
+import Collection from './components/collectionPage/collections';
+import DetailsCollection from './components/collectionPage/DetailsCollection';
+
+
 function App() {
   return (
     <Router>
@@ -35,6 +40,9 @@ function App() {
             <Route path="/contact" element={<ContactUsPage />} />
             <Route path="/dashboard" element={<AdminDashboard />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path = "/Collection" element={<Collection/>} />
+            <Route path="/product/:id" element={<DetailsCollection />} />
+
           </Routes>
         </main>
       </div>

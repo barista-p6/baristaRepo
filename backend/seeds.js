@@ -8,87 +8,191 @@ const Product = require('./model/products');
 const Recipe = require('./model/recipes');
 const Review = require('./model/reviews');
 const User = require('./model/users');
-
 require('dotenv').config(); 
 
 
-const mongoURI = process.env.MONGO_URI;
-mongoose.connect(mongoURI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((err) => {
-  console.error('Failed to connect to MongoDB', err);
+
+
+mongoose.connect(process.env.MONGO_URI, {
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true
 });
-
-const seedDatabase = async () => {
+async function seed() {
   try {
-    // Clear existing data
-    await Promise.all([
-      User.deleteMany({}),
-      Barista.deleteMany({}),
-      Beverage.deleteMany({}),
-      Comment.deleteMany({}),
-      Ingredient.deleteMany({}),
-      Order.deleteMany({}),
-      Product.deleteMany({}),
-      Recipe.deleteMany({}),
-      Review.deleteMany({})
-    ]);
+    await mongoose.connection.dropDatabase();
 
-    // Create sample data
-    const users = await User.create([
-      { username: 'user1', email: 'user1@example.com', password: 'password123', confirmPassword: 'password123' },
-      { username: 'user2', email: 'user2@example.com', password: 'password123', confirmPassword: 'password123' }
-    ]);
+    // Create Users
+    const user1 = await User.create({
+      username: 'john_doe',
+      email: 'john@example.com',
+      password: 'password123',
+      bio: 'Coffee enthusiast.',
+      socialLinks: {
+        facebook: 'https://facebook.com/johndoe',
+        instagram: 'https://instagram.com/johndoe',
+        twitter: 'https://twitter.com/johndoe'
+      }
+    });
 
-    const baristas = await Barista.create([
-      { username: 'barista1', email: 'barista1@example.com', password: 'password123', confirmPassword: 'password123' },
-      { username: 'barista2', email: 'barista2@example.com', password: 'password123', confirmPassword: 'password123' }
-    ]);
+    const user2 = await User.create({
+      username: 'jane_doe',
+      email: 'jane@example.com',
+      password: 'password123',
+      bio: 'Loves making new recipes.'
+    });
 
-    const products = await Product.create([
-      { name: 'Product1', description: 'Description1', price: 10, category: 'Category1' },
-      { name: 'Product2', description: 'Description2', price: 20, category: 'Category2' }
-    ]);
+    // Create Baristas
+    const barista1 = await Barista.create({
+      username: 'barista_john',
+      email: 'barista_john@example.com',
+      password: 'password123',
+      bio: 'Expert in brewing and mixing flavors.'
+    });
 
-    const recipes = await Recipe.create([
-      { name: 'Recipe1', instructions: 'Instructions1', products: [products[0]._id] },
-      { name: 'Recipe2', instructions: 'Instructions2', products: [products[1]._id] }
-    ]);
+    const barista2 = await Barista.create({
+      username: 'barista_jane',
+      email: 'barista_jane@example.com',
+      password: 'password123',
+      bio: 'Passionate about crafting beverages.'
+    });
 
-    const beverages = await Beverage.create([
-      { baristaId: baristas[0]._id, name: 'Beverage1', description: 'Description1', price: 5, quantityAvailable: 100 },
-      { baristaId: baristas[1]._id, name: 'Beverage2', description: 'Description2', price: 7, quantityAvailable: 50 }
-    ]);
+    // Create Products
+    const product1 = await Product.create({
+      name: 'Vanilla Syrup',
+      description: 'Rich vanilla syrup for flavoring drinks.',
+      price: 12.99,
+      category: 'Syrup'
+    });
 
-    const comments = await Comment.create([
-      { userId: users[0]._id, targetId: beverages[0]._id, targetType: 'Beverage', content: 'Great beverage!' },
-      { userId: users[1]._id, targetId: recipes[0]._id, targetType: 'Recipe', content: 'Delicious recipe!' }
-    ]);
+    const product2 = await Product.create({
+      name: 'Hazelnut Syrup',
+      description: 'Nutty hazelnut syrup for coffee and desserts.',
+      price: 14.99,
+      category: 'Syrup'
+    });
 
-    const ingredients = await Ingredient.create([
-      { ingredientId: recipes[0]._id, type: 'Spice', isAvailable: true },
-      { ingredientId: recipes[1]._id, type: 'Herb', isAvailable: true }
-    ]);
+    // Create Beverages
+    const beverage1 = await Beverage.create({
+      baristaId: barista1._id,
+      name: 'Vanilla Latte',
+      description: 'Creamy latte with a hint of vanilla.',
+      price: 4.99,
+      quantityAvailable: 20,
+      products: [product1._id]
+    });
 
-    const orders = await Order.create([
-      { userId: users[0]._id, baristaId: baristas[0]._id, beverageId: beverages[0]._id, quantity: 2, totalPrice: 10, deliveryAddress: 'Address1' },
-      { userId: users[1]._id, baristaId: baristas[1]._id, beverageId: beverages[1]._id, quantity: 1, totalPrice: 7, deliveryAddress: 'Address2' }
-    ]);
+    const beverage2 = await Beverage.create({
+      baristaId: barista2._id,
+      name: 'Hazelnut Mocha',
+      description: 'Chocolate mocha with hazelnut syrup.',
+      price: 5.49,
+      quantityAvailable: 15,
+      products: [product2._id]
+    });
 
-    const reviews = await Review.create([
-      { userId: users[0]._id, targetId: beverages[0]._id, targetModel: 'Beverage', rating: 5, comment: 'Amazing!' },
-      { userId: users[1]._id, targetId: recipes[0]._id, targetModel: 'Recipe', rating: 4, comment: 'Very good!' }
-    ]);
+    // Update Products with Beverages
+    await Product.findByIdAndUpdate(product1._id, { beverages: [beverage1._id] });
+    await Product.findByIdAndUpdate(product2._id, { beverages: [beverage2._id] });
 
-    console.log('Database seeding complete.');
+    // Create Recipes
+    const recipe1 = await Recipe.create({
+      barista: barista1._id,
+      name: 'Vanilla Syrup Recipe',
+      instructions: 'Mix sugar and water, add vanilla extract, simmer.',
+      categories: ['Syrup', 'Flavoring'],
+      cuisine: 'American',
+      dietaryRestrictions: ['Vegetarian'],
+      products: [product1._id]
+    });
+
+    const recipe2 = await Recipe.create({
+      barista: barista2._id,
+      name: 'Hazelnut Syrup Recipe',
+      instructions: 'Roast hazelnuts, blend with syrup, simmer.',
+      categories: ['Syrup', 'Flavoring'],
+      cuisine: 'European',
+      dietaryRestrictions: ['Vegan'],
+      products: [product2._id]
+    });
+
+    // Update Products with Recipes
+    await Product.findByIdAndUpdate(product1._id, { recipes: [recipe1._id] });
+    await Product.findByIdAndUpdate(product2._id, { recipes: [recipe2._id] });
+
+    // Create Comments
+    const comment1 = await Comment.create({
+      userId: user1._id,
+      targetId: recipe1._id,
+      targetType: 'Recipe',
+      content: 'Amazing recipe! Tastes great with coffee.'
+    });
+
+    const comment2 = await Comment.create({
+      userId: user2._id,
+      targetId: beverage1._id,
+      targetType: 'Beverage',
+      content: 'Love the vanilla flavor in this latte.'
+    });
+
+    // Create Ingredients
+    const ingredient1 = await Ingredient.create({
+      ingredientId: recipe1._id,
+      recipesId: [recipe1._id],
+      type: 'Syrup',
+      isAvailable: true
+    });
+
+    const ingredient2 = await Ingredient.create({
+      ingredientId: recipe2._id,
+      recipesId: [recipe2._id],
+      type: 'Syrup',
+      isAvailable: true
+    });
+
+    // Create Orders
+    const order1 = await Order.create({
+      userId: user1._id,
+      baristaId: barista1._id,
+      beverageId: beverage1._id,
+      quantity: 2,
+      totalPrice: 9.98,
+      deliveryAddress: '123 Coffee Street',
+      paymentStatus: 'paid'
+    });
+
+    const order2 = await Order.create({
+      userId: user2._id,
+      baristaId: barista2._id,
+      beverageId: beverage2._id,
+      quantity: 1,
+      totalPrice: 5.49,
+      deliveryAddress: '456 Mocha Avenue',
+      paymentStatus: 'paid'
+    });
+
+    // Create Reviews
+    const review1 = await Review.create({
+      userId: user1._id,
+      targetId: beverage1._id,
+      targetModel: 'Beverage',
+      rating: 5,
+      comment: 'Best latte I\'ve ever had!'
+    });
+
+    const review2 = await Review.create({
+      userId: user2._id,
+      targetId: recipe2._id,
+      targetModel: 'Recipe',
+      rating: 4,
+      comment: 'Easy to make and delicious!'
+    });
+
+    console.log('Data successfully seeded!');
+    mongoose.connection.close();
   } catch (error) {
-    console.error('Error seeding database:', error);
-  } finally {
+    console.error(error);
     mongoose.connection.close();
   }
-};
+}
 
-seedDatabase();
+seed();
