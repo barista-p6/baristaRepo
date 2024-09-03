@@ -6,7 +6,7 @@ import BaristaManagement from "./BaristaManagement";
 import RecipeManagement from "./RecipeManagement";
 import BeverageManagement from "./BeverageManagement ";
 import OrderManagement from "./OrderManagement";
-import ReviewManagement from "./ManageContactMessages";
+import ReviewManagement from "./ReviewManagement";
 
 const AdminDashboard = () => {
   return (

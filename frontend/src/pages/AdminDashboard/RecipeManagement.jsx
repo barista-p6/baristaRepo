@@ -189,11 +189,13 @@ const RecipeManagement = () => {
       try {
         const response = await axios.get("http://localhost:3000/api/admin/recipes");
         setRecipes(response.data);
+        console.log(response.data.baristaId.username)
       } catch (error) {
         console.error("Error fetching recipes:", error);
         setError("Error fetching recipes");
       }
     };
+    console.log(recipes)
 
     fetchRecipes();
   }, []);
@@ -217,7 +219,7 @@ const RecipeManagement = () => {
           {recipes.map((recipe) => (
             <tr key={recipe._id}>
               <td>{recipe.name}</td>
-              <td>{recipe.baristaId ? recipe.baristaId.username : 'Unknown'}</td>
+              {/* <td>{recipe.baristaId.username}</td> */}
               <td>{recipe.cookingTime}</td>
               <td>{recipe.rating.toFixed(1)}</td>
               <td>

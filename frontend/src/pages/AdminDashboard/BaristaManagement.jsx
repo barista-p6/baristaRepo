@@ -129,6 +129,7 @@ const BaristaManagement = () => {
               <td>{barista.email}</td> {/* تغيير هنا بناءً على بنية البيانات */}
               <td>{barista.isApproved ? "Yes" : "No"}</td>
               <td>${barista.balance ? barista.balance.toFixed(2) : "0.00"}</td> {/* تأكد من وجود خاصية balance */}
+              {/* إذا كانت خاصية balance موجودة، يتم تحويلها إلى نص باستخدام toFixed(2). هذا يعرض الرقم مع اثنين منازل عشرية بعد الفاصلة العشرية، حتى لو كان الرقم هو صفر. */}
               <td>
                 {!barista.isApproved && (
                   <button onClick={() => handleApprove(barista._id)}>
