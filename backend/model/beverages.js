@@ -7,6 +7,7 @@ const beverageSchema = new Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   quantityAvailable: { type: Number, required: true },
+  category: { type: String },
   photos: { type: [String] },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], 
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
