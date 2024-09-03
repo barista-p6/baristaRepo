@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const recipeSchema = new Schema({
-  barista: { type: mongoose.Schema.Types.ObjectId, ref: 'Barista' }, 
-  name: { type: String, required: true },
+   name: { type: String, required: true },
   instructions: { type: String, required: true },
   cookingTime: { type: String },
   categories: { type: [String] },
