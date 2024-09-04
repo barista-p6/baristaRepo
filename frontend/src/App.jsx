@@ -34,7 +34,7 @@ import RecipeManagement from './pages/AdminDashboard/RecipeManagement';
 import BeverageManagement from './pages/AdminDashboard/BeverageManagement';
 import OrderManagement from './pages/AdminDashboard/OrderManagement';
 import ReviewManagement from './pages/AdminDashboard/ReviewManagement';
-
+import BaristaRequestManagement from './pages/AdminDashboard/BaristaRequest';
 
 
 
@@ -60,6 +60,7 @@ function App() {
             <Route path="/admin/beverages" element={<BeverageManagement />} />
             <Route path="/admin/orders" element={<OrderManagement />} />
             <Route path="/admin/reviews" element={<ReviewManagement />} />
+            <Route path="/admin/requests" element={<BaristaRequestManagement />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
