@@ -32,9 +32,6 @@ const BaristaRequest = require("../model/baristasAuth");
 
   exports.getRequests = async (req, res) => {
     try {
-      if (!req.user) {
-        return res.status(401).json({ error: "Unauthorized" });
-      }
       const profile = await BaristaRequest.find()
         .populate("baristaId", "username email")
         .exec();
