@@ -1,10 +1,13 @@
 require('dotenv').config(); 
 const express = require('express');
 const cors = require("cors");
-
 const mongoose = require('mongoose');
-
+const Recipe = require('./model/recipes');
 const adminRoutes = require("./routes/adminRoutes");
+
+/////hu
+const RecipeDetailPage = require('./routes/RecipeDetailPage');
+
 
 
 
@@ -52,7 +55,8 @@ app.use("/api" , productRoutes )
 
 
 
-
+//////////////////hus
+app.use('/api/review',RecipeDetailPage );
 
 
 

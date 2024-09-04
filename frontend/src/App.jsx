@@ -35,6 +35,10 @@ import Collection from './components/collectionPage/collections';
 import DetailsCollection from './components/collectionPage/DetailsCollection';
 
 
+
+import RecipeDetailpage from './pages/ReviewRecipe/RecipeDetailPage'
+
+
 function App() {
 
   return (
@@ -62,6 +66,10 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path = "/Collection" element={<Collection/>} />
             <Route path="/product/:id" element={<DetailsCollection />} />
+
+                <Route path="/review/:recipeId" element={<RecipeDetailpage />} />
+                <Route path="/details/:id" element={<DetailsCollection />} />
+
 
           </Routes>
         </main>
