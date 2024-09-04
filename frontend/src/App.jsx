@@ -87,6 +87,8 @@ function App() {
 
             <Route path = "/BaristaUserProfile" element = {<BaristaUserProfile/>} />
 
+        
+
           </Routes>
         </main>
       </div>
