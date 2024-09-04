@@ -18,6 +18,27 @@ import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 
 import { RecipesProvider } from './components/useContext/RecipesContext'; 
+import ProfileAuth from './pages/ChefProfileAuth/ProfileAuth';
+import ChefProfile from './pages/baristaProfile/baristaProfile';
+import Login from './pages/Login/Login';
+import RegisterBarista from './pages/sign up/signUp';
+
+import BaristaADashboard from './pages/baristaProfile/Dashboard Barista/dashboard';
+
+import Dashboard from './pages/AdminDashboard/Dashboard';
+import UserManagement from './pages/AdminDashboard/UserManagement';
+import BaristaManagement from './pages/AdminDashboard/BaristaManagement';
+import RecipeManagement from './pages/AdminDashboard/RecipeManagement';
+
+import BeverageManagement from './pages/AdminDashboard/BeverageManagement';
+import OrderManagement from './pages/AdminDashboard/OrderManagement';
+import ReviewManagement from './pages/AdminDashboard/ReviewManagement';
+import BaristaRequestManagement from './pages/AdminDashboard/BaristaRequest';
+
+
+
+import CartPage from './pages/Cart/CartPage';
+
 
 import Collection from './components/collectionPage/collections';
 import DetailsCollection from './components/collectionPage/DetailsCollection';
@@ -27,11 +48,21 @@ import ViewMoreRecipeDetail from './components/collectionPage/ViewMoreRecipeDeta
 
 import BaristaUserProfile from './components/userProfile/MainuserProfile';
 function App() {
+
+
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
         <main className="flex-grow">
           <Routes>
+            <Route path="/admin/*" element={<Dashboard />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/baristas" element={<BaristaManagement />} />
+            <Route path="/admin/recipes" element={<RecipeManagement />} />
+            <Route path="/admin/beverages" element={<BeverageManagement />} />
+            <Route path="/admin/orders" element={<OrderManagement />} />
+            <Route path="/admin/reviews" element={<ReviewManagement />} />
+            <Route path="/admin/requests" element={<BaristaRequestManagement />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
@@ -41,16 +72,26 @@ function App() {
             <Route path="/categories" element={<RecipeCategoriesPage />} />
             <Route path="/AboutChief" element={<AboutChiefPage />} />
             <Route path="/contact" element={<ContactUsPage />} />
+
+
             <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/ProfileAuth" element={<ProfileAuth />} />
+            <Route path="/chefprofile" element={<ChefProfile />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/RegisterBarista" element={<RegisterBarista />} />
+            <Route path="/BaristaADashboard" element={<BaristaADashboard />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route path = "/Collection" element={<Collection/>} />
             <Route path="/product/:id" element={<DetailsCollection />} />
             <Route path="/recipes/:id" element={<ViewMoreRecipeDetail/>} />
 
             <Route path = "/BaristaUserProfile" element = {<BaristaUserProfile/>} />
+
           </Routes>
         </main>
       </div>
     </Router>
   );
-}
+};
+
 export default App;
