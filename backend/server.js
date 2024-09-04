@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 
 const mongoose = require('mongoose');
+const userProfileRoutes = require('./routes/userProfile')
+
 const app = express();
 const port = 3000;
 const path = require('path');
@@ -46,6 +48,8 @@ app.use('/api/barista-auth', baristaAuthRoutes);
 
 // Tasneem Routes 
 app.use("/api" , productRoutes )
+app.use("/api" , userProfileRoutes )
+
 
 
 

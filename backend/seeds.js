@@ -20,106 +20,85 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 
+// Clear existing data
+const clearData = async () => {
+  await User.deleteMany({});
+  await Barista.deleteMany({});
+  await Product.deleteMany({});
+  await Recipe.deleteMany({});
+  await Beverage.deleteMany({});
+  await Review.deleteMany({});
+  await Order.deleteMany({});
+  console.log("Existing data cleared.");
+};
 
-async function seed() {
-  try {
-    // Users
-    const user1 = await User.findOneAndUpdate(
-      { email: 'john@example.com' },
-      {
-        username: 'john_doe',
-        bio: 'Coffee enthusiast.',
-        socialLinks: {
-          facebook: 'https://facebook.com/johndoe',
-          instagram: 'https://instagram.com/johndoe',
-          twitter: 'https://twitter.com/johndoe'
-        }
-      },
-      { upsert: true, new: true, strict: false } // Allow additional paths to be set
-    );
+// Create sample data
+const createSampleData = async () => {
+  // Sample Users
+  const user1 = new User({ username: 'john_doe', email: 'john@example.com', password: '123456' });
+  const user2 = new User({ username: 'jane_doe', email: 'jane@example.com', password: 'abcdef' });
 
-    const user2 = await User.findOneAndUpdate(
-      { email: 'jane@example.com' },
-      {
-        username: 'jane_doe',
-        bio: 'Loves making new recipes.'
-      },
-      { upsert: true, new: true, strict: false }
-    );
+  // Sample Baristas
+  const barista1 = new Barista({ username: 'barista_one', email: 'barista1@example.com', password: 'barista123', isApproved: true });
+  const barista2 = new Barista({ username: 'barista_two', email: 'barista2@example.com', password: 'barista456', isApproved: true });
 
-    // Baristas
-    const barista1 = await Barista.findOneAndUpdate(
-      { email: 'barista_john@example.com' },
-      {
-        username: 'barista_john',
-        bio: 'Expert in brewing and mixing flavors.'
-      },
-      { upsert: true, new: true, strict: false }
-    );
+  // Sample Recipes
+  const recipe1 = new Recipe({ name: 'Espresso', baristaId: barista1._id, instructions: 'Brew coffee with espresso machine.' });
+  const recipe2 = new Recipe({ name: 'Green Tea', baristaId: barista2._id, instructions: 'Brew tea with hot water.' });
 
-    const barista2 = await Barista.findOneAndUpdate(
-      { email: 'barista_jane@example.com' },
-      {
-        username: 'barista_jane',
-        bio: 'Passionate about crafting beverages.'
-      },
-      { upsert: true, new: true, strict: false }
-    );
+  await recipe1.save();
+  await recipe2.save();
 
-    // Products
-    const product1 = await Product.findOneAndUpdate(
-      { name: 'Vanilla Syrup' },
-      {
-        description: 'Rich vanilla syrup for flavoring drinks.',
-        price: 12.99,
-        category: 'Syrup'
-      },
-      { upsert: true, new: true, strict: false }
-    );
+  // Sample Beverages
+  const beverage1 = new Beverage({ name: 'Latte', baristaId: barista1._id, description: 'Creamy latte.', price: 5, quantityAvailable: 20 });
+  const beverage2 = new Beverage({ name: 'Matcha Tea', baristaId: barista2._id, description: 'Refreshing matcha tea.', price: 4, quantityAvailable: 30 });
 
-    const product2 = await Product.findOneAndUpdate(
-      { name: 'Hazelnut Syrup' },
-      {
-        description: 'Nutty hazelnut syrup for coffee and desserts.',
-        price: 14.99,
-        category: 'Syrup'
-      },
-      { upsert: true, new: true, strict: false }
-    );
+  await beverage1.save();
+  await beverage2.save();
 
-    // Beverages
-    const beverage1 = await Beverage.findOneAndUpdate(
-      { name: 'Vanilla Latte' },
-      {
-        baristaId: barista1._id,
-        description: 'Creamy latte with a hint of vanilla.',
-        price: 4.99,
-        quantityAvailable: 20,
-        products: [product1._id]
-      },
-      { upsert: true, new: true, strict: false }
-    );
+  // Sample Products linked with Recipes and Beverages
+  const product1 = new Product({ name: 'Coffee Beans', description: 'Premium coffee beans.', price: 15, category: 'Coffee', recipes: [recipe1._id], beverages: [beverage1._id] });
+  const product2 = new Product({ name: 'Tea Leaves', description: 'Organic tea leaves.', price: 10, category: 'Tea', recipes: [recipe2._id], beverages: [beverage2._id] });
 
-    const beverage2 = await Beverage.findOneAndUpdate(
-      { name: 'Hazelnut Mocha' },
-      {
-        baristaId: barista2._id,
-        description: 'Chocolate mocha with hazelnut syrup.',
-        price: 5.49,
-        quantityAvailable: 15,
-        products: [product2._id]
-      },
-      { upsert: true, new: true, strict: false }
-    );
+  await product1.save();
+  await product2.save();
 
-    // The rest of your seed logic goes here
+  // Sample Reviews for Recipes and Beverages
+  const review1 = new Review({ userId: user1._id, targetId: recipe1._id, targetModel: 'Recipe', rating: 5, comment: 'Great Espresso!' });
+  const review2 = new Review({ userId: user2._id, targetId: beverage2._id, targetModel: 'Beverage', rating: 4, comment: 'Refreshing matcha!' });
 
-    console.log('Data successfully seeded!');
-    mongoose.connection.close();
-  } catch (error) {
-    console.error(error);
-    mongoose.connection.close();
-  }
-}
+  await review1.save();
+  await review2.save();
 
-seed();
+  // Sample Orders
+  const order1 = new Order({ userId: user1._id, baristaId: barista1._id, beverageId: beverage1._id, quantity: 2, totalPrice: 10, deliveryAddress: '123 Coffee St.' });
+  const order2 = new Order({ userId: user2._id, baristaId: barista2._id, beverageId: beverage2._id, quantity: 3, totalPrice: 12, deliveryAddress: '456 Tea Ave.' });
+
+  await order1.save();
+  await order2.save();
+
+  // Updating Barista with recipes, beverages, and orders
+  barista1.recipes.push(recipe1._id);
+  barista1.beverages.push(beverage1._id);
+  barista1.orders.push(order1._id);
+  barista2.recipes.push(recipe2._id);
+  barista2.beverages.push(beverage2._id);
+  barista2.orders.push(order2._id);
+
+  await barista1.save();
+  await barista2.save();
+
+  // Save Users
+  await user1.save();
+  await user2.save();
+
+  console.log("Sample data created.");
+};
+
+const seedDatabase = async () => {
+  await clearData();
+  await createSampleData();
+  mongoose.connection.close();
+};
+
+seedDatabase();

@@ -17,6 +17,7 @@ import AboutChiefPage from './pages/AboutChiefPage/AboutChiefPage';
 import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 
+import { RecipesProvider } from './components/useContext/RecipesContext'; 
 import ProfileAuth from './pages/ChefProfileAuth/ProfileAuth';
 import ChefProfile from './pages/baristaProfile/baristaProfile';
 import Login from './pages/Login/Login';
@@ -41,8 +42,11 @@ import CartPage from './pages/Cart/CartPage';
 
 import Collection from './components/collectionPage/collections';
 import DetailsCollection from './components/collectionPage/DetailsCollection';
+import ViewMoreRecipeDetail from './components/collectionPage/ViewMoreRecipeDetail';
 
 
+
+import BaristaUserProfile from './components/userProfile/MainuserProfile';
 function App() {
 
 
@@ -79,8 +83,9 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path = "/Collection" element={<Collection/>} />
             <Route path="/product/:id" element={<DetailsCollection />} />
+            <Route path="/recipes/:id" element={<ViewMoreRecipeDetail/>} />
 
-
+            <Route path = "/BaristaUserProfile" element = {<BaristaUserProfile/>} />
 
           </Routes>
         </main>

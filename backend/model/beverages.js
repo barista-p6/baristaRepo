@@ -20,3 +20,8 @@ const beverageSchema = new Schema({
 
 const Beverage = mongoose.model('Beverage', beverageSchema);
 module.exports = Beverage;
+
+
+
+
+// Details Page for Drink
