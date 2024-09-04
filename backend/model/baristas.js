@@ -11,6 +11,7 @@ const baristaSchema = new Schema({
   isDeleted: { type: Boolean, default: false },
   isApproved: { type: Boolean, default: false },
   balance: { type: Number, default: 0 },
+  report: { type: Number, default: 0 },
   recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }],
   beverages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Beverage' }],
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
@@ -19,5 +20,6 @@ const baristaSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
+
 const Barista = mongoose.model('Barista', baristaSchema);
 module.exports = Barista;

@@ -4,7 +4,7 @@
 
 
 
-const Review = require("../model/reviews");
+// const Review = require("../model/reviews");
 const Order = require("../model/orders");
 const Beverage = require("../model/beverages");
 const Recipe = require("../model/recipes");
@@ -15,8 +15,7 @@ const User = require("../model/users");
 
 exports.getDashboardStats = async (req, res) => {
   try {
-    //يستخدم لحساب عدد المستندات (أو المستخدمين) في مجموعة User في قاعدة البيانات.
-
+    
     const userCount = await User.countDocuments();
     const baristaCount = await Barista.countDocuments();
     const recipeCount = await Recipe.countDocuments();
@@ -35,7 +34,6 @@ exports.getDashboardStats = async (req, res) => {
   }
 };
 
-//استرجاع كل المستخدمين 
 
 
 
@@ -47,15 +45,16 @@ exports.getDashboardStats = async (req, res) => {
 
 
 
-exports.getUsers = async (req, res) => {
-  try {
-    const users = await User.find().select("-password -confirmPassword");
-    //ستخدم لتحديد الحقول التي ترغب في تضمينها أو استثنائها من النتائج. في هذه الحالة، -password و -confirmPassword يعني أن الحقول password و confirmPassword سيتم استثناؤها من نتائج الاستعلام. هذا يحسن الأمان من خلال منع إرسال معلومات حساسة (كلمات المرور) في الاستجابة.
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching users" });
-  }
-};
+
+// exports.getUsers = async (req, res) => {
+//   try {
+//     const users = await User.find().select("-password -confirmPassword");
+//     //ستخدم لتحديد الحقول التي ترغب في تضمينها أو استثنائها من النتائج. في هذه الحالة، -password و -confirmPassword يعني أن الحقول password و confirmPassword سيتم استثناؤها من نتائج الاستعلام. هذا يحسن الأمان من خلال منع إرسال معلومات حساسة (كلمات المرور) في الاستجابة.
+//     res.json(users);
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching users" });
+//   }
+// };
 
 // exports.getBaristas = async (req, res) => {
 //   try {
@@ -65,15 +64,15 @@ exports.getUsers = async (req, res) => {
 //     res.status(500).json({ message: "Error fetching baristas" });
 //   }
 // };
-exports.getBaristas = async (req, res) => {
-    try {
-      const baristas = await Barista.find(); 
-      res.json(baristas);
-    } catch (error) {
-      console.error("Error fetching baristas:", error); 
-      res.status(500).json({ message: "Error fetching baristas" });
-    }
-  };
+// exports.getBaristas = async (req, res) => {
+//     try {
+//       const baristas = await Barista.find(); 
+//       res.json(baristas);
+//     } catch (error) {
+//       console.error("Error fetching baristas:", error); 
+//       res.status(500).json({ message: "Error fetching baristas" });
+//     }
+//   };
   
 
 // exports.getRecipes = async (req, res) => {
@@ -141,60 +140,56 @@ exports.getBaristas = async (req, res) => {
   
 
 
-exports.getRecipes = async (req, res) => {
-    try {
-        const sampleRecipe = await Recipe.findOne().populate('baristaId');
-        console.log(sampleRecipe);
-        
-       
-        const sampleBarista = await Barista.findById(sampleRecipe.baristaId);
-        console.log(sampleBarista);
-    
-      res.json(recipes);
-    } catch (error) {
-      res.status(500).json({ message: "Error fetching recipes" });
-    }
-  };
+// exports.getRecipes = async (req, res) => {
+//   try {
+//     const recipes = await Recipe.find().populate("baristaId", "email");
+//     console.log(recipes);
+//     res.json(recipes);
+//   } catch (error) {
+//     console.error('Error in getRecipes:', error);
+//     res.status(500).json({ message: "Error fetching recipes" });
+//   }
+// };
   
 
 
-exports.getBeverages = async (req, res) => {
-  try {
-    const beverages = await Beverage.find().populate("baristaId", "username");
+// exports.getBeverages = async (req, res) => {
+//   try {
+//     const beverages = await Beverage.find().populate("baristaId", "username");
 //     //populate يستخدم لجلب بيانات إضافية من مجموعة مرتبطة بناءً على مرجع موجود في مستند Beverage.
 // في هذه الحالة، baristaId هو المرجع إلى مستند Barista، و populate يقوم بجلب معلومات الباريستا المرتبطة بكل مشروب.
 // "username" يحدد أن يتم جلب فقط حقل username من مستند الباريستا المرتبط، مما يساعد في تحسين الأداء وتقليل حجم البيانات المسترجعة.
 
-    res.json(beverages);
+//     res.json(beverages);
 
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching beverages" });
-  }
-};
-
-
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching beverages" });
+//   }
+// };
 
 
-exports.getOrders = async (req, res) => {
-  try {
-    const orders = await Order.find()
-      .populate("userId", "username")
-      .populate("baristaId", "username")
-      .populate("beverageId", "name");
-    res.json(orders);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching orders" });
-  }
-};
 
-exports.getReviews = async (req, res) => {
-  try {
-    const reviews = await Review.find()
-      .populate("userId", "username")
-      .populate("targetId", "name");
-    res.json(reviews);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching reviews" });
-  }
-};
+
+// exports.getOrders = async (req, res) => {
+//   try {
+//     const orders = await Order.find()
+//       .populate("userId", "username")
+//       .populate("baristaId", "username")
+//       .populate("beverageId", "name");
+//     res.json(orders);
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching orders" });
+//   }
+// };
+
+// exports.getReviews = async (req, res) => {
+//   try {
+    // const reviews = await Review.find()
+//       .populate("userId", "username")
+//       .populate("targetId", "name");
+//     res.json(reviews);
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching reviews" });
+//   }
+// };
 
