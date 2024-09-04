@@ -55,3 +55,4 @@ function ViewMoreRecipeDetail() {
 }
 
 export default ViewMoreRecipeDetail;
+
