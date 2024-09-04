@@ -21,6 +21,7 @@ import CartPage from './pages/Cart/CartPage';
 
 import Collection from './components/collectionPage/collections';
 import DetailsCollection from './components/collectionPage/DetailsCollection';
+import BrowseProductsPage from './pages/Marketplace/BrowseProductsPage';
 
 
 function App() {
@@ -42,6 +43,8 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path = "/Collection" element={<Collection/>} />
             <Route path="/product/:id" element={<DetailsCollection />} />
+            <Route path="/market" element={<BrowseProductsPage />} />
+            
 
           </Routes>
         </main>

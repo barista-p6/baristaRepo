@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const productRoutes = require('./routes/productRoutes')
+const beveragesMarketRoute = require("./routes/beveragesMarketRoute")
 const app = express();
 const port = 3000;
 
@@ -40,7 +41,8 @@ app.use("/api" , productRoutes )
 
 
 
-
+// Mohammad Routes
+app.use("/api", beveragesMarketRoute);
 
 
 
