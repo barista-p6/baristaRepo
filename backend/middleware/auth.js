@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const auth = (req, res, next) => {
   const token = req.cookies.token;
+  
   console.log("Received token:", token);
   if (!token) {
     console.log("No token provided in the request.");

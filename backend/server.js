@@ -1,9 +1,12 @@
 require('dotenv').config(); 
 const express = require('express');
 const mongoose = require('mongoose');
-
 const app = express();
 const port = 3000;
+const path = require('path');
+const cors = require('cors'); 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser()); // يجب أن يكون قبل استخدام أي Middleware يعتمد على الكوكيز
 
 // Connect to MongoDB
 const mongoURI = process.env.MONGO_URI;
@@ -12,14 +15,25 @@ mongoose.connect(mongoURI).then(() => {
 }).catch((err) => {
   console.error('Failed to connect to MongoDB', err);
 });
-
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true 
+}));
 app.use(express.json());
+// ---------------------------------------------------------------
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// -----------------------------------------------------------
+
 
 const userRoutes = require('./routes/users')
 app.use("/api/users", userRoutes);
 
+const baristaAuthRoutes= require('./routes/baristaAuthRoutes')
+app.use('/api/barista-auth', baristaAuthRoutes);
 
-// Middleware
 
 // Basic route
 app.get('/', (req, res) => {

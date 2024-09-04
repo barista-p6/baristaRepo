@@ -17,6 +17,12 @@ import AboutChiefPage from './pages/AboutChiefPage/AboutChiefPage';
 import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 
+import ProfileAuth from './pages/ChefProfileAuth/ProfileAuth';
+import ChefProfile from './pages/baristaProfile/baristaProfile';
+import Login from './pages/Login/Login';
+import RegisterBarista from './pages/sign up/signUp';
+
+import BaristaADashboard from './pages/baristaProfile/Dashboard Barista/dashboard';
 function App() {
   return (
     <Router>
@@ -33,6 +39,12 @@ function App() {
             <Route path="/AboutChief" element={<AboutChiefPage />} />
             <Route path="/contact" element={<ContactUsPage />} />
             <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/ProfileAuth" element={<ProfileAuth />} />
+            <Route path="/chefprofile" element={<ChefProfile />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/RegisterBarista" element={<RegisterBarista />} />
+            <Route path="/BaristaADashboard" element={<BaristaADashboard />} />
+
           </Routes>
         </main>
       </div>
