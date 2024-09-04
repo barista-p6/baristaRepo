@@ -25,9 +25,6 @@ router.get('/product/:id', async (req, res) => {
           {
               path: 'baristaId',
               select: 'username'
-          },
-          {
-              path: 'ingredients'
           }
       ]
     })

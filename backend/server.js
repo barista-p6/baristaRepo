@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const productRoutes = require('./routes/productRoutes')
+const userProfileRoutes = require('./routes/userProfile')
 const app = express();
 const port = 3000;
 
@@ -35,6 +36,8 @@ app.use("/api/users", userRoutes);
 
 // Tasneem Routes 
 app.use("/api" , productRoutes )
+app.use("/api" , userProfileRoutes )
+
 
 
 

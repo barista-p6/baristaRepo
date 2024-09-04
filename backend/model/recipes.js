@@ -2,21 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const recipeSchema = new Schema({
-  name: { type: String, required: true },
-  baristaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Barista', required: true },
-  preparation: [
-    {
-      stepNumber: { type: Number, required: true },
-      description: { type: String, required: true }
-    }
-  ],
+   name: { type: String, required: true },
+   baristaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Barista', required: true },
+  instructions: { type: String, required: true },
   cookingTime: { type: String },
   categories: { type: [String] },
   cuisine: { type: String },
   dietaryRestrictions: { type: [String] },
   photos: { type: [String] },
   rating: { type: Number, default: 0 },
-  ingredients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient' }],
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], 

@@ -17,11 +17,15 @@ import AboutChiefPage from './pages/AboutChiefPage/AboutChiefPage';
 import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 
+import { RecipesProvider } from './components/useContext/RecipesContext'; 
 
 import Collection from './components/collectionPage/collections';
 import DetailsCollection from './components/collectionPage/DetailsCollection';
+import ViewMoreRecipeDetail from './components/collectionPage/ViewMoreRecipeDetail';
 
 
+
+import BaristaUserProfile from './components/userProfile/MainuserProfile';
 function App() {
   return (
     <Router>
@@ -40,6 +44,9 @@ function App() {
             <Route path="/dashboard" element={<AdminDashboard />} />
             <Route path = "/Collection" element={<Collection/>} />
             <Route path="/product/:id" element={<DetailsCollection />} />
+            <Route path="/recipes/:id" element={<ViewMoreRecipeDetail/>} />
+
+            <Route path = "/BaristaUserProfile" element = {<BaristaUserProfile/>} />
           </Routes>
         </main>
       </div>
