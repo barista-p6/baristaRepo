@@ -19,6 +19,5 @@ const baristaSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
-
 const Barista = mongoose.model('Barista', baristaSchema);
 module.exports = Barista;

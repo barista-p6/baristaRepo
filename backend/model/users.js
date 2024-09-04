@@ -25,6 +25,7 @@ const userSchema = new Schema({
     orderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
     addedAt: { type: Date, default: Date.now }  
   }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }], 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

@@ -8,87 +8,118 @@ const Product = require('./model/products');
 const Recipe = require('./model/recipes');
 const Review = require('./model/reviews');
 const User = require('./model/users');
-
 require('dotenv').config(); 
 
 
-const mongoURI = process.env.MONGO_URI;
-mongoose.connect(mongoURI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((err) => {
-  console.error('Failed to connect to MongoDB', err);
+
+
+
+mongoose.connect(process.env.MONGO_URI, {
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true
 });
 
-const seedDatabase = async () => {
+
+
+async function seed() {
   try {
-    // Clear existing data
-    await Promise.all([
-      User.deleteMany({}),
-      Barista.deleteMany({}),
-      Beverage.deleteMany({}),
-      Comment.deleteMany({}),
-      Ingredient.deleteMany({}),
-      Order.deleteMany({}),
-      Product.deleteMany({}),
-      Recipe.deleteMany({}),
-      Review.deleteMany({})
-    ]);
+    // Users
+    const user1 = await User.findOneAndUpdate(
+      { email: 'john@example.com' },
+      {
+        username: 'john_doe',
+        bio: 'Coffee enthusiast.',
+        socialLinks: {
+          facebook: 'https://facebook.com/johndoe',
+          instagram: 'https://instagram.com/johndoe',
+          twitter: 'https://twitter.com/johndoe'
+        }
+      },
+      { upsert: true, new: true, strict: false } // Allow additional paths to be set
+    );
 
-    // Create sample data
-    const users = await User.create([
-      { username: 'user1', email: 'user1@example.com', password: 'password123', confirmPassword: 'password123' },
-      { username: 'user2', email: 'user2@example.com', password: 'password123', confirmPassword: 'password123' }
-    ]);
+    const user2 = await User.findOneAndUpdate(
+      { email: 'jane@example.com' },
+      {
+        username: 'jane_doe',
+        bio: 'Loves making new recipes.'
+      },
+      { upsert: true, new: true, strict: false }
+    );
 
-    const baristas = await Barista.create([
-      { username: 'barista1', email: 'barista1@example.com', password: 'password123', confirmPassword: 'password123' },
-      { username: 'barista2', email: 'barista2@example.com', password: 'password123', confirmPassword: 'password123' }
-    ]);
+    // Baristas
+    const barista1 = await Barista.findOneAndUpdate(
+      { email: 'barista_john@example.com' },
+      {
+        username: 'barista_john',
+        bio: 'Expert in brewing and mixing flavors.'
+      },
+      { upsert: true, new: true, strict: false }
+    );
 
-    const products = await Product.create([
-      { name: 'Product1', description: 'Description1', price: 10, category: 'Category1' },
-      { name: 'Product2', description: 'Description2', price: 20, category: 'Category2' }
-    ]);
+    const barista2 = await Barista.findOneAndUpdate(
+      { email: 'barista_jane@example.com' },
+      {
+        username: 'barista_jane',
+        bio: 'Passionate about crafting beverages.'
+      },
+      { upsert: true, new: true, strict: false }
+    );
 
-    const recipes = await Recipe.create([
-      { name: 'Recipe1', instructions: 'Instructions1', products: [products[0]._id] },
-      { name: 'Recipe2', instructions: 'Instructions2', products: [products[1]._id] }
-    ]);
+    // Products
+    const product1 = await Product.findOneAndUpdate(
+      { name: 'Vanilla Syrup' },
+      {
+        description: 'Rich vanilla syrup for flavoring drinks.',
+        price: 12.99,
+        category: 'Syrup'
+      },
+      { upsert: true, new: true, strict: false }
+    );
 
-    const beverages = await Beverage.create([
-      { baristaId: baristas[0]._id, name: 'Beverage1', description: 'Description1', price: 5, quantityAvailable: 100 },
-      { baristaId: baristas[1]._id, name: 'Beverage2', description: 'Description2', price: 7, quantityAvailable: 50 }
-    ]);
+    const product2 = await Product.findOneAndUpdate(
+      { name: 'Hazelnut Syrup' },
+      {
+        description: 'Nutty hazelnut syrup for coffee and desserts.',
+        price: 14.99,
+        category: 'Syrup'
+      },
+      { upsert: true, new: true, strict: false }
+    );
 
-    const comments = await Comment.create([
-      { userId: users[0]._id, targetId: beverages[0]._id, targetType: 'Beverage', content: 'Great beverage!' },
-      { userId: users[1]._id, targetId: recipes[0]._id, targetType: 'Recipe', content: 'Delicious recipe!' }
-    ]);
+    // Beverages
+    const beverage1 = await Beverage.findOneAndUpdate(
+      { name: 'Vanilla Latte' },
+      {
+        baristaId: barista1._id,
+        description: 'Creamy latte with a hint of vanilla.',
+        price: 4.99,
+        quantityAvailable: 20,
+        products: [product1._id]
+      },
+      { upsert: true, new: true, strict: false }
+    );
 
-    const ingredients = await Ingredient.create([
-      { ingredientId: recipes[0]._id, type: 'Spice', isAvailable: true },
-      { ingredientId: recipes[1]._id, type: 'Herb', isAvailable: true }
-    ]);
+    const beverage2 = await Beverage.findOneAndUpdate(
+      { name: 'Hazelnut Mocha' },
+      {
+        baristaId: barista2._id,
+        description: 'Chocolate mocha with hazelnut syrup.',
+        price: 5.49,
+        quantityAvailable: 15,
+        products: [product2._id]
+      },
+      { upsert: true, new: true, strict: false }
+    );
 
-    const orders = await Order.create([
-      { userId: users[0]._id, baristaId: baristas[0]._id, beverageId: beverages[0]._id, quantity: 2, totalPrice: 10, deliveryAddress: 'Address1' },
-      { userId: users[1]._id, baristaId: baristas[1]._id, beverageId: beverages[1]._id, quantity: 1, totalPrice: 7, deliveryAddress: 'Address2' }
-    ]);
+    // The rest of your seed logic goes here
 
-    const reviews = await Review.create([
-      { userId: users[0]._id, targetId: beverages[0]._id, targetModel: 'Beverage', rating: 5, comment: 'Amazing!' },
-      { userId: users[1]._id, targetId: recipes[0]._id, targetModel: 'Recipe', rating: 4, comment: 'Very good!' }
-    ]);
-
-    console.log('Database seeding complete.');
+    console.log('Data successfully seeded!');
+    mongoose.connection.close();
   } catch (error) {
-    console.error('Error seeding database:', error);
-  } finally {
+    console.error(error);
     mongoose.connection.close();
   }
-};
+}
 
-seedDatabase();
+seed();

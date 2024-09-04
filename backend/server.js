@@ -1,12 +1,19 @@
 require('dotenv').config(); 
 const express = require('express');
+
 const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
 const path = require('path');
 const cors = require('cors'); 
 const cookieParser = require('cookie-parser');
-app.use(cookieParser()); // يجب أن يكون قبل استخدام أي Middleware يعتمد على الكوكيز
+app.use(cookieParser());
+
+app.use(express.json());
+
+const adminRoutes = require("./routes/adminRoutes");
+const productRoutes = require('./routes/productRoutes')
+
 
 // Connect to MongoDB
 const mongoURI = process.env.MONGO_URI;
@@ -21,11 +28,13 @@ app.use(cors({
   allowedHeaders: ['Content-Type'],
   credentials: true 
 }));
-app.use(express.json());
 // ---------------------------------------------------------------
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // -----------------------------------------------------------
+
+
+
 
 
 const userRoutes = require('./routes/users')
@@ -35,10 +44,21 @@ const baristaAuthRoutes= require('./routes/baristaAuthRoutes')
 app.use('/api/barista-auth', baristaAuthRoutes);
 
 
+// Tasneem Routes 
+app.use("/api" , productRoutes )
+
+
+
+app.use("/api/admin", adminRoutes);
+
+
+
+
 // Basic route
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
