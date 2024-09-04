@@ -24,10 +24,10 @@ mongoose.connect(process.env.MONGO_URI, {
 const clearData = async () => {
   await User.deleteMany({});
   await Barista.deleteMany({});
-  await Product.deleteMany({});
   await Recipe.deleteMany({});
   await Beverage.deleteMany({});
   await Review.deleteMany({});
+  await Product.deleteMany({});
   await Order.deleteMany({});
   console.log("Existing data cleared.");
 };
@@ -38,9 +38,15 @@ const createSampleData = async () => {
   const user1 = new User({ username: 'john_doe', email: 'john@example.com', password: '123456' });
   const user2 = new User({ username: 'jane_doe', email: 'jane@example.com', password: 'abcdef' });
 
+  await user1.save();
+  await user2.save();
+
   // Sample Baristas
   const barista1 = new Barista({ username: 'barista_one', email: 'barista1@example.com', password: 'barista123', isApproved: true });
   const barista2 = new Barista({ username: 'barista_two', email: 'barista2@example.com', password: 'barista456', isApproved: true });
+
+  await barista1.save();
+  await barista2.save();
 
   // Sample Recipes
   const recipe1 = new Recipe({ name: 'Espresso', baristaId: barista1._id, instructions: 'Brew coffee with espresso machine.' });
@@ -64,33 +70,67 @@ const createSampleData = async () => {
   await product2.save();
 
   // Sample Reviews for Recipes and Beverages
-  const review1 = new Review({ userId: user1._id, targetId: recipe1._id, targetModel: 'Recipe', rating: 5, comment: 'Great Espresso!' });
-  const review2 = new Review({ userId: user2._id, targetId: beverage2._id, targetModel: 'Beverage', rating: 4, comment: 'Refreshing matcha!' });
+  const review1 = new Review({
+    userId: user1._id,
+    recipeId: recipe1._id,
+    baristaId: barista1._id,
+    rating: 5,
+    comment: 'Great Espresso!'
+  });
+
+  const review2 = new Review({
+    userId: user2._id,
+    beverageId: beverage2._id,
+    baristaId: barista2._id,
+    rating: 4,
+    comment: 'Refreshing matcha!'
+  });
+
+  const review3 = new Review({
+    userId: user1._id,
+    recipeId: recipe2._id,
+    baristaId: barista2._id,
+    rating: 3,
+    comment: 'Good, but could be stronger.'
+  });
 
   await review1.save();
   await review2.save();
+  await review3.save();
 
   // Sample Orders
-  const order1 = new Order({ userId: user1._id, baristaId: barista1._id, beverageId: beverage1._id, quantity: 2, totalPrice: 10, deliveryAddress: '123 Coffee St.' });
-  const order2 = new Order({ userId: user2._id, baristaId: barista2._id, beverageId: beverage2._id, quantity: 3, totalPrice: 12, deliveryAddress: '456 Tea Ave.' });
+  const order1 = new Order({
+    userId: user1._id,
+    baristaId: barista1._id,
+    beverageId: beverage1._id,
+    quantity: 2,
+    totalPrice: 10,
+    deliveryAddress: '123 Coffee St.'
+  });
+
+  const order2 = new Order({
+    userId: user2._id,
+    baristaId: barista2._id,
+    beverageId: beverage2._id,
+    quantity: 3,
+    totalPrice: 12,
+    deliveryAddress: '456 Tea Ave.'
+  });
 
   await order1.save();
   await order2.save();
 
-  // Updating Barista with recipes, beverages, and orders
+  // Updating Baristas with their recipes, beverages, and orders
   barista1.recipes.push(recipe1._id);
   barista1.beverages.push(beverage1._id);
   barista1.orders.push(order1._id);
+  
   barista2.recipes.push(recipe2._id);
   barista2.beverages.push(beverage2._id);
   barista2.orders.push(order2._id);
 
   await barista1.save();
   await barista2.save();
-
-  // Save Users
-  await user1.save();
-  await user2.save();
 
   console.log("Sample data created.");
 };

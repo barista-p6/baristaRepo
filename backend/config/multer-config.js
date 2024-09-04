@@ -93,7 +93,7 @@ module.exports = upload;
 // });
 
 // const fileFilter = (req, file, cb) => {
-//   if (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
+  // if (file.mimetype.startsWith('image/') || file.mimetype === 'application/pdf') {
 //     cb(null, true);
 //   } else {
 //     cb(new Error('Not a valid file! Please upload an image or PDF.'), false);

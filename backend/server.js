@@ -15,6 +15,7 @@ app.use(express.json());
 
 const adminRoutes = require("./routes/adminRoutes");
 const productRoutes = require('./routes/productRoutes')
+const wishListRoute = require('./routes/wishListRoute')
 
 
 // Connect to MongoDB
@@ -49,6 +50,7 @@ app.use('/api/barista-auth', baristaAuthRoutes);
 // Tasneem Routes 
 app.use("/api" , productRoutes )
 app.use("/api" , userProfileRoutes )
+app.use('/api' ,wishListRoute )
 
 
 
