@@ -19,6 +19,13 @@ import AboutChiefPage from './pages/AboutChiefPage/AboutChiefPage';
 import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 
+import ProfileAuth from './pages/ChefProfileAuth/ProfileAuth';
+import ChefProfile from './pages/baristaProfile/baristaProfile';
+import Login from './pages/Login/Login';
+import RegisterBarista from './pages/sign up/signUp';
+
+import BaristaADashboard from './pages/baristaProfile/Dashboard Barista/dashboard';
+
 import Dashboard from './pages/AdminDashboard/Dashboard';
 import UserManagement from './pages/AdminDashboard/UserManagement';
 import BaristaManagement from './pages/AdminDashboard/BaristaManagement';
@@ -27,8 +34,6 @@ import RecipeManagement from './pages/AdminDashboard/RecipeManagement';
 import BeverageManagement from './pages/AdminDashboard/BeverageManagement';
 import OrderManagement from './pages/AdminDashboard/OrderManagement';
 import ReviewManagement from './pages/AdminDashboard/ReviewManagement';
-
-
 
 
 
@@ -67,9 +72,15 @@ function App() {
 
 
             <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/ProfileAuth" element={<ProfileAuth />} />
+            <Route path="/chefprofile" element={<ChefProfile />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/RegisterBarista" element={<RegisterBarista />} />
+            <Route path="/BaristaADashboard" element={<BaristaADashboard />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path = "/Collection" element={<Collection/>} />
             <Route path="/product/:id" element={<DetailsCollection />} />
+
 
 
           </Routes>

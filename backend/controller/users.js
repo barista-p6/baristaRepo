@@ -51,6 +51,7 @@ exports.loginBarista = async (req, res) => {
     const token = jwt.sign({ id: barista._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
+    // console.log(token);
 
     res.cookie("token", token, {
       httpOnly: true,
