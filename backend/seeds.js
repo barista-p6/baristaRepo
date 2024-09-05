@@ -13,186 +13,92 @@ require('dotenv').config();
 
 
 
+
 mongoose.connect(process.env.MONGO_URI, {
   // useNewUrlParser: true,
   // useUnifiedTopology: true
 });
-async function seed() {
-  try {
-    await mongoose.connection.dropDatabase();
 
-    // Create Users
-    const user1 = await User.create({
-      username: 'john_doe',
-      email: 'john@example.com',
-      password: 'password123',
-      bio: 'Coffee enthusiast.',
-      socialLinks: {
-        facebook: 'https://facebook.com/johndoe',
-        instagram: 'https://instagram.com/johndoe',
-        twitter: 'https://twitter.com/johndoe'
-      }
-    });
 
-    const user2 = await User.create({
-      username: 'jane_doe',
-      email: 'jane@example.com',
-      password: 'password123',
-      bio: 'Loves making new recipes.'
-    });
+// Clear existing data
+const clearData = async () => {
+  await User.deleteMany({});
+  await Barista.deleteMany({});
+  await Product.deleteMany({});
+  await Recipe.deleteMany({});
+  await Beverage.deleteMany({});
+  await Review.deleteMany({});
+  await Order.deleteMany({});
+  console.log("Existing data cleared.");
+};
 
-    // Create Baristas
-    const barista1 = await Barista.create({
-      username: 'barista_john',
-      email: 'barista_john@example.com',
-      password: 'password123',
-      bio: 'Expert in brewing and mixing flavors.'
-    });
+// Create sample data
+const createSampleData = async () => {
+  // Sample Users
+  const user1 = new User({ username: 'john_doe', email: 'john@example.com', password: '123456' });
+  const user2 = new User({ username: 'jane_doe', email: 'jane@example.com', password: 'abcdef' });
 
-    const barista2 = await Barista.create({
-      username: 'barista_jane',
-      email: 'barista_jane@example.com',
-      password: 'password123',
-      bio: 'Passionate about crafting beverages.'
-    });
+  // Sample Baristas
+  const barista1 = new Barista({ username: 'barista_one', email: 'barista1@example.com', password: 'barista123', isApproved: true });
+  const barista2 = new Barista({ username: 'barista_two', email: 'barista2@example.com', password: 'barista456', isApproved: true });
 
-    // Create Products
-    const product1 = await Product.create({
-      name: 'Vanilla Syrup',
-      description: 'Rich vanilla syrup for flavoring drinks.',
-      price: 12.99,
-      category: 'Syrup'
-    });
+  // Sample Recipes
+  const recipe1 = new Recipe({ name: 'Espresso', baristaId: barista1._id, instructions: 'Brew coffee with espresso machine.' });
+  const recipe2 = new Recipe({ name: 'Green Tea', baristaId: barista2._id, instructions: 'Brew tea with hot water.' });
 
-    const product2 = await Product.create({
-      name: 'Hazelnut Syrup',
-      description: 'Nutty hazelnut syrup for coffee and desserts.',
-      price: 14.99,
-      category: 'Syrup'
-    });
+  await recipe1.save();
+  await recipe2.save();
 
-    // Create Beverages
-    const beverage1 = await Beverage.create({
-      baristaId: barista1._id,
-      name: 'Vanilla Latte',
-      description: 'Creamy latte with a hint of vanilla.',
-      price: 4.99,
-      quantityAvailable: 20,
-      products: [product1._id]
-    });
+  // Sample Beverages
+  const beverage1 = new Beverage({ name: 'Latte', baristaId: barista1._id, description: 'Creamy latte.', price: 5, quantityAvailable: 20 });
+  const beverage2 = new Beverage({ name: 'Matcha Tea', baristaId: barista2._id, description: 'Refreshing matcha tea.', price: 4, quantityAvailable: 30 });
 
-    const beverage2 = await Beverage.create({
-      baristaId: barista2._id,
-      name: 'Hazelnut Mocha',
-      description: 'Chocolate mocha with hazelnut syrup.',
-      price: 5.49,
-      quantityAvailable: 15,
-      products: [product2._id]
-    });
+  await beverage1.save();
+  await beverage2.save();
 
-    // Update Products with Beverages
-    await Product.findByIdAndUpdate(product1._id, { beverages: [beverage1._id] });
-    await Product.findByIdAndUpdate(product2._id, { beverages: [beverage2._id] });
+  // Sample Products linked with Recipes and Beverages
+  const product1 = new Product({ name: 'Coffee Beans', description: 'Premium coffee beans.', price: 15, category: 'Coffee', recipes: [recipe1._id], beverages: [beverage1._id] });
+  const product2 = new Product({ name: 'Tea Leaves', description: 'Organic tea leaves.', price: 10, category: 'Tea', recipes: [recipe2._id], beverages: [beverage2._id] });
 
-    // Create Recipes
-    const recipe1 = await Recipe.create({
-      barista: barista1._id,
-      name: 'Vanilla Syrup Recipe',
-      instructions: 'Mix sugar and water, add vanilla extract, simmer.',
-      categories: ['Syrup', 'Flavoring'],
-      cuisine: 'American',
-      dietaryRestrictions: ['Vegetarian'],
-      products: [product1._id]
-    });
+  await product1.save();
+  await product2.save();
 
-    const recipe2 = await Recipe.create({
-      barista: barista2._id,
-      name: 'Hazelnut Syrup Recipe',
-      instructions: 'Roast hazelnuts, blend with syrup, simmer.',
-      categories: ['Syrup', 'Flavoring'],
-      cuisine: 'European',
-      dietaryRestrictions: ['Vegan'],
-      products: [product2._id]
-    });
+  // Sample Reviews for Recipes and Beverages
+  const review1 = new Review({ userId: user1._id, targetId: recipe1._id, targetModel: 'Recipe', rating: 5, comment: 'Great Espresso!' });
+  const review2 = new Review({ userId: user2._id, targetId: beverage2._id, targetModel: 'Beverage', rating: 4, comment: 'Refreshing matcha!' });
 
-    // Update Products with Recipes
-    await Product.findByIdAndUpdate(product1._id, { recipes: [recipe1._id] });
-    await Product.findByIdAndUpdate(product2._id, { recipes: [recipe2._id] });
+  await review1.save();
+  await review2.save();
 
-    // Create Comments
-    const comment1 = await Comment.create({
-      userId: user1._id,
-      targetId: recipe1._id,
-      targetType: 'Recipe',
-      content: 'Amazing recipe! Tastes great with coffee.'
-    });
+  // Sample Orders
+  const order1 = new Order({ userId: user1._id, baristaId: barista1._id, beverageId: beverage1._id, quantity: 2, totalPrice: 10, deliveryAddress: '123 Coffee St.' });
+  const order2 = new Order({ userId: user2._id, baristaId: barista2._id, beverageId: beverage2._id, quantity: 3, totalPrice: 12, deliveryAddress: '456 Tea Ave.' });
 
-    const comment2 = await Comment.create({
-      userId: user2._id,
-      targetId: beverage1._id,
-      targetType: 'Beverage',
-      content: 'Love the vanilla flavor in this latte.'
-    });
+  await order1.save();
+  await order2.save();
 
-    // Create Ingredients
-    const ingredient1 = await Ingredient.create({
-      ingredientId: recipe1._id,
-      recipesId: [recipe1._id],
-      type: 'Syrup',
-      isAvailable: true
-    });
+  // Updating Barista with recipes, beverages, and orders
+  barista1.recipes.push(recipe1._id);
+  barista1.beverages.push(beverage1._id);
+  barista1.orders.push(order1._id);
+  barista2.recipes.push(recipe2._id);
+  barista2.beverages.push(beverage2._id);
+  barista2.orders.push(order2._id);
 
-    const ingredient2 = await Ingredient.create({
-      ingredientId: recipe2._id,
-      recipesId: [recipe2._id],
-      type: 'Syrup',
-      isAvailable: true
-    });
+  await barista1.save();
+  await barista2.save();
 
-    // Create Orders
-    const order1 = await Order.create({
-      userId: user1._id,
-      baristaId: barista1._id,
-      beverageId: beverage1._id,
-      quantity: 2,
-      totalPrice: 9.98,
-      deliveryAddress: '123 Coffee Street',
-      paymentStatus: 'paid'
-    });
+  // Save Users
+  await user1.save();
+  await user2.save();
 
-    const order2 = await Order.create({
-      userId: user2._id,
-      baristaId: barista2._id,
-      beverageId: beverage2._id,
-      quantity: 1,
-      totalPrice: 5.49,
-      deliveryAddress: '456 Mocha Avenue',
-      paymentStatus: 'paid'
-    });
+  console.log("Sample data created.");
+};
 
-    // Create Reviews
-    const review1 = await Review.create({
-      userId: user1._id,
-      targetId: beverage1._id,
-      targetModel: 'Beverage',
-      rating: 5,
-      comment: 'Best latte I\'ve ever had!'
-    });
+const seedDatabase = async () => {
+  await clearData();
+  await createSampleData();
+  mongoose.connection.close();
+};
 
-    const review2 = await Review.create({
-      userId: user2._id,
-      targetId: recipe2._id,
-      targetModel: 'Recipe',
-      rating: 4,
-      comment: 'Easy to make and delicious!'
-    });
-
-    console.log('Data successfully seeded!');
-    mongoose.connection.close();
-  } catch (error) {
-    console.error(error);
-    mongoose.connection.close();
-  }
-}
-
-seed();
+seedDatabase();

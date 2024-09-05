@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const recipeSchema = new Schema({
    name: { type: String, required: true },
+   baristaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Barista', required: true },
   instructions: { type: String, required: true },
   cookingTime: { type: String },
   categories: { type: [String] },

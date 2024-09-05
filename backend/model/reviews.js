@@ -12,3 +12,6 @@ const reviewSchema = new Schema({
 
 const Review = mongoose.model('Review', reviewSchema);
 module.exports = Review;
+
+
+// isDeleted: { type: Boolean, default: false }  عبدالله السراحين  داش بورد
