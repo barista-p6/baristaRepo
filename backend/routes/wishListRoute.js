@@ -4,7 +4,6 @@ const Product = require('../model/products');
 const Recipe = require('../model/recipes') ;
 const Beverage = require('../model/beverages')
 const Barista = require('../model/baristas')
-const Ingredient = require('../model/ingredients')
 const Review = require("../model/reviews")
 const User = require("../model/users")
 

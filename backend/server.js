@@ -26,7 +26,7 @@ mongoose.connect(mongoURI).then(() => {
   console.error('Failed to connect to MongoDB', err);
 });
 app.use(cors({
-  origin: 'http://localhost:5174',
+  origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type'],
   credentials: true 

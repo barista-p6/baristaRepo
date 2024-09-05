@@ -15,11 +15,12 @@ const RecipesDetails = () => {
           {recipes.map(recipe => (
             <li key={recipe._id}>
               <h3>{recipe.name}</h3>
-              <p>Instructions: {recipe.instructions}</p>
+              <img src={recipe.bg}  className="mx-auto h-48 object-cover p-3 transition duration-300 ease-in-out transform group-hover:scale-105" />
+
               <p>Categories: {recipe.categories.join(", ")}</p>
               <p>Cuisine: {recipe.cuisine}</p>
               <p>Dietary Restrictions: {recipe.dietaryRestrictions.join(", ")}</p>
-              <Link  to={`/recipes/${recipe._id}`}   className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-all" >
+              <Link to={`/recipes/${recipe._id}`} className="view-more-link">
                 View More Details
               </Link>
             </li>

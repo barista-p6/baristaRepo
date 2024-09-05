@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
+  isDeleted: { type: Boolean, default: false },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   baristaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Barista', required: true },
   beverageId: { type: mongoose.Schema.Types.ObjectId, ref: 'Beverage', required: true },

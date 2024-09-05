@@ -18,7 +18,7 @@ const V1iewMoreRecipeDetail = () => {
   const [isInWishlist, setIsInWishlist] = useState(false);
 
 
-  const userId = "66d8b64ea86eb09b36ffbac6"; 
+  const userId = "66d8d93cfca8fb9362a34a9a"; 
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -60,25 +60,22 @@ const V1iewMoreRecipeDetail = () => {
 
 
  /////////// for wish list recipe //////////////////
-const handleWishlistToggle = async () => {
+ const handleWishlistToggle = async () => {
   try {
-    
-    if (isInWishlist) {
-
-      await axios.post(`http://localhost:3000/api/users/${userId}/wishlist/remove`, { recipeId: id });
-      setIsInWishlist(false);
-    } else {
-
-      await axios.post(`http://localhost:3000/api/users/${userId}/wishlist`, { recipeId: id });
-      setIsInWishlist(true);
-    }
+      if (isInWishlist) {
+          // Remove from wishlist
+          await axios.post(`http://localhost:3000/api/users/${userId}/wishlist/remove`, { recipeId: id });
+          setIsInWishlist(false);
+      } else {
+          // Add to wishlist
+          await axios.post(`http://localhost:3000/api/users/${userId}/wishlist`, { recipeId: id });
+          setIsInWishlist(true);
+      }
   } catch (error) {
-    console.error("Error updating wishlist!", error);
-    setError("Failed to update wishlist.");
+      console.error("Error updating wishlist!", error);
+      setError("Failed to update wishlist.");
   }
 };
-
-
 
 
   if (loading) return <p>Loading recipe details...</p>;
