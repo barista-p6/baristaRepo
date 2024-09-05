@@ -1,12 +1,10 @@
-// ProductDetails.js
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { RecipesProvider } from "../useContext/RecipesContext";
 import { BeveragesProvider } from "../useContext/BeveragesContext";
 import axios from "axios";
-import './detailscollection.css'
-import RecipesDetails from "./RecipesDetails";
-import BeverageDetails from "./BaverageDetails";
+import RecipesDetails from "./D3RecipesDetails";
+import BeverageDetails from "./D2BaverageDetails";
 
 function DetailsCollection() {
   const { id } = useParams(); // Get product ID from the URL
@@ -50,9 +48,10 @@ function DetailsCollection() {
       <BeveragesProvider productId={id}>
         <BeverageDetails />
       </BeveragesProvider>
+
+     
     </div>
   );
 }
 
 export default DetailsCollection;
-

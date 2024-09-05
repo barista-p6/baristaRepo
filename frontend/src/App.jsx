@@ -40,13 +40,11 @@ import BaristaRequestManagement from './pages/AdminDashboard/BaristaRequest';
 import CartPage from './pages/Cart/CartPage';
 
 
-import Collection from './components/collectionPage/collections';
-import DetailsCollection from './components/collectionPage/DetailsCollection';
-import ViewMoreRecipeDetail from './components/collectionPage/ViewMoreRecipeDetail';
+import Collection from './components/collectionPage/Collections1';
+import DetailsCollection from './components/collectionPage/D1etailsCollection';
+import V1iewMoreRecipeDetail from './components/collectionPage/V1iewMoreRecipeDetail';
 
 
-
-import BaristaUserProfile from './components/userProfile/MainuserProfile';
 function App() {
 
 
@@ -83,11 +81,9 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path = "/Collection" element={<Collection/>} />
             <Route path="/product/:id" element={<DetailsCollection />} />
-            <Route path="/recipes/:id" element={<ViewMoreRecipeDetail/>} />
+            <Route path="/recipes/:id" element={<V1iewMoreRecipeDetail />} />
 
-            <Route path = "/BaristaUserProfile" element = {<BaristaUserProfile/>} />
 
-        
 
           </Routes>
         </main>
