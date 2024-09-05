@@ -73,19 +73,23 @@ function Collection() {
           <div key={product._id} className="shadow-md overflow-hidden font-cormorant">
             <div className="relative group">
               <Link to={`/product/${product._id}`}>
-                <img src={product.imageURL} alt={product.name} className="mx-auto h-48 object-cover p-3 transition duration-300 ease-in-out transform group-hover:scale-105" />
-                <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 w-40 h-40 mx-auto my-auto">
-                  <div className="text-center text-white transform translate-y-4 group-hover:translate-y-0 transition duration-300">
-                    <p className="text-lg font-semibold tracking-wider font">DISCOVER NOW</p>
-                    <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                      <span className="inline-block bg-white p-2 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              <div className="relative group">
+  <img src={product.bg} alt={product.name} className="mx-auto h-48 object-cover p-3 transition duration-300 ease-in-out transform group-hover:scale-105" />
+  <img src={product.photos} alt={product.name} className="absolute top-0 left-0 right-0 mx-auto h-48 object-cover p-3 transition duration-300 ease-in-out transform group-hover:scale-105 z-10" />
+  <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 z-20 w-48 h-40 mx-auto my-auto">
+    <div className="text-center text-white transform translate-y-4 group-hover:translate-y-0 transition duration-300">
+      <p className="text-sm font-semibold tracking-wide">DISCOVER NOW</p>
+      <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+        <span className="inline-block bg-white p-1 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
               </Link>
             </div>
             <div className="p-4">
