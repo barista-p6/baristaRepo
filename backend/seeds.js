@@ -6,6 +6,8 @@ const Product = require('./model/products');
 const Recipe = require('./model/recipes');
 const Review = require('./model/reviews');
 const User = require('./model/users');
+const BaristaAuth = require("./model/baristasAuth");
+
 require('dotenv').config(); 
 
 
@@ -22,6 +24,7 @@ mongoose.connect(process.env.MONGO_URI, {
 const clearData = async () => {
   await User.deleteMany({});
   await Barista.deleteMany({});
+  await BaristaAuth.deleteMany({});
   await Recipe.deleteMany({});
   await Beverage.deleteMany({});
   await Review.deleteMany({});
@@ -45,6 +48,20 @@ const createSampleData = async () => {
 
   await barista1.save();
   await barista2.save();
+  
+    const baristaAuth1 = new BaristaAuth({
+    baristaId: "66d969a1c7bf2bbc0340d24d",
+    profileImage: "uploadsprofileImage-1725444916669.JPG",
+    phone: "0786997275",
+    culinarySchool: "uploadsculinarySchool-1725444916708.pdf",
+    bio: "Experienced barista with a passion for creating specialty drinks.",
+    portfolio: "uploadsportfolio-1725444916726.pdf",
+    recommendations: "recommendation",
+    applicationStatus: "pending",
+  });
+
+  await baristaAuth1.save();
+  
  // Sample Recipes
  const recipes = [
   
