@@ -1,17 +1,32 @@
+// const Barista = require("../model/baristas");
+
+
+
+// exports.getBaristas = async (req, res) => {
+//   try {
+//     const baristas = await Barista.find(); // استرجاع جميع الباريستا
+//     res.json(baristas);
+//   } catch (error) {
+//     console.error("Error fetching baristas:", error); // تسجيل الخطأ
+//     res.status(500).json({ message: "Error fetching baristas" });
+//   }
+// };
 const Barista = require("../model/baristas");
-const Recipe = require('../model/recipes'); 
-const Beverage = require('../model/beverages');
-const Order = require('../model/orders');
+const Recipe = require("../model/recipes");
+const Beverage = require("../model/beverages");
+const Order = require("../model/orders");
 exports.getBaristas = async (req, res) => {
   try {
-    const baristas = await Barista.find({isDeleted: false, isApproved: true}).select("-password"); 
+    const baristas = await Barista.find({
+      isDeleted: false,
+      isApproved: true,
+    }).select("-password");
     res.json(baristas);
   } catch (error) {
     console.error("Error fetching baristas:", error);
     res.status(500).json({ message: "Error fetching baristas" });
   }
 };
-
 
 exports.deleteBarista = async (req, res) => {
   try {
@@ -30,37 +45,35 @@ exports.deleteBarista = async (req, res) => {
   }
 };
 
-
-
 exports.getBaristastats = async (req, res) => {
   try {
     const baristas = await Barista.aggregate([
       {
-        $match: { isDeleted: false, isApproved: true } // Optional: Filter active and approved baristas
+        $match: { isDeleted: false, isApproved: true }, // Optional: Filter active and approved baristas
       },
       {
         $lookup: {
-          from: 'recipes', // Correct collection name
-          localField: '_id',
-          foreignField: 'baristaId',
-          as: 'recipes'
-        }
+          from: "recipes", // Correct collection name
+          localField: "_id",
+          foreignField: "baristaId",
+          as: "recipes",
+        },
       },
       {
         $lookup: {
-          from: 'beverages', // Correct collection name
-          localField: '_id',
-          foreignField: 'baristaId',
-          as: 'beverages'
-        }
+          from: "beverages", // Correct collection name
+          localField: "_id",
+          foreignField: "baristaId",
+          as: "beverages",
+        },
       },
       {
         $lookup: {
-          from: 'orders', // Correct collection name
-          localField: '_id',
-          foreignField: 'baristaId',
-          as: 'orders'
-        }
+          from: "orders", // Correct collection name
+          localField: "_id",
+          foreignField: "baristaId",
+          as: "orders",
+        },
       },
       {
         $project: {
@@ -68,20 +81,19 @@ exports.getBaristastats = async (req, res) => {
           email: 1,
           profilePic: 1,
           isApproved: 1,
-          recipeCount: { $size: '$recipes' },
-          beverageCount: { $size: '$beverages' },
-          orderCount: { $size: '$orders' }
-        }
-      }
+          recipeCount: { $size: "$recipes" },
+          beverageCount: { $size: "$beverages" },
+          orderCount: { $size: "$orders" },
+        },
+      },
     ]);
 
     res.json(baristas);
   } catch (error) {
-    console.error('Error fetching barista stats:', error);
-    res.status(500).json({ message: 'Error fetching barista stats' });
+    console.error("Error fetching barista stats:", error);
+    res.status(500).json({ message: "Error fetching barista stats" });
   }
 };
-
 
 exports.toggleBaristaStatus = async (req, res) => {
   try {

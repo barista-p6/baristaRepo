@@ -1,71 +1,16 @@
-
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
-
-// const Dashboard = () => {
-//   const [stats, setStats] = useState(null);
-
-//   useEffect(() => {
-//     const fetchStats = async () => {
-//       try {
-//         const response = await axios.get(
-//           "http://localhost:3000/api/admin/dashboard-stats"
-//         );
-//         setStats(response.data);
-//       } catch (error) {
-//         console.error("Error fetching dashboard stats:", error);
-//       }
-//     };
-
-//     fetchStats();
-//   }, []);
-
-//   if (!stats) return <div>Loading...</div>;
-
-//   return (
-//     <div className="dashboard">
-//       hhhhh
-//       <h2>Dashboard Overview</h2>
-//       <div className="stats-grid">
-//         <div className="stat-card">
-//           <h3>Total Users</h3>
-//           <p>{stats.userCount}</p>
-//         </div>
-//         <div className="stat-card">
-//           <h3>Total Baristas</h3>
-//           <p>{stats.baristaCount}</p>
-//         </div>
-//         <div className="stat-card">
-//           <h3>Total Recipes</h3>
-//           <p>{stats.recipeCount}</p>
-//         </div>
-//         <div className="stat-card">
-//           <h3>Total Beverages</h3>
-//           <p>{stats.beverageCount}</p>
-//         </div>
-//         <div className="stat-card">
-//           <h3>Total Orders</h3>
-//           <p>{stats.orderCount}</p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
+// import { Link } from "react-router-dom";
 // import {
 //   FaUsers,
 //   FaCoffee,
 //   FaBook,
 //   FaGlassWhiskey,
 //   FaShoppingCart,
+//   FaHome,
+//   FaComments,
+//   FaEnvelope,
 // } from "react-icons/fa";
-
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-
 
 // const Dashboard = () => {
 //   const [stats, setStats] = useState(null);
@@ -85,13 +30,17 @@
 //     fetchStats();
 //   }, []);
 
-
-//   if (!stats)
-//     return (
-//       <div className="flex justify-center items-center h-screen">
-//         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-//       </div>
-//     );
+//   const NavItem = ({ to, icon, text }) => (
+//     <li>
+//       <Link
+//         to={to}
+//         className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-200 transition-colors duration-200"
+//       >
+//         <span className="mr-3 text-lg">{icon}</span>
+//         {text}
+//       </Link>
+//     </li>
+//   );
 
 //   const StatCard = ({ title, value, icon }) => (
 //     <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
@@ -103,82 +52,90 @@
 //     </div>
 //   );
 
-//   return (
-//     <div className="dashboard bg-gray-100 min-h-screen p-8">
-//       <h2 className="text-3xl font-bold text-gray-800 mb-8">
-//         Dashboard Overview
-//       </h2>
-//       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-//         <StatCard
-//           title="Total Users"
-//           value={stats.userCount}
-//           icon={<FaUsers />}
-//         />
-//         <StatCard
-//           title="Total Baristas"
-//           value={stats.baristaCount}
-//           icon={<FaCoffee />}
-//         />
-//         <StatCard
-//           title="Total Recipes"
-//           value={stats.recipeCount}
-//           icon={<FaBook />}
-//         />
-//         <StatCard
-//           title="Total Beverages"
-//           value={stats.beverageCount}
-//           icon={<FaGlassWhiskey />}
-//         />
-//         <StatCard
-//           title="Total Orders"
-//           value={stats.orderCount}
-//           icon={<FaShoppingCart />}
-//         />
-
-//   if (!stats) return <div>Loading...</div>;
-
-//   return (
-//     <div className="dashboard">
-//       <h2>Dashboard Overview</h2>
-//       <div className="stats-grid">
-//         <div className="stat-card">
-//           <h3>Total Users</h3>
-//           <p>{stats.userCount}</p>
-//         </div>
-//         <div className="stat-card">
-//           <h3>Total Baristas</h3>
-//           <p>{stats.baristaCount}</p>
-//         </div>
-//         <div className="stat-card">
-//           <h3>Total Recipes</h3>
-//           <p>{stats.recipeCount}</p>
-//         </div>
-//         <div className="stat-card">
-//           <h3>Total Beverages</h3>
-//           <p>{stats.beverageCount}</p>
-//         </div>
-//         <div className="stat-card">
-//           <h3>Total Orders</h3>
-//           <p>{stats.orderCount}</p>
-//         </div>
-
+//   if (!stats)
+//     return (
+//       <div className="flex justify-center items-center h-screen">
+//         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
 //       </div>
+//     );
+
+//   return (
+//     <div className="flex h-screen bg-gray-100">
+//       <nav className="w-64 bg-white shadow-lg">
+//         <div className="p-4">
+//           <h2 className="text-2xl font-semibold text-gray-800">Admin Panel</h2>
+//         </div>
+//         <ul className="mt-4">
+//           <NavItem to="/admin" icon={<FaHome />} text="Dashboard" />
+//           <NavItem to="/admin/users" icon={<FaUsers />} text="Users" />
+//           <NavItem to="/admin/baristas" icon={<FaCoffee />} text="Baristas" />
+//           <NavItem to="/admin/recipes" icon={<FaBook />} text="Recipes" />
+//           <NavItem
+//             to="/admin/beverages"
+//             icon={<FaGlassWhiskey />}
+//             text="Beverages"
+//           />
+//           <NavItem to="/admin/orders" icon={<FaShoppingCart />} text="Orders" />
+//           <NavItem to="/admin/reviews" icon={<FaComments />} text="Reviews" />
+//           <NavItem
+//             to="/admin/contact-messages"
+//             icon={<FaEnvelope />}
+//             text="Contact Messages"
+//           />
+//         </ul>
+//       </nav>
+
+//       <main className="flex-1 p-8 overflow-y-auto">
+//         <div className="dashboard">
+//           <h2 className="text-3xl font-bold text-gray-800 mb-8">
+//             Dashboard Overview
+//           </h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <StatCard
+//               title="Total Users"
+//               value={stats.userCount}
+//               icon={<FaUsers />}
+//             />
+//             <StatCard
+//               title="Total Baristas"
+//               value={stats.baristaCount}
+//               icon={<FaCoffee />}
+//             />
+//             <StatCard
+//               title="Total Recipes"
+//               value={stats.recipeCount}
+//               icon={<FaBook />}
+//             />
+//             <StatCard
+//               title="Total Beverages"
+//               value={stats.beverageCount}
+//               icon={<FaGlassWhiskey />}
+//             />
+//             <StatCard
+//               title="Total Orders"
+//               value={stats.orderCount}
+//               icon={<FaShoppingCart />}
+//             />
+//           </div>
+//         </div>
+//       </main>
 //     </div>
 //   );
 // };
 
 // export default Dashboard;
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   FaUsers,
   FaCoffee,
   FaBook,
   FaGlassWhiskey,
   FaShoppingCart,
+  FaHome,
+  FaComments,
+  FaEnvelope,
 } from "react-icons/fa";
 
 const Dashboard = () => {
@@ -195,16 +152,20 @@ const Dashboard = () => {
         console.error("Error fetching dashboard stats:", error);
       }
     };
-
     fetchStats();
   }, []);
 
-  if (!stats)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
+  const NavItem = ({ to, icon, text }) => (
+    <li>
+      <Link
+        to={to}
+        className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-200 transition-colors duration-200"
+      >
+        <span className="mr-3 text-lg">{icon}</span>
+        {text}
+      </Link>
+    </li>
+  );
 
   const StatCard = ({ title, value, icon }) => (
     <div className="bg-white rounded-lg shadow-lg p-6 flex items-center">
@@ -216,38 +177,72 @@ const Dashboard = () => {
     </div>
   );
 
-  return (
-    <div className="dashboard bg-gray-100 min-h-screen p-8">
-      <h2 className="text-3xl font-bold text-gray-800 mb-8">
-        Dashboard Overview
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <StatCard
-          title="Total Users"
-          value={stats.userCount}
-          icon={<FaUsers />}
-        />
-        <StatCard
-          title="Total Baristas"
-          value={stats.baristaCount}
-          icon={<FaCoffee />}
-        />
-        <StatCard
-          title="Total Recipes"
-          value={stats.recipeCount}
-          icon={<FaBook />}
-        />
-        <StatCard
-          title="Total Beverages"
-          value={stats.beverageCount}
-          icon={<FaGlassWhiskey />}
-        />
-        <StatCard
-          title="Total Orders"
-          value={stats.orderCount}
-          icon={<FaShoppingCart />}
-        />
+  if (!stats)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
       </div>
+    );
+
+  return (
+    <div className="flex h-screen bg-gray-100">
+      <nav className="w-64 bg-white shadow-lg">
+        <div className="p-4">
+          <h2 className="text-2xl font-semibold text-gray-800">Admin Panel</h2>
+        </div>
+        <ul className="mt-4">
+          <NavItem to="/admin" icon={<FaHome />} text="Dashboard" />
+          <NavItem to="/admin/users" icon={<FaUsers />} text="Users" />
+          <NavItem to="/admin/baristas" icon={<FaCoffee />} text="Baristas" />
+          <NavItem to="/admin/recipes" icon={<FaBook />} text="Recipes" />
+          <NavItem
+            to="/admin/beverages"
+            icon={<FaGlassWhiskey />}
+            text="Beverages"
+          />
+          <NavItem to="/admin/orders" icon={<FaShoppingCart />} text="Orders" />
+          <NavItem to="/admin/reviews" icon={<FaComments />} text="Reviews" />
+          <NavItem
+            to="/admin/contact-messages"
+            icon={<FaEnvelope />}
+            text="Contact Messages"
+          />
+        </ul>
+      </nav>
+      <main className="flex-1 p-8 overflow-y-auto">
+        <div className="dashboard">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8">
+            Dashboard Overview
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <StatCard
+              title="Total Users"
+              value={stats.userCount}
+              icon={<FaUsers />}
+            />
+            <StatCard
+              title="Total Baristas"
+              value={stats.baristaCount}
+              icon={<FaCoffee />}
+            />
+            <StatCard
+              title="Total Recipes"
+              value={stats.recipeCount}
+              icon={<FaBook />}
+            />
+            <StatCard
+              title="Total Beverages"
+              value={stats.beverageCount}
+              icon={<FaGlassWhiskey />}
+            />
+            <StatCard
+              title="Total Orders"
+              value={stats.orderCount}
+              icon={<FaShoppingCart />}
+            />
+          </div>
+        </div>
+      </main>
     </div>
   );
 };

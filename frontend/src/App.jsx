@@ -46,6 +46,7 @@ import DetailsCollection from './components/collectionPage/D1etailsCollection';
 import V1iewMoreRecipeDetail from './components/collectionPage/V1iewMoreRecipeDetail';
 
 import BrowseProducts from './pages/Marketplace/BrowseProductsPage';
+import ManageContactMessages from './pages/AdminDashboard/ManageContactMessages';
 
 
 
@@ -64,7 +65,10 @@ function App() {
             <Route path="/admin/beverages" element={<BeverageManagement />} />
             <Route path="/admin/orders" element={<OrderManagement />} />
             <Route path="/admin/reviews" element={<ReviewManagement />} />
-            <Route path="/admin/requests" element={<BaristaRequestManagement />} />
+            <Route
+              path="/admin/requests"
+              element={<BaristaRequestManagement />}
+            />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
@@ -81,11 +85,14 @@ function App() {
             <Route path="/RegisterBarista" element={<RegisterBarista />} />
             <Route path="/BaristaADashboard" element={<BaristaADashboard />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path = "/Collection" element={<Collection/>} />
+            <Route path="/Collection" element={<Collection />} />
             <Route path="/product/:id" element={<DetailsCollection />} />
             <Route path="/market" element={<BrowseProducts />} />
             <Route path="/recipes/:id" element={<V1iewMoreRecipeDetail />} />
-
+            <Route
+              path="/admin/contact-messages"
+              element={<ManageContactMessages />}
+            />
           </Routes>
         </main>
       </div>
