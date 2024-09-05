@@ -3,10 +3,10 @@ import { FaCoffee, FaShoppingCart } from 'react-icons/fa'; // Using react-icons 
 
 const Navbar = () => {
     return (
-        <nav className="bg-brown-900 text-white shadow-lg">
+        <nav className="bg-black text-white shadow-lg">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                 {/* Logo or Title */}
-                <a href="/" className="text-xl font-bold text-yellow-500 flex items-center space-x-2">
+                <a href="/" className="text-xl font-bold text-[#E1BA94] hover:text-white flex items-center space-x-2">
                     <FaCoffee className="text-2xl" />
                     <span>CoffeeHub</span>
                 </a>
@@ -14,21 +14,21 @@ const Navbar = () => {
                 {/* Navigation Links */}
                 <ul className="flex space-x-6">
                     <li>
-                        <a href="/categories" className="hover:text-yellow-400">Categories</a>
+                        <a href="/categories" className="text-[#E1BA94] hover:text-white">Categories</a>
                     </li>
                     <li>
-                        <a href="/marketplace" className="hover:text-yellow-400">Marketplace</a>
+                        <a href="/marketplace" className="text-[#E1BA94] hover:text-white">Marketplace</a>
                     </li>
                     <li>
-                        <a href="/about" className="hover:text-yellow-400">About</a>
+                        <a href="/about" className="text-[#E1BA94] hover:text-white">About</a>
                     </li>
                     <li>
-                        <a href="/contact" className="hover:text-yellow-400">Contact</a>
+                        <a href="/contact" className="text-[#E1BA94] hover:text-white">Contact</a>
                     </li>
                 </ul>
 
                 {/* Cart Icon */}
-                <a href="/cart" className="flex items-center space-x-2 hover:text-yellow-400">
+                <a href="/cart" className="flex items-center space-x-2 text-[#E1BA94] hover:text-white">
                     <FaShoppingCart className="h-6 w-6" />
                     <span>Cart</span>
                 </a>

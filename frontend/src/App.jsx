@@ -40,6 +40,7 @@ import BaristaRequestManagement from './pages/AdminDashboard/BaristaRequest';
 import CartPage from './pages/Cart/CartPage';
 
 
+
 import Collection from './components/collectionPage/Collections1';
 import DetailsCollection from './components/collectionPage/D1etailsCollection';
 import V1iewMoreRecipeDetail from './components/collectionPage/V1iewMoreRecipeDetail';
@@ -70,8 +71,6 @@ function App() {
             <Route path="/categories" element={<RecipeCategoriesPage />} />
             <Route path="/AboutChief" element={<AboutChiefPage />} />
             <Route path="/contact" element={<ContactUsPage />} />
-
-
             <Route path="/dashboard" element={<AdminDashboard />} />
             <Route path="/ProfileAuth" element={<ProfileAuth />} />
             <Route path="/chefprofile" element={<ChefProfile />} />
@@ -81,9 +80,8 @@ function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path = "/Collection" element={<Collection/>} />
             <Route path="/product/:id" element={<DetailsCollection />} />
+            <Route path="/market" element={<BrowseProductsPage />} />
             <Route path="/recipes/:id" element={<V1iewMoreRecipeDetail />} />
-
-
 
           </Routes>
         </main>

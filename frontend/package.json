@@ -24,6 +24,7 @@
     "react-stripe-js": "^1.1.5",
     "react-toastify": "^10.0.5",
     "react-use-cart": "^1.14.0",
+    "styled-components": "^6.1.13"
     "recharts": "^2.12.7"
   },
   "devDependencies": {
