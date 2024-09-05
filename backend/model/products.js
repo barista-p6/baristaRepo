@@ -6,6 +6,10 @@ const productSchema = new Schema({
   description: { type: String },
   price: { type: Number, required: true },
   category: { type: String },
+  // ضفتهم جديد
+  photos: { type: [String] },
+  bg: { type: [String] },
+  
   recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }], 
   beverages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Beverage' }], 
   createdAt: { type: Date, default: Date.now },

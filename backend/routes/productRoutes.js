@@ -4,7 +4,6 @@ const Product = require('../model/products');
 const Recipe = require('../model/recipes') ;
 const Beverage = require('../model/beverages')
 const Barista = require('../model/baristas')
-const Ingredient = require('../model/ingredients')
 
 
 router.get('/Allproducts', async (req, res) => {
