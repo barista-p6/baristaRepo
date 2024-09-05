@@ -16,6 +16,7 @@ app.use(express.json());
 const adminRoutes = require("./routes/adminRoutes");
 const productRoutes = require('./routes/productRoutes')
 const wishListRoute = require('./routes/wishListRoute')
+const contactRoutes = require("./routes/contactRoutes");
 
 
 // Connect to MongoDB
@@ -25,23 +26,19 @@ mongoose.connect(mongoURI).then(() => {
 }).catch((err) => {
   console.error('Failed to connect to MongoDB', err);
 });
-app.use(cors({
-  origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type'],
-  credentials: true 
-}));
+app.use(cors());
 // ---------------------------------------------------------------
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // -----------------------------------------------------------
 
 
-
+app.use("/api", contactRoutes);
 
 
 const userRoutes = require('./routes/users')
 app.use("/api/users", userRoutes);
+
 
 const baristaAuthRoutes= require('./routes/baristaAuthRoutes')
 app.use('/api/barista-auth', baristaAuthRoutes);
@@ -59,6 +56,7 @@ app.use('/api' ,wishListRoute )
 // Mohammad Routes
 app.use("/api", beveragesMarketRoute);
 app.use("/api/admin", adminRoutes);
+ 
 
 
 
