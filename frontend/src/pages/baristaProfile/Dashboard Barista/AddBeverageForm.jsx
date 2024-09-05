@@ -1,127 +1,209 @@
-import React, { useState } from 'react';
-import ProductPopup from './ProductPopup';
+import React, { useState } from "react";
+import ProductPopup from "./ProductPopup";
+import axios from "axios"; // استيراد Axios
+
 const AddBeverageForm = () => {
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [image, setImage] = useState(null);
-    const [selectedSyrups, setSelectedSyrups] = useState([]);
-    const [showSyrupPopup, setShowSyrupPopup] = useState(false);
-  
-    const syrups = [
-      { id: 1, name: 'Vanilla Syrup' },
-      { id: 2, name: 'Caramel Syrup' },
-      { id: 3, name: 'Hazelnut Syrup' },
-      { id: 4, name: 'Chocolate Syrup' },
-    ];
-  
-    const handleImageUpload = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        setImage(URL.createObjectURL(file));
-      }
-    };
-  
-    const handleSyrupSelect = (syrup) => {
-      setSelectedSyrups([...selectedSyrups, syrup]);
-      setShowSyrupPopup(false);
-    };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log({ name, price, description, category, image, selectedSyrups });
-    };
-  
-    return (
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Add New Beverage</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Beverage Name</label>
-              <input 
-                type="text" 
-                id="name" 
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
-                placeholder="Enter beverage name" 
-              />
-            </div>
-            <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price</label>
-              <input 
-                type="number" 
-                id="price" 
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
-                placeholder="Enter price" 
-              />
-            </div>
-          </div>
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [image, setImage] = useState(null);
+  const [quantityAvailable, setQuantityAvailable] = useState(""); 
+  const [selectedSyrups, setSelectedSyrups] = useState([]);
+  const [showSyrupPopup, setShowSyrupPopup] = useState(false);
+
+  const syrups = [
+    { id: 1, name: "Vanilla Syrup" },
+    { id: 2, name: "Caramel Syrup" },
+    { id: 3, name: "Hazelnut Syrup" },
+    { id: 4, name: "Chocolate Syrup" },
+  ];
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
+
+  const handleSyrupSelect = (syrup) => {
+    setSelectedSyrups([...selectedSyrups, syrup]);
+    setShowSyrupPopup(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(); // بستخدمها عشان برفع ملفات زي الصور
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("image", image);
+    formData.append("quantityAvailable", quantityAvailable);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/beverage/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true 
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error adding beverage:", error);
+    }
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold mb-4">Add New Beverage</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-            <textarea 
-              id="description" 
-              rows="3" 
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
-              placeholder="Enter beverage description"
-            ></textarea>
-          </div>
-          <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
-            <select 
-              id="category" 
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Beverage Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-            >
-              <option value="">Select a category</option>
-              <option value="coffee">Coffee</option>
-              <option value="tea">Tea</option>
-              <option value="smoothie">Smoothie</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image</label>
-            <input 
-              type="file" 
-              id="image" 
-              onChange={handleImageUpload}
-              className="mt-1 block w-full" 
+              placeholder="Enter beverage name"
             />
-            {image && <img src={image} alt="Preview" className="mt-2 w-32 h-32 object-cover rounded-md" />}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Syrups</label>
-            <div className="mt-1 flex flex-wrap gap-2">
-              {selectedSyrups.map(syrup => (
-                <span key={syrup.id} className="bg-blue-100 text-blue-800 px-2 py-1 rounded">{syrup.name}</span>
-              ))}
-            </div>
-            <button 
-              type="button" 
-              onClick={() => setShowSyrupPopup(true)}
-              className="mt-2 bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300"
+            <label
+              htmlFor="price"
+              className="block text-sm font-medium text-gray-700"
             >
-              Add Syrup
-            </button>
+              Price
+            </label>
+            <input
+              type="number"
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              placeholder="Enter price"
+            />
           </div>
-          {showSyrupPopup && (
-            <ProductPopup 
-              syrups={syrups} 
-              onSelect={handleSyrupSelect}
-              onClose={() => setShowSyrupPopup(false)} 
+        </div>
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Description
+          </label>
+          <textarea
+            id="description"
+            rows="3"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            placeholder="Enter beverage description"
+          ></textarea>
+        </div>
+        <div>
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Category
+          </label>
+          <select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+          >
+            <option value="">Select a category</option>
+            <option value="coffee">Coffee</option>
+            <option value="tea">Tea</option>
+            <option value="smoothie">Smoothie</option>
+          </select>
+        </div>
+        <div>
+          <label
+            htmlFor="quantityAvailable"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Quantity Available
+          </label>
+          <input
+            type="number"
+            id="quantityAvailable"
+            value={quantityAvailable}
+            onChange={(e) => setQuantityAvailable(e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            placeholder="Enter quantity available"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="image"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Image
+          </label>
+          <input
+            type="file"
+            id="image"
+            onChange={handleImageUpload}
+            className="mt-1 block w-full"
+          />
+          {image && (
+            <img
+              src={image}
+              alt="Preview"
+              className="mt-2 w-32 h-32 object-cover rounded-md"
             />
           )}
-          <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Add Beverage</button>
-        </form>
-      </div>
-    );
-  };
-  
-  export default AddBeverageForm;
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Syrups
+          </label>
+          <div className="mt-1 flex flex-wrap gap-2">
+            {selectedSyrups.map((syrup) => (
+              <span
+                key={syrup.id}
+                className="bg-blue-100 text-blue-800 px-2 py-1 rounded"
+              >
+                {syrup.name}
+              </span>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowSyrupPopup(true)}
+            className="mt-2 bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300"
+          >
+            Add Syrup
+          </button>
+        </div>
+        {showSyrupPopup && (
+          <ProductPopup
+            syrups={syrups}
+            onSelect={handleSyrupSelect}
+            onClose={() => setShowSyrupPopup(false)}
+          />
+        )}
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        >
+          Add Beverage
+        </button>
+      </form>
+    </div>
+  );
+};export default AddBeverageForm;
