@@ -1,63 +1,4 @@
 
-// import React from 'react';
-// import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-// import Dashboard from './Dashboard';
-// import UserManagement from './UserManagement';
-// import BaristaManagement from './BaristaManagement';
-// import RecipeManagement from './RecipeManagement';
-// import BeverageManagement from './BeverageManagement';
-// import OrderManagement from './OrderManagement';
-// import ReviewManagement from './ManageContactMessages';
-
-// const AdminDashboard = () => {
-//   return (
-//     <Router>
-//       <div className="admin-dashboard">
-//         <nav>
-//           <ul>
-//             <li>
-//               <Link to="/admin">Dashboard</Link>
-//             </li>
-//             <li>
-//               <Link to="/admin/users">Users</Link>
-//             </li>
-//             <li>
-//               <Link to="/admin/baristas">Baristas</Link>
-//             </li>
-//             <li>
-//               <Link to="/admin/recipes">Recipes</Link>
-//             </li>
-//             <li>
-//               <Link to="/admin/beverages">Beverages</Link>
-//             </li>
-//             <li>
-//               <Link to="/admin/orders">Orders</Link>
-//             </li>
-//             <li>
-//               <Link to="/admin/reviews">Reviews</Link>
-//             </li>
-//           </ul>
-//         </nav>
-
-//         <Switch>
-//           <Route exact path="/admin" component={Dashboard} />
-//           <Route path="/admin/users" component={UserManagement} />
-//           <Route path="/admin/baristas" component={BaristaManagement} />
-//           <Route path="/admin/recipes" component={RecipeManagement} />
-//           <Route path="/admin/beverages" component={BeverageManagement} />
-//           <Route path="/admin/orders" component={OrderManagement} />
-//           <Route path="/admin/reviews" component={ReviewManagement} />
-//         </Switch>
-//       </div>
-//     </Router>
-//   );
-// };
-
-// export default AdminDashboard;
-
-
-
-
 
 import React from "react";
 import { Route, Routes, Link } from "react-router-dom";
@@ -69,6 +10,7 @@ import {
   FaGlassWhiskey,
   FaShoppingCart,
   FaComments,
+  FaEnvelope,
 } from "react-icons/fa";
 import Dashboard from "./Dashboard";
 import UserManagement from "./UserManagement";
@@ -76,7 +18,8 @@ import BaristaManagement from "./BaristaManagement";
 import RecipeManagement from "./RecipeManagement";
 import BeverageManagement from "./BeverageManagement";
 import OrderManagement from "./OrderManagement";
-// import ReviewManagement from "./ManageContactMessages";
+import ManageContactMessages from "./ManageContactMessages";
+
 
 const AdminDashboard = () => {
   return (
@@ -97,6 +40,11 @@ const AdminDashboard = () => {
           />
           <NavItem to="/admin/orders" icon={<FaShoppingCart />} text="Orders" />
           <NavItem to="/admin/reviews" icon={<FaComments />} text="Reviews" />
+          <NavItem
+            to="/admin/contact-messages"
+            icon={<FaEnvelope />}
+            text="Contact Messages"
+          />
         </ul>
       </nav>
 
@@ -108,7 +56,7 @@ const AdminDashboard = () => {
           <Route path="/admin/recipes" element={<RecipeManagement />} />
           <Route path="/admin/beverages" element={<BeverageManagement />} />
           <Route path="/admin/orders" element={<OrderManagement />} />
-          {/* <Route path="/admin/reviews" element={<ReviewManagement />} /> */}
+          <Route path="/admin/contact-messages" element={<ManageContactMessages />}/>
         </Routes>
       </main>
     </div>

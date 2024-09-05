@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Product = require('../model/products'); 
 const Recipe = require('../model/recipes') ;
-const Beverage = require('../model/beverages')
 
 
 

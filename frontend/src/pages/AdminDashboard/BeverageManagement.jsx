@@ -1,185 +1,236 @@
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
 
-// const BeverageManagement = () => {
-//   const [beverages, setBeverages] = useState([]);
 
-//   useEffect(() => {
-//     const fetchBeverages = async () => {
-//       try {
-//         const response = await axios.get(
-//           "http://localhost:3000/api/admin/beverages"
-//         );
-//         setBeverages(response.data);
-//       } catch (error) {
-//         console.error("Error fetching beverages:", error);
-//       }
-//     };
-
-//     fetchBeverages();
-//   }, []);
-
-//   return (
-//     <div className="beverage-management">
-//       <h2>Beverage Management</h2>
-//       <table>
-//         <thead>
-//           <tr>
-//             <th>Name</th>
-//             <th>Barista</th>
-//             <th>Price</th>
-//             <th>Quantity Available</th>
-//             <th>Rating</th>
-//             <th>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {beverages.map((beverage) => (
-//             <tr key={beverage._id}>
-//               <td>{beverage.name}</td>
-//               <td>{beverage.baristaId.username}</td>
-//               <td>${beverage.price.toFixed(2)}</td>
-//               <td>{beverage.quantityAvailable}</td>
-//               <td>{beverage.rating.toFixed(1)}</td>
-//               <td>
-//                 {/* <button onClick={() => handleView(beverage._id)}>View</button> */}
-//                 <button >View</button>
-//                 {/* <button onClick={() => handleEdit(beverage._id)}>Edit</button> */}
-//                 <button>Edit</button>
-//                 {/* <button onClick={() => handleDelete(beverage._id)}> Delete</button> */}
-//                 <button > Delete</button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-// export default BeverageManagement;
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import {
+  FaHome,
+  FaUsers,
+  FaCoffee,
+  FaBook,
+  FaGlassWhiskey,
+  FaShoppingCart,
+  FaComments,
+  FaEnvelope,
+  FaEdit,
+  FaTrash,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 
 const BeverageManagement = () => {
   const [beverages, setBeverages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingBeverage, setEditingBeverage] = useState(null);
 
   useEffect(() => {
-    const fetchBeverages = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          "http://localhost:3000/api/admin/beverages"
-        );
-        setBeverages(response.data);
-      } catch (error) {
-        console.error("Error fetching beverages:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchBeverages();
   }, []);
 
-  const handleView = (id) => {
-    // Implement view functionality
-    console.log("Viewing beverage with id:", id);
+  const fetchBeverages = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        "http://localhost:3000/api/admin/beverages"
+      );
+      setBeverages(response.data);
+    } catch (error) {
+      console.error("Error fetching beverages:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleEdit = (id) => {
-    // Implement edit functionality
-    console.log("Editing beverage with id:", id);
+  const handleEdit = (beverage) => {
+    setEditingBeverage(beverage);
   };
 
-  const handleDelete = (id) => {
-    // Implement delete functionality
-    console.log("Deleting beverage with id:", id);
+  const handleSave = async () => {
+    try {
+      await axios.put(
+        `http://localhost:3000/api/admin/beverages/${editingBeverage._id}`,
+        editingBeverage
+      );
+      setEditingBeverage(null);
+      fetchBeverages();
+    } catch (error) {
+      console.error("Error updating beverage:", error);
+    }
   };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/admin/beverages/${id}`);
+      fetchBeverages();
+    } catch (error) {
+      console.error("Error deleting beverage:", error);
+    }
+  };
+  
+
+  const handleInputChange = (e) => {
+    setEditingBeverage({
+      ...editingBeverage,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const NavItem = ({ to, icon, text }) => (
+    <li>
+      <Link
+        to={to}
+        className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-200 transition-colors duration-200"
+      >
+        <span className="mr-3 text-lg">{icon}</span>
+        {text}
+      </Link>
+    </li>
+  );
+
+
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Beverage Management
-      </h2>
-      {loading ? (
-        <div className="text-center py-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+    <div className="flex h-screen bg-gray-100">
+      <nav className="w-64 bg-white shadow-lg h-screen fixed">
+        <div className="p-4">
+          <h2 className="text-2xl font-semibold text-gray-800">Admin Panel</h2>
         </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Barista
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Price
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Quantity
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Rating
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {beverages.map((beverage) => (
-                <tr key={beverage._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {beverage.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {beverage.baristaId.username}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    ${beverage.price.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {beverage.quantityAvailable}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"></span>
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      {beverage.rating.toFixed(1)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button
-                      onClick={() => handleView(beverage._id)}
-                      className="text-blue-600 hover:text-blue-900 mr-2 transition duration-150 ease-in-out"
-                    >
-                      <FaEye className="inline mr-1" /> View
-                    </button>
-                    <button
-                      onClick={() => handleEdit(beverage._id)}
-                      className="text-green-600 hover:text-green-900 mr-2 transition duration-150 ease-in-out"
-                    >
-                      <FaEdit className="inline mr-1" /> Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(beverage._id)}
-                      className="text-red-600 hover:text-red-900 transition duration-150 ease-in-out"
-                    >
-                      <FaTrash className="inline mr-1" /> Delete
-                    </button>
-                  </td>
+        <ul className="mt-4">
+          <NavItem to="/admin" icon={<FaHome />} text="Dashboard" />
+          <NavItem to="/admin/users" icon={<FaUsers />} text="Users" />
+          <NavItem to="/admin/baristas" icon={<FaCoffee />} text="Baristas" />
+          <NavItem to="/admin/recipes" icon={<FaBook />} text="Recipes" />
+          <NavItem
+            to="/admin/beverages"
+            icon={<FaGlassWhiskey />}
+            text="Beverages"
+          />
+          <NavItem to="/admin/orders" icon={<FaShoppingCart />} text="Orders" />
+          <NavItem to="/admin/reviews" icon={<FaComments />} text="Reviews" />
+          <NavItem
+            to="/admin/contact-messages"
+            icon={<FaEnvelope />}
+            text="Contact Messages"
+          />
+        </ul>
+      </nav>
+
+      <div className="ml-64 p-8 flex-1">
+        <h2 className="text-3xl font-bold mb-8 text-gray-800">
+          Beverage Management
+        </h2>
+
+        {loading ? (
+          <div className="flex justify-center items-center py-8">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-gray-900"></div>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-300">
+              <thead className="bg-gray-200">
+                <tr>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                    Barista
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                    Price
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                    Quantity
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                    Rating
+                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {beverages.map((beverage) => (
+                  <tr key={beverage._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {editingBeverage &&
+                      editingBeverage._id === beverage._id ? (
+                        <input
+                          type="text"
+                          name="name"
+                          value={editingBeverage.name}
+                          onChange={handleInputChange}
+                          className="border rounded px-2 py-1 w-full"
+                        />
+                      ) : (
+                        beverage.name
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {beverage.baristaId.username}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {editingBeverage &&
+                      editingBeverage._id === beverage._id ? (
+                        <input
+                          type="number"
+                          name="price"
+                          value={editingBeverage.price}
+                          onChange={handleInputChange}
+                          className="border rounded px-2 py-1 w-full"
+                        />
+                      ) : (
+                        `$${beverage.price.toFixed(2)}`
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {editingBeverage &&
+                      editingBeverage._id === beverage._id ? (
+                        <input
+                          type="number"
+                          name="quantityAvailable"
+                          value={editingBeverage.quantityAvailable}
+                          onChange={handleInputChange}
+                          className="border rounded px-2 py-1 w-full"
+                        />
+                      ) : (
+                        beverage.quantityAvailable
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        {beverage.rating.toFixed(1)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      {editingBeverage &&
+                      editingBeverage._id === beverage._id ? (
+                        <button
+                          onClick={handleSave}
+                          className="text-green-600 hover:text-green-900 transition duration-150 ease-in-out"
+                        >
+                          Save
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleEdit(beverage)}
+                          className="text-blue-600 hover:text-blue-900 transition duration-150 ease-in-out"
+                        >
+                          <FaEdit className="inline mr-1" /> Edit
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleDelete(beverage._id)}
+                        className="text-red-600 hover:text-red-900 transition duration-150 ease-in-out"
+                      >
+                        <FaTrash className="inline mr-1" /> Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

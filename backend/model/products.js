@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
@@ -6,11 +6,15 @@ const productSchema = new Schema({
   description: { type: String },
   price: { type: Number, required: true },
   category: { type: String },
-  recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }], 
-  beverages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Beverage' }], 
+  // ضفتهم جديد
+  photos: { type: [String] },
+  bg: { type: [String] },
+
+  recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
+  beverages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Beverage" }],
   createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  updatedAt: { type: Date, default: Date.now },
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Product = mongoose.model("Product", productSchema);
 module.exports = Product;

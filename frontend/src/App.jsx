@@ -8,7 +8,6 @@ import HomePage from './pages/Home/Home';
 import LoginPage from './pages/Login/Login';
 import UserProfilePage from './pages/UserProfile/UserProfilePage';
 
-
 import RecipeDetailPage from './pages/RecipeDetail/RecipeDetail';
 import MarketplacePage from './pages/Marketplace/Marketplace';
 import DrinkDetailPage from './pages/DrinkDetail/DrinkDetailPage';
@@ -27,7 +26,8 @@ import RecipeManagement from './pages/AdminDashboard/RecipeManagement';
 import BeverageManagement from './pages/AdminDashboard/BeverageManagement';
 import OrderManagement from './pages/AdminDashboard/OrderManagement';
 import ReviewManagement from './pages/AdminDashboard/ReviewManagement';
-
+import ManageContactMessages from  './pages/AdminDashboard/ManageContactMessages';
+import DailyProfitChart from './pages/AdminDashboard/ProfitManagement';
 
 
 
@@ -55,6 +55,11 @@ function App() {
             <Route path="/admin/beverages" element={<BeverageManagement />} />
             <Route path="/admin/orders" element={<OrderManagement />} />
             <Route path="/admin/reviews" element={<ReviewManagement />} />
+            <Route path="/profit" element={<DailyProfitChart />} />
+            <Route
+              path="/admin/contact-messages"
+              element={<ManageContactMessages />}
+            />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
@@ -65,13 +70,10 @@ function App() {
             <Route path="/AboutChief" element={<AboutChiefPage />} />
             <Route path="/contact" element={<ContactUsPage />} />
 
-
             <Route path="/dashboard" element={<AdminDashboard />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path = "/Collection" element={<Collection/>} />
+            <Route path="/Collection" element={<Collection />} />
             <Route path="/product/:id" element={<DetailsCollection />} />
-
-
           </Routes>
         </main>
       </div>

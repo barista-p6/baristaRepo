@@ -14,10 +14,10 @@ const baristaSchema = new Schema({
   recipes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }],
   beverages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Beverage' }],
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
-  rating: { type: Number, default: 0 },
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
+
 const Barista = mongoose.model('Barista', baristaSchema);
 module.exports = Barista;

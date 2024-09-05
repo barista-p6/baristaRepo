@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const mongoose = require('mongoose');
 const adminRoutes = require("./routes/adminRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 
 
@@ -25,6 +26,7 @@ app.use(cors());
 // middleware 
 
 app.use(express.json());
+ app.use("/api", contactRoutes);
 
 
 
