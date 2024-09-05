@@ -18,7 +18,8 @@ const RecipesDetails = () => {
               <img src={recipe.bg}  className="mx-auto h-48 object-cover p-3 transition duration-300 ease-in-out transform group-hover:scale-105" />
 
               <p>Categories: {recipe.categories.join(", ")}</p>
-              <p>Cuisine: {recipe.cuisine}</p>
+             
+
               <p>Dietary Restrictions: {recipe.dietaryRestrictions.join(", ")}</p>
               <Link to={`/recipes/${recipe._id}`} className="view-more-link">
                 View More Details

@@ -9,7 +9,9 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
       <h3>{recipe.name}</h3>
       <p>Instructions: {recipe.instructions}</p>
       <p>Categories: {recipe.categories.join(", ")}</p>
-      <p>Cuisine: {recipe.cuisine}</p>
+      <p> {recipe.ingredients[0]}</p>
+      <p> {recipe.ingredients[1]}</p>
+      <p> {recipe.ingredients[2]}</p>
       <p>Dietary Restrictions: {recipe.dietaryRestrictions.join(", ")}</p>
     </div>
   );
