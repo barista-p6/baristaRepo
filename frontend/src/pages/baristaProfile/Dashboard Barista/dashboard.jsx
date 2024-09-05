@@ -281,8 +281,8 @@ import TabButton from './TabButton';
 import SalesOverview from './SalesOverview';
 import RecentOrders from './RecentOrders';
 import AddBeverageForm from './AddBeverageForm';
-import { FaChartBar, FaShoppingCart, FaPlus } from 'react-icons/fa'; // Importing icons
-
+import { FaChartBar, FaShoppingCart, FaPlus ,FaCoffee } from 'react-icons/fa'; // Importing icons
+import AddRecipeForm from './AddRecipeForm';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('sales');
@@ -296,27 +296,34 @@ const Dashboard = () => {
       <div className="flex space-x-4">
         <TabButton 
           label="Sales Overview" 
-          icon={() => <FaChartBar className="text-2xl" />} // Using React Icons
+          icon={() => <FaChartBar className="text-2xl" />} 
           isActive={activeTab === 'sales'}
           onClick={() => setActiveTab('sales')}
         />
         <TabButton 
           label="Recent Orders" 
-          icon={() => <FaShoppingCart className="text-2xl" />} // Using React Icons
+          icon={() => <FaShoppingCart className="text-2xl" />} 
           isActive={activeTab === 'orders'}
           onClick={() => setActiveTab('orders')}
         />
         <TabButton 
-          label="Add Beverage" 
-          icon={() => <FaPlus className="text-2xl" />} // Using React Icons
-          isActive={activeTab === 'add'}
-          onClick={() => setActiveTab('add')}
+          label="Add Beverage" // Tab for Add Beverage
+          icon={() => <FaCoffee className="text-2xl" />} 
+          isActive={activeTab === 'addBeverage'}
+          onClick={() => setActiveTab('addBeverage')}
+        />
+        <TabButton 
+          label="Add Recipe" // Tab for Add Recipe
+          icon={() => <FaPlus className="text-2xl" />} 
+          isActive={activeTab === 'addRecipe'}
+          onClick={() => setActiveTab('addRecipe')}
         />
       </div>
       <div>
         {activeTab === 'sales' && <SalesOverview />}
         {activeTab === 'orders' && <RecentOrders />}
-        {activeTab === 'add' && <AddBeverageForm />}
+        {activeTab === 'addBeverage' && <AddBeverageForm />} {/* Show AddBeverageForm */}
+        {activeTab === 'addRecipe' && <AddRecipeForm />} {/* Show AddRecipeForm */}
       </div>
     </div>
   );
