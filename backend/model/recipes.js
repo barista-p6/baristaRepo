@@ -5,12 +5,8 @@ const Schema = mongoose.Schema;
 const recipeSchema = new Schema({
    name: { type: String, required: true },
    baristaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Barista', required: true },
-   preparation: [{ type: String }],  // Changed to an array of strings for steps
-   ingredients: [{
-    name: { type: String, required: true },  // Name of the ingredient
-    quantity: { type: Number, required: true },  // Quantity of the ingredient
-    unit: { type: String, required: true },  // Unit of measurement (e.g., cups, teaspoons)
-   }],
+   preparation: [{ type: String }],  
+   ingredients: [{ type: String } ], 
   isDeleted: { type: Boolean, default: false } ,
   report: { type: Number, default: 0 },
   cookingTime: { type: String },
