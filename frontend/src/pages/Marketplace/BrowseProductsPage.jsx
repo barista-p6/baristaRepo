@@ -128,7 +128,7 @@ const BrowseProducts = () => {
                                             className="bg-white p-6 rounded-lg shadow-lg transform transition hover:scale-105"
                                         >
                                             <img
-                                                src={product.image}
+                                                src={product.photos}
                                                 alt={product.name}
                                                 className="w-full h-48 object-cover rounded-md mb-4"
                                             />
