@@ -20,7 +20,7 @@ const BeverageDetails = () => {
               className="beverage-card bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
             >
               <img
-                src={beverage.image} // Assuming an image property exists
+                src={beverage.photos} // Assuming an image property exists
                 alt={beverage.name}
                 className="w-full h-48 object-cover"
               />

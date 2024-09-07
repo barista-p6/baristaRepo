@@ -4,9 +4,24 @@ const Review = require("../model/reviews");
 
 exports.getRecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.find({isDeleted : false}).populate("baristaId", "username");
-    console.log(recipes);
-    res.json(recipes);
+    const { search = "", page = 1, limit = 5 } = req.query;
+
+    const skip = (page - 1) * limit;
+    const query = { isDeleted: false };
+
+    if (search) {
+      query.name = { $regex: search, $options: "i" }; // Case-insensitive search
+    }
+
+    const recipes = await Recipe.find(query)
+      .populate("baristaId", "username")
+      .skip(parseInt(skip))
+      .limit(parseInt(limit));
+    
+    const totalRecipes = await Recipe.countDocuments(query);
+    const totalPages = Math.ceil(totalRecipes / limit);
+
+    res.json({ recipes, totalPages });
   } catch (error) {
     console.error("Error in getRecipes:", error);
     res.status(500).json({ message: "Error fetching recipes" });

@@ -373,24 +373,26 @@
 
 
 
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import AdminDashboard from "./HomeDash";
 
 const RecipeManagement = () => {
   const [recipes, setRecipes] = useState([]);
-  const [rates, setRates] = useState({});
+  const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState(null);
-
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/admin/recipes");
-        setRecipes(response.data);
+        const response = await axios.get("http://localhost:3000/api/admin/recipes", {
+          params: { search, page: currentPage, limit: 5 }
+        });
+        setRecipes(response.data.recipes);
+        setTotalPages(response.data.totalPages);
       } catch (error) {
         console.error("Error fetching recipes:", error);
         setError("Error fetching recipes");
@@ -398,24 +400,23 @@ const RecipeManagement = () => {
     };
 
     fetchRecipes();
-  }, []);
+  }, [search, currentPage]);
 
- 
-  useEffect(() => {
-    const fetchRates = async () => {
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this recipe?")) {
       try {
-        const response = await axios.get("http://localhost:3000/api/admin/recipes/rate");
-        setRates(response.data);
+        await axios.patch(`http://localhost:3000/api/admin/recipes/${id}`);
+        setRecipes(recipes.filter((recipe) => recipe._id !== id));
       } catch (error) {
-        console.error("Error fetching rates:", error);
-        setError("Error fetching rates");
+        console.error("Error deleting recipe:", error);
       }
-    };
+    }
+  };
 
-    fetchRates();
-  }, []);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
-  // Handle error message
   if (error)
     return (
       <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
@@ -423,42 +424,34 @@ const RecipeManagement = () => {
       </div>
     );
 
-    const handleDelete = async (id) => {
-      if (window.confirm("Are you sure you want to delete this recipe?")) {
-        try {
-          await axios.patch(`http://localhost:3000/api/admin/recipes/${id}`);
-          setRecipes(recipes.filter((recipe) => recipe._id !== id));
-        } catch (error) {
-          console.error("Error deleting recipe:", error);
-        }
-      }
-    };
-  
-
   return (
     <div className="flex h-screen bg-gray-100">
       <AdminDashboard />
-    <div className="flex flex-col ml-8 w-full mt-6">
-
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Recipe Management</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Barista</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ingredients</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Num. Of Reports</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {recipes.map((recipe) => {
-              // Get the rating for the current recipe
-              const rating = rates[recipe._id] || "Not yet";
-
-              return (
+      <div className="flex flex-col ml-8 w-full mt-6">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Recipe Management</h2>
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search by recipe name"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border px-4 py-2 rounded w-full"
+          />
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Barista</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ingredients</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Num. Of Reports</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {recipes.map((recipe) => (
                 <tr key={recipe._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">{recipe.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{recipe.baristaId?.username || "Unknown"}</td>
@@ -467,7 +460,7 @@ const RecipeManagement = () => {
                       <div key={index}>{ing}</div>
                     ))}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{rating}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{recipe.averageRating || "Not yet"}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{recipe.report}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button
@@ -478,12 +471,28 @@ const RecipeManagement = () => {
                     </button>
                   </td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex justify-between mt-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-gray-300 text-gray-800 rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="text-gray-700">Page {currentPage} of {totalPages}</span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-gray-300 text-gray-800 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
