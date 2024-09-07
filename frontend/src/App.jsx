@@ -44,6 +44,10 @@ import CartPage from './pages/Cart/CartPage';
 import Collection from './components/collectionPage/Collections1';
 import DetailsCollection from './components/collectionPage/D1etailsCollection';
 import V1iewMoreRecipeDetail from './components/collectionPage/V1iewMoreRecipeDetail';
+import BaristaUserProfile from './components/userProfile/MainuserProfile';
+
+
+
 
 import BrowseProducts from './pages/Marketplace/BrowseProductsPage';
 import ManageContactMessages from './pages/AdminDashboard/ManageContactMessages';
@@ -93,6 +97,8 @@ function App() {
               path="/admin/contact-messages"
               element={<ManageContactMessages />}
             />
+           <Route path="/BaristaUserProfile" element={<BaristaUserProfile />} />
+
           </Routes>
         </main>
       </div>

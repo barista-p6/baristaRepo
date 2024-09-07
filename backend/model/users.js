@@ -25,7 +25,12 @@ const userSchema = new Schema({
     orderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
     addedAt: { type: Date, default: Date.now }  
   }],
-  review: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }], 
+  review: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+  // ضفتها جديد
+  recentView : [{
+    recipeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' },
+    addedAt: { type: Date, default: Date.now }
+  }],  
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

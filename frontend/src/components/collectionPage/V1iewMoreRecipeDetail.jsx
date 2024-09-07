@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import V2iewMoreRecipeDetailReview from "./V2iewMoreRecipeDetailReview";
-import V3iewMoreRecipeDetail from "./V3iewMoreRecipeDetail";
-import V4AddReviewForm from "./V4AddReviewForm";
-
-
 
 
 const V1iewMoreRecipeDetail = () => {
+
   const { id } = useParams(); 
   const [recipe, setRecipe] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -18,7 +15,7 @@ const V1iewMoreRecipeDetail = () => {
   const [isInWishlist, setIsInWishlist] = useState(false);
 
 
-  const userId = "66d8d93cfca8fb9362a34a9a"; 
+  const userId = "66dbfc9e6e6e7a3fe903bf9b"; 
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -37,7 +34,6 @@ const V1iewMoreRecipeDetail = () => {
 
 
 
-
     const fetchReviews = async () => {
         const reviewsResponse = await axios.get(`http://localhost:3000/api/recipes/${id}/reviews`);
         
@@ -52,11 +48,36 @@ const V1iewMoreRecipeDetail = () => {
         setReviews(reviewsResponse.data);
     
     };
+  
 
 
     fetchRecipe();
     fetchReviews();
+
+
   }, [id]);
+
+
+
+
+
+
+
+
+  /////////////// to RecentView
+
+  useEffect(() => {
+    const updateRecentView = async () => {
+      try {
+        await axios.post(`http://localhost:3000/api/recent-view`, { userId, recipeId: id });
+        
+      } catch (error) {
+        console.error('Error updating recent views:', error);
+      }
+    };
+  
+    updateRecentView();
+  }, [id, userId]);
 
 
  /////////// for wish list recipe //////////////////
@@ -83,8 +104,8 @@ const V1iewMoreRecipeDetail = () => {
   return (
     <div>
       <V2iewMoreRecipeDetailReview recipe={recipe} />
-      <V3iewMoreRecipeDetail reviews={reviews} />
-      <V4AddReviewForm recipeId={id} userId={userId} baristaId={baristaId}  />
+      {/* <V3iewMoreRecipeDetail reviews={reviews} /> */}
+      {/* <V4AddReviewForm recipeId={id} userId={userId} baristaId={baristaId}  /> */}
 
 
 
