@@ -20,7 +20,7 @@ const RecipesDetails = () => {
               className="recipe-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105"
             >
               <img
-                src={recipe.bg}
+                src={`http://localhost:3000/${recipe.bg}`}
                 alt={recipe.name}
                 className="w-full h-48 object-cover"
               />
