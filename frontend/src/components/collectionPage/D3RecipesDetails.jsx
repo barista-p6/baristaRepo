@@ -33,7 +33,7 @@ const RecipesDetails = () => {
                   <span className="font-semibold">Dietary Restrictions:</span> {recipe.dietaryRestrictions.join(", ")}
                 </p>
                 <Link
-                  to={/recipes/${recipe._id}}
+                  to={`/recipes/${recipe._id}`}
                   className="inline-block bg-blue-500 text-white py-2 px-4 rounded-lg transition-colors hover:bg-blue-600"
                 >
                   View More Details
