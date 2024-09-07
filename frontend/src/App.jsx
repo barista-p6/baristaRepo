@@ -15,6 +15,7 @@ import RecipeCategoriesPage from './pages/RecipeCategoriesPage/RecipeCategories'
 import AboutChiefPage from './pages/AboutChiefPage/AboutChiefPage';
 
 import ContactUsPage from './pages/ContactUs/ContactUs';
+import Aboutus from './pages/AboutUs/Aboutus';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 
 import { RecipesProvider } from './components/useContext/RecipesContext'; 
@@ -71,6 +72,8 @@ function App() {
             />
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/about" element={<Aboutus />} />
+
             <Route path="/profile" element={<UserProfilePage />} />
             <Route path="/recipe/:id" element={<RecipeDetailPage />} />
             <Route path="/marketplace" element={<MarketplacePage />} />
