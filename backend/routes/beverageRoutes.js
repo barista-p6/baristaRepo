@@ -10,4 +10,6 @@ router.post(
   auth,
   beverageController.createBeverage
 );
+
+router.get('/syrups' , auth , beverageController.AllSyrups)
 module.exports = router;

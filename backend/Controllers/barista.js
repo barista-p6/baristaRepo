@@ -15,35 +15,49 @@ const Barista = require("../model/baristas");
 const Recipe = require("../model/recipes");
 const Beverage = require("../model/beverages");
 const Order = require("../model/orders");
+// exports.getBaristas = async (req, res) => {
+//   try {
+//     const baristas = await Barista.find({
+//       isDeleted: false,
+//       isApproved: true,
+//     }).select("-password");
+//     res.json(baristas);
+//   } catch (error) {
+//     console.error("Error fetching baristas:", error);
+//     res.status(500).json({ message: "Error fetching baristas" });
+//   }
+// };
+
 exports.getBaristas = async (req, res) => {
   try {
-    const baristas = await Barista.find({
-      isDeleted: false,
-      isApproved: true,
-    }).select("-password");
-    res.json(baristas);
+    const { status, search, page = 1, limit = 5 } = req.query;
+    const filter = { isDeleted: false, isApproved: true };
+
+    if (status) {
+      filter.isActive = status === 'active'; // status should be 'active' or 'inactive'
+    }
+
+    const regex = new RegExp(search, 'i'); // case-insensitive search
+    const baristas = await Barista.find(filter)
+      .where({ $or: [{ username: regex }, { email: regex }] })
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit))
+      .select('-password');
+
+    const total = await Barista.countDocuments(filter).where({ $or: [{ username: regex }, { email: regex }] });
+
+    res.json({
+      baristas,
+      total,
+      totalPages: Math.ceil(total / limit),
+      currentPage: parseInt(page)
+    });
   } catch (error) {
     console.error("Error fetching baristas:", error);
     res.status(500).json({ message: "Error fetching baristas" });
   }
 };
 
-exports.deleteBarista = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updatedUser = await Barista.findByIdAndUpdate(
-      id,
-      { isDeleted: true },
-      { new: true }
-    );
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json({ message: "User soft deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Error soft deleting user" });
-  }
-};
 
 exports.getBaristastats = async (req, res) => {
   try {

@@ -14,7 +14,13 @@ const wishListRoute = require("./routes/wishListRoute");
 const contactRoutes = require("./routes/contactRoutes");
 const userRoutes = require("./routes/users");
 const baristaAuthRoutes = require("./routes/baristaAuthRoutes");
-const beverageRoutes = require("./routes/beverageRoutes")
+
+
+
+
+
+const beverageRoutes= require("./routes/beverageRoutes")
+const recipeRoutes= require("./routes/recipeRoutes")
 const orderRoutes = require("./routes/ordersMRouter");
 
 
@@ -44,13 +50,12 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // -----------------------------------------------------------
  // obada
-
-
-
 app.use("/api", contactRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/barista-auth", baristaAuthRoutes);
 app.use("/api/beverage", beverageRoutes);
+app.use("/api/recipe", recipeRoutes);
+
 // Tasneem Routes
 app.use("/api", productRoutes);
 app.use("/api", userProfileRoutes);

@@ -283,15 +283,19 @@ import RecentOrders from './RecentOrders';
 import AddBeverageForm from './AddBeverageForm';
 import { FaChartBar, FaShoppingCart, FaPlus ,FaCoffee } from 'react-icons/fa'; // Importing icons
 import AddRecipeForm from './AddRecipeForm';
-
+import { useBaristaProfile } from '../../../components/useContext/ProfileContext';
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('sales');
+  const { barista, loading, error } = useBaristaProfile();
+
+  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (error) return <div className="flex justify-center items-center h-screen">{error}</div>;
 
   return (
     <div className="p-6 space-y-4">
       <BaristaHeader 
-        name="John Doe" 
-        avatar="https://example.com/avatar.jpg"
+        name={barista?.baristaId.username} 
+        avatar={`http://localhost:3000/${barista.profileImage}`} 
       />
       <div className="flex space-x-4">
         <TabButton 

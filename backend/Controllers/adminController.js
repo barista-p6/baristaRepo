@@ -4,7 +4,8 @@ const Beverage = require("../model/beverages");
 const Recipe = require("../model/recipes");
 const Barista = require("../model/baristas");
 const User = require("../model/users");
-//بترجعلي اجمالي اعداد كل وحدة
+const Request = require("../model/baristasAuth")
+
 exports.getDashboardStats = async (req, res) => {
   try {
     const userCount = await User.countDocuments();
@@ -12,7 +13,8 @@ exports.getDashboardStats = async (req, res) => {
     const recipeCount = await Recipe.countDocuments();
     const beverageCount = await Beverage.countDocuments();
     const orderCount = await Order.countDocuments();
-    // const contactCount= await Contact.countDocuments();
+    const requestCount = await Request.countDocuments({ applicationStatus: "pending" });
+
 
     res.json({
       userCount,
@@ -20,7 +22,7 @@ exports.getDashboardStats = async (req, res) => {
       recipeCount,
       beverageCount,
       orderCount,
-      // countactCount,
+      requestCount
     });
   } catch (error) {
     res.status(500).json({ message: "Error fetching dashboard stats" });
