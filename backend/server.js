@@ -15,14 +15,9 @@ const contactRoutes = require("./routes/contactRoutes");
 const userRoutes = require("./routes/users");
 const baristaAuthRoutes = require("./routes/baristaAuthRoutes");
 
-
-
-
-
-const beverageRoutes= require("./routes/beverageRoutes")
-const recipeRoutes= require("./routes/recipeRoutes")
+const beverageRoutes = require("./routes/beverageRoutes");
+const recipeRoutes = require("./routes/recipeRoutes");
 const orderRoutes = require("./routes/ordersMRouter");
-
 
 app.use(cookieParser());
 app.use(express.json());
@@ -49,7 +44,7 @@ app.use(
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // -----------------------------------------------------------
- // obada
+// obada
 app.use("/api", contactRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/barista-auth", baristaAuthRoutes);
@@ -72,11 +67,10 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-
 //stripe // mohammad
 const stripe = require("stripe")(
   "sk_test_51PeAmLGFMsHudRVCdXHM5azFYtgX4en8crg9c7reVqX19nbkiJealMIbVmO3RJpXijpqXIQ85jozUJymsfMOaS43009rAUHPl8"
-); 
+);
 
 app.post("/api/payment", async (req, res) => {
   try {
@@ -98,4 +92,3 @@ app.post("/api/payment", async (req, res) => {
 });
 
 app.use("/api/orders", orderRoutes);
-

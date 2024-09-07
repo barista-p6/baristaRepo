@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useDropzone } from "react-dropzone";
 import ProductPopup from "./ProductPopup";
 
 const AddRecipeForm = () => {
@@ -10,10 +11,11 @@ const AddRecipeForm = () => {
   const [preparationSteps, setPreparationSteps] = useState([""]);
   const [ingredients, setIngredients] = useState([""]);
   const [image, setImage] = useState(null);
+  const [background, setBg] = useState(null);
   const [selectedSyrups, setSelectedSyrups] = useState([]);
   const [showSyrupPopup, setShowSyrupPopup] = useState(false);
   const [syrups, setSyrups] = useState([]);
-console.log(image);
+
 
   const fetchSyrups = async () => {
     try {
@@ -31,10 +33,12 @@ console.log(image);
     fetchSyrups();
   }, []);
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+  const handleDrop = (acceptedFiles, type) => {
+    const file = acceptedFiles[0];
+    if (type === "image") {
       setImage(file);
+    } else if (type === "background") {
+      setBg(file);
     }
   };
 
@@ -66,7 +70,7 @@ console.log(image);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const syrupsArray = selectedSyrups.map((syrup) => syrup._id);
-
+  
     const formData = new FormData();
     formData.append("name", name);
     formData.append("cookingTime", cookingTime);
@@ -74,8 +78,19 @@ console.log(image);
     formData.append("dietaryRestrictions", dietaryRestrictions);
     formData.append("preparationSteps", JSON.stringify(preparationSteps));
     formData.append("ingredients", JSON.stringify(ingredients));
-    formData.append("image", image);
+    if (image) {
+      formData.append("image", image);
+    }
+    if (background) {
+      formData.append("background", background);
+    }
     formData.append("syrups", JSON.stringify(syrupsArray));
+  
+    console.log("FormData contents:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+  
     try {
       const response = await axios.post(
         "http://localhost:3000/api/recipe/create",
@@ -92,6 +107,16 @@ console.log(image);
       console.error("Error adding Recipe:", error);
     }
   };
+  const { getRootProps: getImageRootProps, getInputProps: getImageInputProps } = useDropzone({
+    onDrop: (acceptedFiles) => handleDrop(acceptedFiles, "image"),
+    accept: "image/*",
+  });
+
+  const { getRootProps: getBgRootProps, getInputProps: getBgInputProps } = useDropzone({
+    onDrop: (acceptedFiles) => handleDrop(acceptedFiles, "background"),
+    accept: "image/*",
+  });
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Add New Recipe</h2>
@@ -189,7 +214,7 @@ console.log(image);
               onClick={handleAddPreparationStep}
               className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 mt-2"
             >
-              Add Preparation 
+              Add Preparation
             </button>
           </div>
           <div>
@@ -222,62 +247,86 @@ console.log(image);
             Syrups
           </label>
           <div className="mt-1 flex flex-wrap gap-2">
-            {selectedSyrups.map((syrup) => (
+            {selectedSyrups.map((syrup, index) => (
               <span
-                key={syrup._id}
-                className="bg-blue-100 text-blue-800 px-2 py-1 rounded"
+                key={index}
+                className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full"
               >
                 {syrup.name}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSelectedSyrups(selectedSyrups.filter((_, i) => i !== index))
+                  }
+                  className="ml-2 text-red-500"
+                >
+                  &times;
+                </button>
               </span>
             ))}
+            <button
+              type="button"
+              onClick={() => setShowSyrupPopup(true)}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Select Syrups
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={() => setShowSyrupPopup(true)}
-            className="mt-2 bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300"
-          >
-            Add Syrup
-          </button>
-          {showSyrupPopup && (
-            <ProductPopup
-              syrups={syrups}
-              onSelect={handleSyrupSelect}
-              onClose={() => setShowSyrupPopup(false)}
-            />
-          )}
         </div>
 
         {/* Image Upload */}
-        <div>
-          <label
-            htmlFor="image"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Image
-          </label>
-          <input
-            type="file"
-            id="image"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="mt-1"
-          />
-          {image && (
+        <div
+          {...getImageRootProps()}
+          className="border-2 border-dashed border-gray-300 p-4 rounded-md text-center cursor-pointer"
+        >
+          <input {...getImageInputProps()} />
+          <p className="text-gray-500">Drag 'n' drop image here, or click to select one</p>
+        </div>
+        {image && (
+          <div className="mt-2">
+            <p>Selected Image:</p>
             <img
               src={URL.createObjectURL(image)}
-              alt="Recipe preview"
-              className="mt-2 w-32 h-32 object-cover"
+              alt="Selected"
+              className="w-32 h-32 object-cover mt-2"
             />
-          )}
+          </div>
+        )}
+
+        {/* Background Image Upload */}
+        <div
+          {...getBgRootProps()}
+          className="border-2 border-dashed border-gray-300 p-4 rounded-md text-center cursor-pointer"
+        >
+          <input {...getBgInputProps()} />
+          <p className="text-gray-500">Drag 'n' drop background image here, or click to select one</p>
         </div>
+        {background && (
+          <div className="mt-2">
+            <p>Selected Background Image:</p>
+            <img
+              src={URL.createObjectURL(background)}
+              alt="Selected"
+              className="w-32 h-32 object-cover mt-2"
+            />
+          </div>
+        )}
 
         <button
           type="submit"
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
-          Submit Recipe
+          Add Recipe
         </button>
       </form>
+
+      {showSyrupPopup && (
+        <ProductPopup
+          syrups={syrups}
+          onSelect={handleSyrupSelect}
+          onClose={() => setShowSyrupPopup(false)}
+        />
+      )}
     </div>
   );
 };
