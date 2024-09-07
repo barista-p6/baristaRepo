@@ -6,7 +6,7 @@ const AddSyrupPopup = ({ syrups, onSelect, onClose }) => (
       <h3 className="text-lg font-semibold mb-2">Select Syrup</h3>
       <ul>
         {syrups.map(syrup => (
-          <li key={syrup.id} className="mb-2">
+          <li key={syrup._id} className="mb-2">
             <button 
               onClick={() => onSelect(syrup)}
               className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md"

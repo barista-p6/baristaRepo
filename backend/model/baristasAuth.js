@@ -13,7 +13,7 @@ const baristaAuthSchema = new mongoose.Schema(
     bio: { type: String, required: true },
     portfolio: String,
     recommendations: String,
-    applicationStatus: { type: String, default: "pending" },
+    applicationStatus: { type: String,enum: ["pending", "Accept", "Reject"], default: "pending" },
   },
   { timestamps: true }
 );

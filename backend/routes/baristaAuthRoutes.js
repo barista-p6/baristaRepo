@@ -14,11 +14,10 @@ router.post(
   auth,
   baristaAuthController.createProfile
 );
-
 router.get("/profile", auth , baristaAuthController.getProfile);
+router.get("/status", auth , baristaAuthController.getApplicationStatus);
 router.put("/profile", auth , baristaAuthController.updateProfile);
-router.put("/update-username", auth , baristaAuthController.updateProfile);
+router.put("/update-username", auth , baristaAuthController.updateUsername);
 router.put("/update-profile-image", auth, upload.single("profileImage"), baristaAuthController.updateProfileImage);
-
 
 module.exports = router;

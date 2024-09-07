@@ -31,6 +31,7 @@ const userSchema = new Schema({
     recipeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' },
     addedAt: { type: Date, default: Date.now }
   }],  
+
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

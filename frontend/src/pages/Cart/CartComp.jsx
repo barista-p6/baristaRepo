@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from 'react-use-cart';
 import { Link } from 'react-router-dom';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { ChevronDown, HelpCircle, Link2 } from 'lucide-react';
 import appleLogo from "../../assets/paymentMethodsLogo/applepayLogo.png"
 import mastercardLogo from "../../assets/paymentMethodsLogo/mastercardLogo.png"
 import stripeLogo from "../../assets/paymentMethodsLogo/stripeLogo.png"
@@ -79,7 +79,6 @@ const CartComp = () => {
                             <li><Link to="/contact" className="text-sm text-gray-600 hover:underline">Contact Us</Link></li>
                         </ul>
                     </div>
-               
                 </div>
 
                 <div className="md:w-1/3">
@@ -96,7 +95,7 @@ const CartComp = () => {
                         <div className="flex justify-between mb-2">
                             <span>Discount</span>
                             <span className={discountApplied ? "text-green-600" : ""}>
-                                {discount.toFixed(2)} JOD
+                                - {discount.toFixed(2)} JOD
                             </span>
                         </div>
                         <div className="flex justify-between mb-2">
@@ -124,7 +123,7 @@ const CartComp = () => {
                         </button>
                     </div>
 
-       
+
 
                     <div className="mt-6">
                         <h4 className="font-bold mb-2">ACCEPTED PAYMENT METHODS</h4>
@@ -137,10 +136,13 @@ const CartComp = () => {
 
                         </div>
                     </div>
+
                     <div className="mt-6 flex flex-col ">
-                        <button className="bg-black text-white px-6 py-3 mt-4 w-14 md:w-auto  ">
-                            CHECKOUT →
-                        </button>
+                        <Link to="/checkout">
+                            <button className="bg-black text-white px-6 py-3 mt-4 w-14 md:w-auto  ">
+                                CHECKOUT →
+                            </button>
+                        </Link>
                         {/* <div className="flex items-center mt-4">
                             <img src={shippingIcon} alt="Shipping icon" className="mr-2 w-6" />
                             <span className="text-sm">Free Shipping</span>

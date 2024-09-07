@@ -16,7 +16,7 @@ const HomePage = () => {
   const oldProducts = [
     {
       name: "Cranberry Syrup",
-      images: [CranberryBg, CranberryMain],
+      images: [CranberryBg, CranberryMain], 
     },
     {
       name: "Honey Syrup",
