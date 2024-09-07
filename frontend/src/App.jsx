@@ -17,7 +17,7 @@ import AboutChiefPage from './pages/AboutChiefPage/AboutChiefPage';
 import ContactUsPage from './pages/ContactUs/ContactUs';
 import AdminDashboard from './pages/AdminDashboard/HomeDash';
 
-import { RecipesProvider } from './components/useContext/RecipesContext'; 
+import { RecipesProvider } from './components/useContext/RecipesContext';
 import ProfileAuth from './pages/ChefProfileAuth/ProfileAuth';
 import ChefProfile from './pages/baristaProfile/baristaProfile';
 import Login from './pages/Login/Login';
@@ -49,6 +49,9 @@ import BrowseProducts from './pages/Marketplace/BrowseProductsPage';
 import ManageContactMessages from './pages/AdminDashboard/ManageContactMessages';
 
 
+import CheckoutPage from './pages/Checkout/CheckoutPage';
+
+import CartCheckoutFlow from './pages/CartAndCheckout/CartCheckoutFlow';
 
 function App() {
 
@@ -84,7 +87,7 @@ function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="/RegisterBarista" element={<RegisterBarista />} />
             <Route path="/BaristaADashboard" element={<BaristaADashboard />} />
-            <Route path="/cart" element={<CartPage />} />
+            {/* <Route path="/cart" element={<CartPage />} /> */}
             <Route path="/Collection" element={<Collection />} />
             <Route path="/product/:id" element={<DetailsCollection />} />
             <Route path="/market" element={<BrowseProducts />} />
@@ -93,6 +96,9 @@ function App() {
               path="/admin/contact-messages"
               element={<ManageContactMessages />}
             />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/cart" element={<CartCheckoutFlow />} />
+
           </Routes>
         </main>
       </div>
