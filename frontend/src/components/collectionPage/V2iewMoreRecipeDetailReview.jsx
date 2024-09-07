@@ -113,7 +113,7 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
           </div>
           <div>
             <strong style={{ fontSize: '20px', color: '#222', fontWeight: 'bold' }}>Instructions:</strong>
-            <p style={instructionsStyle}>{recipe.instructions}</p>
+            <p style={instructionsStyle}>{recipe.ingredients}</p>
           </div>
         </div>
         <p style={textStyle}>
