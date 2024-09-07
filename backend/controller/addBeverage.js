@@ -1,5 +1,6 @@
 const Beverage = require("../model/beverages");
 const syrups = require("../model/products");
+const Product = require("../model/products");
 const path = require("path");
 const fs = require("fs");
 
@@ -15,9 +16,9 @@ exports.createBeverage = async (req, res) => {
     const imagePath =
       req.files && req.files["image"] ? req.files["image"][0].path : null;
 
-      const syrupIds = JSON.parse(syrups);
-      
-    const newBeverage = new Beverage({
+    const syrupIds = syrups ? JSON.parse(syrups) : [];
+
+     const newBeverage = new Beverage({
       baristaId: req.user,
       name,
       description,
@@ -30,8 +31,16 @@ exports.createBeverage = async (req, res) => {
 
     const savedBeverage = await newBeverage.save();
     console.log("Saved Beverage:", savedBeverage);
+
+    if (syrupIds.length > 0) {
+      await Product.updateMany(
+        { _id: { $in: syrupIds } }, 
+        { $addToSet: { beverages: savedBeverage._id } } 
+      );
+    }
+
     res.status(201).json({
-      message: "Beverage created successfully",
+      message: "Beverage created and associated with products successfully",
       beverage: savedBeverage,
     });
   } catch (error) {

@@ -9,28 +9,28 @@ const SalesOverview = () => (
         <FaCoffee className="text-3xl" /> {/* Using React Icons */}
         <div>
           <p className="text-sm font-medium">Total Beverages Sold</p>
-          <p className="text-3xl font-bold">1,234</p>
+          <p className="text-3xl font-bold">34</p>
         </div>
       </div>
       <div className="flex items-center space-x-2">
         <FaUser className="text-3xl" /> {/* Using React Icons */}
         <div>
           <p className="text-sm font-medium">Number of Customers</p>
-          <p className="text-3xl font-bold">567</p>
+          <p className="text-3xl font-bold">56</p>
         </div>
       </div>
       <div className="flex items-center space-x-2">
         <FaUtensils className="text-3xl" /> {/* Using React Icons */}
         <div>
           <p className="text-sm font-medium">Shared Recipes</p>
-          <p className="text-2xl font-bold">89</p>
+          <p className="text-2xl font-bold">8</p>
         </div>
       </div>
       <div className="flex items-center space-x-2">
         <FaDollarSign className="text-3xl" /> {/* Using React Icons */}
         <div>
           <p className="text-sm font-medium">Total Sales</p>
-          <p className="text-2xl font-bold">$9,876</p>
+          <p className="text-2xl font-bold">$165</p>
         </div>
       </div>
     </div>
