@@ -32,6 +32,26 @@ router.post('/users/:userId/wishlist', async (req, res) => {
     }
   });
   
+router.delete('/users/:userId/wishlist/:recipeId', async (req, res) => {
+  const { userId, recipeId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Find the index of the recipe in the wishlist
+    const recipeIndex = user.wishlist.findIndex(item => item.recipeId.toString() === recipeId);
+    if (recipeIndex === -1) return res.status(404).json({ message: 'Recipe not found in wishlist' });
+
+    // Remove the recipe from the wishlist
+    user.wishlist.splice(recipeIndex, 1);
+    await user.save();
+
+    res.status(200).json({ message: 'Recipe removed from wishlist' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error removing from wishlist', error });
+  }
+});
 
 
   
@@ -66,3 +86,6 @@ router.post('/users/:userId/wishlist', async (req, res) => {
   module.exports = router;
   
 
+
+
+  

@@ -2,7 +2,8 @@ const Recipe = require("./../model/recipes");
 const path = require("path");
 const fs = require("fs");
 const Product = require("../model/products");
-const mongoose = require('mongoose'); 
+const mongoose = require("mongoose");
+
 
 exports.createRecipe = async (req, res) => {
   try {
@@ -22,13 +23,17 @@ exports.createRecipe = async (req, res) => {
 
     const imagePath =
       req.files && req.files["image"] ? req.files["image"][0].path : null;
+    
+    const background =
+      req.files && req.files["background"] ? req.files["background"][0].path : null;
 
     const parsedPreparation = preparationSteps
       ? JSON.parse(preparationSteps)
       : [];
     const parsedIngredients = ingredients ? JSON.parse(ingredients) : [];
     const syrupIds = syrups ? JSON.parse(syrups) : [];
-    const newBeverage = new Recipe({
+
+    const newRecipe = new Recipe({
       baristaId: req.user,
       name,
       cookingTime,
@@ -37,21 +42,30 @@ exports.createRecipe = async (req, res) => {
       preparation: parsedPreparation,
       ingredients: parsedIngredients,
       photos: imagePath,
+      bg: background,
       products: syrupIds,
     });
 
-    const savedBeverage = await newBeverage.save();
-    console.log("Saved Beverage:", savedBeverage);
+    const savedRecipe = await newRecipe.save();
+    console.log("Saved Recipe:", savedRecipe);
+
+    if (syrupIds.length > 0) {
+      await Product.updateMany(
+        { _id: { $in: syrupIds } },
+        { $addToSet: { recipes: savedRecipe._id } }
+      );
+    }
+
     res.status(201).json({
-      message: "Recipe created successfully",
-      beverage: savedBeverage,
+      message: "Recipe created and associated with products successfully",
+      recipe: savedRecipe,
     });
   } catch (error) {
     console.error("Error creating Recipe:", error);
     res.status(500).json({ error: error.message });
   }
 };
-// ----------------------
+
 // exports.getRecipe = async (req, res) => {
 //   try {
 //     // if (!req.user) {
@@ -68,18 +82,18 @@ exports.createRecipe = async (req, res) => {
 // // -----------------------------------
 // exports.getProducts = async (req, res) => {
 //   try {
-//     const { id } = req.params; 
-    
+//     const { id } = req.params;
+
 //     if (!id) {
 //       return res.status(400).json({ message: 'No ID provided' });
 //     }
-    
+
 //     const product = await Product.findById(id);
-    
+
 //     if (!product) {
 //       return res.status(404).json({ message: 'Product not found' });
 //     }
-    
+
 //     res.json(product);
 //   } catch (error) {
 //     console.error('Error fetching product:', error);

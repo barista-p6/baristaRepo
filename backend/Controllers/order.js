@@ -82,5 +82,4 @@ exports.softDeleteOrder = async (req, res) => {
     res.status(500).json({ message: "Error soft deleting order" });
   }
 };
- 
 

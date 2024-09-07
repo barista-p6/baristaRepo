@@ -1,7 +1,7 @@
 const BaristaAuth = require("../model/baristasAuth"); // تحقق من المسار الصحيح
-const Barista = require("../model/baristas");
-const path = require("path");
-const fs = require("fs");
+const Barista = require('../model/baristas');
+const path = require('path');
+const fs = require('fs');
 
 exports.createProfile = async (req, res) => {
   try {
@@ -41,6 +41,7 @@ exports.createProfile = async (req, res) => {
 
 // -------------------------------------------------------
 
+
 exports.getProfile = async (req, res) => {
   try {
     if (!req.user) {
@@ -49,7 +50,7 @@ exports.getProfile = async (req, res) => {
     const profile = await BaristaAuth.findOne({ baristaId: req.user })
       .populate("baristaId", "username email")
       .exec();
-
+      
     if (!profile) {
       return res.status(404).json({ error: "Profile not found" });
     }
@@ -129,19 +130,18 @@ exports.updateProfileImage = async (req, res) => {
 
     // حذف الصورة القديمة إذا كانت موجودة
     if (profile.profileImage) {
-      const oldImagePath = path.join(__dirname, "..", profile.profileImage);
+      const oldImagePath = path.join(__dirname, '..', profile.profileImage);
       if (fs.existsSync(oldImagePath)) {
         fs.unlinkSync(oldImagePath);
       }
     }
 
-    // تحديث مسار الصورة الجديدة
     profile.profileImage = req.file.path;
     await profile.save();
 
-    res.status(200).json({
-      message: "Profile image updated successfully",
-      profileImage: profile.profileImage,
+    res.status(200).json({ 
+      message: "Profile image updated successfully", 
+      profileImage: profile.profileImage 
     });
   } catch (error) {
     console.error("Error updating profile image:", error);
@@ -151,20 +151,17 @@ exports.updateProfileImage = async (req, res) => {
 // --------------------------------------------
 exports.getApplicationStatus = async (req, res) => {
   try {
-    const baristaId = req.user;
-    
-    const barista = await BaristaAuth.findOne({ baristaId: baristaId }).select(
-      "applicationStatus"
-    );
-    console.log("hihkms", barista);
+      const baristaId = req.user; 
 
-    if (!barista) {
-      return res.status(404).json({ message: "Barista not found" });
-    }
+      const barista = await Barista.findById(baristaId).select("applicationStatus");
 
-    res.json({ applicationStatus: barista.applicationStatus });
+      if (!barista) {
+          return res.status(404).json({ message: "Barista not found" });
+      }
+
+      res.json({ applicationStatus: barista.applicationStatus });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+      res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 // exports.updateUsername = async (req, res) => {

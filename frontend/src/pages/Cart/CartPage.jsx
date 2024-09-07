@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import CartComp from './CartComp';
-import PaymentComp from './PaymentComp';
+import ProgressBar from './ProgressBar';
 
 
 
@@ -12,13 +12,12 @@ function CartPage() {
             <Navbar />
             <main className="flex-grow">
                 <div className='grid  '>
-                    <div>
+                    <div className='mt-10'>
+
+                        <ProgressBar></ProgressBar>
                         <CartComp></CartComp>
                     </div>
-                 
-
                 </div>
-             
             </main>
             <Footer />
         </div>

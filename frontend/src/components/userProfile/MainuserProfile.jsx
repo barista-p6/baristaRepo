@@ -1,47 +1,221 @@
-import React, { useState } from 'react';
-import { Coffee, Heart, Star, ShoppingBag, Image, User, CheckCircle, Gift, Clock } from 'lucide-react';
-import ProfileInf from './ProfileInf';
-import ProfileSettings from './ProfileSetting';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Coffee, Clock, ShoppingBag, Star } from 'lucide-react';
+import RecipeGrid from './RecipeGrid';
+import ReviewList from './ReviewList';
 
 const BaristaUserProfile = () => {
-  const [activeSection, setActiveSection] = useState('Orders');
+  const [activeTab, setActiveTab] = useState('saved');
+  const [user, setUser] = useState(null);
+  const [recentViews, setRecentViews] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [isEditing, setIsEditing] = useState(false); // Track if the user is editing their profile
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    bio: '',
+  });
 
-  const renderSection = () => {
-    switch (activeSection) {
-      case 'Orders':
-        return (
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 flex items-center text-white"><Clock size={24} className="mr-2 text-[#8D6E63]" />Recent Orders</h2>
-            {/* Orders Table */}
-            {/* ... */}
-          </section>
-        );
-      case 'Wishlist':
-        return (
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 flex items-center text-white"><Heart size={24} className="mr-2 text-[#D32F2F]" />Wishlist</h2>
-            {/* Wishlist */}
-            {/* ... */}
-          </section>
-        );
-      case 'Profile Settings':
-        return <ProfileSettings />;
-      // Add more cases for other sections like Reviews, Saved Pictures, etc.
-      default:
-        return null;
+  const userId = '66dc76dfbc3b446dd371bf19';
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Fetch user data
+        const userResponse = await axios.get(`http://localhost:3000/api/users/${userId}`);
+        setUser(userResponse.data);
+        setFormData({
+          username: userResponse.data.username,
+          email: userResponse.data.email,
+          bio: userResponse.data.bio || '',
+        });
+
+        // Fetch recent views
+        const recentViewsResponse = await axios.get(`http://localhost:3000/api/${userId}/recent-view`);
+        const validRecentViews = recentViewsResponse.data.recentView.filter(item => item.recipeId !== null);
+        setRecentViews(validRecentViews);
+
+        // Fetch reviews
+        const reviewsResponse = await axios.get(`http://localhost:3000/api/user/${userId}/review`);
+        setReviews(reviewsResponse.data.review);
+
+      } catch (error) {
+        console.error('Error fetching user data', error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]); // Include userId in dependency array
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.patch(`http://localhost:3000/api/users/${userId}`, formData);
+      setUser(response.data);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating profile:', error);
     }
   };
 
-  return (
-    <div className="bg-[#F1E3D3] min-h-screen p-8">
-      <div className="mx-auto bg-[#3E2723] rounded-lg shadow-lg overflow-hidden">
-        <div className="flex">
-          {/* Sidebar */}
-          <ProfileInf setActiveSection={setActiveSection} />
+  const handleRemoveFromWishlist = async (recipeId) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/users/${userId}/wishlist/${recipeId}`);
+      setUser(prevUser => ({
+        ...prevUser,
+        wishlist: prevUser.wishlist.filter(item => item.recipeId !== recipeId),
+      }));
+    } catch (error) {
+      console.error('Error removing recipe from wishlist:', error);
+    }
+  };
 
-          {/* Main Content */}
-          <div className="w-3/4 p-6">
-            {renderSection()}
+  const handleRemoveRecentView = async (recipeId) => {
+    try {
+      await axios.delete('http://localhost:3000/api/recent-view', {
+        data: { userId, recipeId },
+      });
+      setRecentViews(prev => prev.filter(recipe => recipe._id !== recipeId));
+    } catch (error) {
+      console.error('Error removing recent view:', error);
+    }
+  };
+
+  if (!user) {
+    return <p className="text-white text-center mt-8">Loading user data...</p>;
+  }
+
+  return (
+    <div className="bg-gray-900 text-white min-h-screen">
+      {/* Header */}
+      <header className="bg-[url('https://www.1883.com/app/uploads/2021/04/des-sirops-d-excellence.jpg')] bg-cover bg-center h-40 relative">
+        <div className="absolute inset-0 bg-opacity-50 flex items-center justify-center">
+          <h1 className="text-3xl font-bold">User Profile</h1>
+        </div>
+      </header>
+
+      {/* User Info */}
+      <div className="container mx-auto mt-8 px-4">
+        <div className="flex items-center space-x-4 mb-8">
+          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-yellow-500">
+            <img
+              src="https://images.pexels.com/photos/1239288/pexels-photo-1239288.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt={user.username}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">{user.username}</h2>
+            <p className="text-gray-400">{user.email}</p>
+            <div className="mt-2 flex space-x-4">
+              <span className="text-sm">{user.wishlist.length} Saved Recipes</span>
+              <span className="text-sm">{user.purchasedDishes?.length || 0} Purchased</span>
+            </div>
+          </div>
+          <button
+            className="ml-auto bg-yellow-500 text-black px-4 py-2 rounded-full hover:bg-yellow-600 transition"
+            onClick={() => setIsEditing(!isEditing)}
+          >
+            {isEditing ? 'Cancel' : 'Edit Profile'}
+          </button>
+        </div>
+
+        {/* Edit Profile Form */}
+        {isEditing && (
+          <form onSubmit={handleFormSubmit} className="space-y-4 mb-8">
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium">Username</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border rounded-lg bg-gray-800 text-white"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border rounded-lg bg-gray-800 text-white"
+              />
+            </div>
+            <div>
+              <label htmlFor="bio" className="block text-sm font-medium">Bio</label>
+              <textarea
+                id="bio"
+                name="bio"
+                value={formData.bio}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border rounded-lg bg-gray-800 text-white"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-yellow-500 text-black px-4 py-2 rounded-full hover:bg-yellow-600 transition"
+            >
+              Save Changes
+            </button>
+          </form>
+        )}
+
+        {/* Tabs */}
+        <div className="w-full">
+          <div className="grid w-full grid-cols-4 mb-4 rounded-lg overflow-hidden">
+            {[
+              { name: 'saved', icon: <Coffee size={18} /> },
+              { name: 'recent', icon: <Clock size={18} /> },
+              { name: 'purchased', icon: <ShoppingBag size={18} /> },
+              { name: 'reviews', icon: <Star size={18} /> },
+            ].map((tab) => (
+              <button
+                key={tab.name}
+                onClick={() => setActiveTab(tab.name)}
+                className={`py-2 text-center flex items-center justify-center ${
+                  activeTab === tab.name ? 'bg-yellow-500 text-black' : 'bg-gray-800'
+                } hover:bg-yellow-600 hover:text-black transition`}
+              >
+                {tab.icon}
+                <span className="ml-2">{tab.name.charAt(0).toUpperCase() + tab.name.slice(1)}</span>
+              </button>
+            ))}
+          </div>
+          <div>
+            {activeTab === 'saved' && (
+              <RecipeGrid
+                recipes={user.wishlist.map(item => item.recipeId)}
+                icon={<Coffee size={18} />}
+                removeFromWishlist={true}
+                handleRemoveFromWishlist={handleRemoveFromWishlist}
+              />
+            )}
+            {activeTab === 'recent' && (
+              <RecipeGrid
+                recipes={recentViews.map(view => view.recipeId)}
+                icon={<Clock size={18} />}
+                handleRemoveRecentView={handleRemoveRecentView}
+              />
+            )}
+            {activeTab === 'purchased' && (
+              <RecipeGrid
+                recipes={user.purchasedDishes || []}
+                icon={<ShoppingBag size={18} />}
+              />
+            )}
+            {activeTab === 'reviews' && <ReviewList reviews={reviews || []} />}
           </div>
         </div>
       </div>

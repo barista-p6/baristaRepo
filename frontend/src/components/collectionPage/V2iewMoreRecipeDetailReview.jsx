@@ -113,7 +113,7 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
           </div>
           <div>
             <strong style={{ fontSize: '20px', color: '#222', fontWeight: 'bold' }}>Instructions:</strong>
-            <p style={instructionsStyle}>{recipe.instructions}</p>
+            <p style={instructionsStyle}>{recipe.ingredients}</p>
           </div>
         </div>
         <p style={textStyle}>
@@ -122,10 +122,10 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
         <p style={textStyle}>
           <strong>Dietary Restrictions:</strong> {recipe.dietaryRestrictions.join(", ")}
         </p>
-        <img src={recipe.photos} alt="Recipe" style={recipeImgStyle} />
+        <img src={`http://localhost:3000/${recipe.photos}`} alt="Recipe" style={recipeImgStyle} />
       </div>
       <div style={bgContainerStyle}>
-        <img src={recipe.bg} alt="Background" style={bgImgStyle} />
+        <img src={`http://localhost:3000/${recipe.bg}`} alt="Background" style={bgImgStyle} />
       </div>
     </div>
   );

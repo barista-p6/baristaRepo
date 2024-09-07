@@ -30,7 +30,8 @@ const userSchema = new Schema({
   recentView : [{
     recipeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' },
     addedAt: { type: Date, default: Date.now }
-  }], 
+  }],  
+
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

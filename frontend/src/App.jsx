@@ -16,8 +16,6 @@ import AboutChiefPage from "./pages/AboutChiefPage/AboutChiefPage";
 import ContactUsPage from "./pages/ContactUs/ContactUs";
 import AdminDashboard from "./pages/AdminDashboard/HomeDash";
 
-
-
 import Aboutus from './pages/AboutUs/Aboutus';
 
 import { RecipesProvider } from "./components/useContext/RecipesContext";
@@ -51,11 +49,22 @@ import ManageContactMessages from "./pages/AdminDashboard/ManageContactMessages"
 import { BaristaProfileProvider } from "./components/useContext/ProfileContext"; // تأكد من المسار الصحيح
 
 
+import BaristaUserProfile from './components/userProfile/MainuserProfile';
+
+
+
+
+
+import CheckoutPage from './pages/Checkout/CheckoutPage';
+
+import CartCheckoutFlow from './pages/CartAndCheckout/CartCheckoutFlow';
+
 import RegisterUser from "./pages/sigin up user/siginUp";
 import LoginUser from "./pages/login user/login";
 function App() {
   return (
     <Router>
+
       <BaristaProfileProvider>
         <div className="flex flex-col min-h-screen">
           <main className="flex-grow">
@@ -92,7 +101,7 @@ function App() {
               <Route path="/registeruser" element={<RegisterUser />} />
               <Route path="/LoginUser" element={<LoginUser />} />
 
-              <Route path="/cart" element={<CartPage />} />
+              {/* <Route path="/cart" element={<CartPage />} /> */}
               <Route path="/Collection" element={<Collection />} />
               <Route path="/product/:id" element={<DetailsCollection />} />
               <Route path="/market" element={<BrowseProducts />} />
@@ -102,6 +111,10 @@ function App() {
                 element={<ManageContactMessages />}
               />
               <Route path="/about" element={<Aboutus />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/cart" element={<CartCheckoutFlow />} />
+              <Route path="/BaristaUserProfile" element={<BaristaUserProfile />} />
+
             </Routes>
           </main>
         </div>
