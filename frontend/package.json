@@ -10,13 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@esbuild/win32-x64": "^0.23.1",
     "@heroicons/react": "^1.0.6",
+    "@rollup/rollup-win32-x64-msvc": "^4.21.2",
+    "@shadcn/ui": "^0.0.4",
     "@stripe/react-stripe-js": "^2.8.0",
     "@stripe/stripe-js": "^4.4.0",
-    "framer-motion": "^11.5.4",
-    "@shadcn/ui": "^0.0.4",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
+    "framer-motion": "^11.5.4",
     "jspdf": "^2.5.1",
     "lucide-react": "^0.438.0",
     "react": "^18.3.1",

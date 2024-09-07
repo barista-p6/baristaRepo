@@ -74,8 +74,8 @@ const createSampleData = async () => {
     categories: ['Syrup'],
     cuisine: 'American',
     dietaryRestrictions: ['Vegetarian'],
-    bg: ['https://www.1883.com/app/uploads/2021/05/sirop_vanille-1883_bg-2.webp'] ,
-    photos: ['https://www.1883.com/app/uploads/2021/05/sirop_vanille-1883_ps.webp'],
+    photos: ['https://www.1883.com/app/uploads/2021/05/sirop_curacao-bleu-1883-1.webp'],
+     bg: ['https://www.1883.com/app/uploads/2024/06/BLUE-LAGOON_COCKTAIL-SEUL.jpg'] ,
     reviews: [],
     products: []
   },
@@ -161,7 +161,7 @@ const savedBeverages = await Beverage.insertMany(beverages);
 
     // // بدي اضيفهم جديد 
 
-    { name: 'Curacao Syrup', description: 'Vibrant and sweet blue curacao syrup.', price: 10, category: 'Syrup', photos: ['https://www.1883.com/app/uploads/2021/05/sirop_curacao-bleu-1883-1.webp'], bg: ['https://www.1883.com/app/uploads/2021/05/sirop_curacao-bleu-1883_bg-1.webp'], beverages: [savedBeverages[1]._id] },
+    { name: 'Curacao Syrup', description: 'Vibrant and sweet blue curacao syrup.', price: 10, category: 'Syrup', photos: ['https://www.1883.com/app/uploads/2021/05/sirop_curacao-bleu-1883-1.webp'], bg: ['https://www.1883.com/app/uploads/2021/05/sirop_curacao-bleu-1883_bg-1.webp'],recipes: [savedRecipes[0]._id], beverages: [savedBeverages[1]._id] , picture : ['https://www.1883.com/app/uploads/2023/11/OUIEN.webp']    },
 
     { name: 'Hazelnut Syrup', description: 'Nutty hazelnut syrup.', price: 10, category: 'Syrup',photos: ['https://www.1883.com/app/uploads/2021/05/sirop_noisette-sugar-free-1883_ps.webp'], bg: ['https://www.1883.com/app/uploads/2021/05/sirop_noisette-sugar-free-1883_bg.webp'] ,  recipes: [savedRecipes[1]._id], beverages: [savedBeverages[1]._id] },
     { name: 'Honey Syrup', description: 'Sweet honey syrup.', price: 8, category: 'Syrup',photos: ['https://www.1883.com/app/uploads/2024/06/1883_miel-1.png'], bg: ['https://www.1883.com/app/uploads/2024/06/Miel_elements_18832-1.jpg'] , beverages: [savedBeverages[3]._id] , recipes: [savedRecipes[3]._id] },

@@ -16,10 +16,6 @@ const V1iewMoreRecipeDetail = () => {
   const [isInWishlist, setIsInWishlist] = useState(false);
 
 
-
-
-
-
   const userId = "66dc4980f8a68dd3c6105a15"; 
   useEffect(() => {
     const fetchRecipe = async () => {
