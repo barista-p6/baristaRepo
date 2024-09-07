@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import V2iewMoreRecipeDetailReview from "./V2iewMoreRecipeDetailReview";
-import V3iewMoreRecipeDetail from "./V3iewMoreRecipeDetail";
-import V4AddReviewForm from "./V4AddReviewForm";
-
+import EnhancedRecipeReviews from "./EnhancedRecipeReviews";
 
 
 
 const V1iewMoreRecipeDetail = () => {
+
   const { id } = useParams(); 
   const [recipe, setRecipe] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -18,8 +17,9 @@ const V1iewMoreRecipeDetail = () => {
   const [isInWishlist, setIsInWishlist] = useState(false);
 
 
-  const userId = "66d8d93cfca8fb9362a34a9a"; 
 
+
+  const userId = "66dc4980f8a68dd3c6105a15"; 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -33,7 +33,6 @@ const V1iewMoreRecipeDetail = () => {
         setLoading(false);
       }
     };
-
 
 
 
@@ -52,11 +51,19 @@ const V1iewMoreRecipeDetail = () => {
         setReviews(reviewsResponse.data);
     
     };
+  
 
 
     fetchRecipe();
     fetchReviews();
+
+
   }, [id]);
+
+
+
+
+
 
 
  /////////// for wish list recipe //////////////////
@@ -77,24 +84,31 @@ const V1iewMoreRecipeDetail = () => {
   }
 };
 
-
   if (loading) return <p>Loading recipe details...</p>;
   if (error) return <p>{error}</p>;
   return (
     <div>
       <V2iewMoreRecipeDetailReview recipe={recipe} />
-      <V3iewMoreRecipeDetail reviews={reviews} />
-      <V4AddReviewForm recipeId={id} userId={userId} baristaId={baristaId}  />
+
+      <div className="container mx-auto p-4">
+      {/* Other recipe details */}
+      <EnhancedRecipeReviews
+       recipe={recipe}
+        userId={userId}
+        baristaId={baristaId}
+        Reviews={reviews}
+        recipeId={id}
+      />
+    </div>
 
 
-
-
-      <button 
+    <button 
         onClick={handleWishlistToggle}
         className={`p-2 mt-4 ${isInWishlist ? 'bg-red-500' : 'bg-blue-500'} text-white rounded`}
       >
         {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
       </button>
+
 
       
 

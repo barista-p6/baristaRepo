@@ -30,57 +30,73 @@ function DetailsCollection() {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-2xl font-bold mb-4 text-center">{product.name}</h1>
-        
-        {/* Display product photos */}
-        {product.photos && product.photos.length > 0 ? (
-          product.photos.map((photo, index) => (
-            <img
-              key={index}
-              src={photo}
-              alt={product.name}
-              className="w-full h-64 object-cover rounded-lg mb-4"
-            />
-          ))
-        ) : (
-          <p className="text-center text-gray-500">No images available</p>
-        )}
-
-        {/* Display background image if available */}
-        {product.bg && (
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">
+        {/* Background image with product name */}
+        <div className="relative h-85 bg-orange-400">
           <img
             src={product.bg}
             alt={`${product.name} background`}
-            className="w-full h-64 object-cover rounded-lg mb-4"
+            className="w-full h-full object-cover"
           />
-        )}
-
-        <p className="text-gray-700 mb-2">{product.description}</p>
-        <p className="text-gray-700 mb-2">
-          <span className="font-semibold">Category:</span> {product.category}
-        </p>
-        <p className="text-gray-700 mb-4">
-          <span className="font-semibold">Price:</span> ${product.price}
-        </p>
-
-        {/* Recipes section */}
-        <div className="bg-gray-100 p-4 rounded-lg mb-4">
-          <h2 className="text-xl font-semibold mb-2">Recipes</h2>
+          <div className="absolute inset-0 flex items-end justify-center">
+            <h1 className="text-white text-6xl font-light mb-8">
+              {product.name}
+            </h1>
+          </div>
+        </div>
+        
+        {/* Product details and Flavor profile */}
+        <div className="container mx-auto px-4 py-8 flex">
+          {/* Product image */}
+          <div className="w-1/3 relative">
+            <img
+              src={product.photos[0]}
+              alt={product.name}
+              className="absolute w-80 h-auto"
+              style={{
+                top: "-180px",
+                left: "0",
+              }}
+            />
+          </div>
+          
+          {/* Center section with product description and Flavor profile */}
+          <div className="w-2/3 pl-8 flex">
+            {/* Product description */}
+            <div className="w-1/2 pr-4">
+              <p className="mb-6">{product.description}</p>
+              <p className="mb-6">
+                This recipe, stands apart
+                thanks to its superbly authentic taste.
+              </p>
+              <p>
+                It is an ideal ingredient for enriching your hot and cold drinks, your
+                cocktails and your desserts; and to add a tender touch to all your
+                recipes.
+              </p>
+            </div>
+            
+            {/* Flavor profile chart */}
+            <div className="w-1/2">
+              <div className="w-64 h-64 mx-auto bg-gray-300">
+                {/* Replace this with actual chart component */}
+                <p className="text-center pt-28">Flavor Profile Chart</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Recipes and Beverages sections */}
+        <div className="container mx-auto py-8">
           <RecipesProvider productId={id}>
             <RecipesDetails />
           </RecipesProvider>
-        </div>
-
-        {/* Beverages section */}
-        <div className="bg-gray-100 p-4 rounded-lg">
-          <h2 className="text-xl font-semibold mb-2">Beverages</h2>
           <BeveragesProvider productId={id}>
             <BeverageDetails />
           </BeveragesProvider>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
