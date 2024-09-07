@@ -1,11 +1,10 @@
 const Beverage = require("../model/beverages");
+const Review = require("../model/reviews");
+
 
 exports.getBeverages = async (req, res) => {
   try {
-    const beverages = await Beverage.find({isDeleted:false}).populate(
-      "baristaId",
-      "username"
-    );
+    const beverages = await Beverage.find({isDeleted:false}).populate("baristaId","username");
     console.log(beverages);
     res.json(beverages);
   } catch (error) {
@@ -13,7 +12,22 @@ exports.getBeverages = async (req, res) => {
   }
 };
 
-// تعديل عليهم
+exports.getReviewRate = async (req, res) => {
+  try {
+    const reviews = await Review.find().populate("recipeId", "rating");
+    const reviewRateMap = reviews.reduce((acc, review) => {
+      if (review.recipeId) {
+        acc[review.recipeId._id] = review.rating;
+      }
+      return acc;
+    }, {});
+    res.json(reviewRateMap);
+  } catch (error) {
+    console.error("Error in getReviewRate:", error);
+    res.status(500).json({ message: "Error fetching reviews" });
+  }
+};
+
 
 exports.editBeverage = async (req, res) => {
   try {

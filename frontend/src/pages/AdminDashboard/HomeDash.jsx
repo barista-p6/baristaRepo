@@ -1,7 +1,13 @@
-
+// import Dashboard from "./Dashboard";
+// import UserManagement from "./UserManagement";
+// import BaristaManagement from "./BaristaManagement";
+// import RecipeManagement from "./RecipeManagement";
+// import BeverageManagement from "./BeverageManagement";
+// import OrderManagement from "./OrderManagement";
+// import ManageContactMessages from "./ManageContactMessages";
 
 import React from "react";
-import { Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   FaHome,
   FaUsers,
@@ -11,15 +17,8 @@ import {
   FaShoppingCart,
   FaComments,
   FaEnvelope,
+  FaBell 
 } from "react-icons/fa";
-import Dashboard from "./Dashboard";
-import UserManagement from "./UserManagement";
-import BaristaManagement from "./BaristaManagement";
-import RecipeManagement from "./RecipeManagement";
-import BeverageManagement from "./BeverageManagement";
-import OrderManagement from "./OrderManagement";
-import ManageContactMessages from "./ManageContactMessages";
-
 
 const AdminDashboard = () => {
   return (
@@ -40,25 +39,10 @@ const AdminDashboard = () => {
           />
           <NavItem to="/admin/orders" icon={<FaShoppingCart />} text="Orders" />
           <NavItem to="/admin/reviews" icon={<FaComments />} text="Reviews" />
-          <NavItem
-            to="/admin/contact-messages"
-            icon={<FaEnvelope />}
-            text="Contact Messages"
-          />
+          <NavItem to="/admin/requests" icon={<FaBell />} text="Requests" />
+          <NavItem to="/admin/contact-messages"icon={<FaEnvelope />}text="Contact Messages"/>
         </ul>
       </nav>
-
-      <main className="flex-1 p-8 overflow-y-auto">
-        <Routes>
-          <Route path="/admin/*" element={<Dashboard />} />
-          <Route path="/admin/users" element={<UserManagement />} />
-          <Route path="/admin/baristas" element={<BaristaManagement />} />
-          <Route path="/admin/recipes" element={<RecipeManagement />} />
-          <Route path="/admin/beverages" element={<BeverageManagement />} />
-          <Route path="/admin/orders" element={<OrderManagement />} />
-          <Route path="/admin/contact-messages" element={<ManageContactMessages />}/>
-        </Routes>
-      </main>
     </div>
   );
 };
@@ -74,11 +58,21 @@ const NavItem = ({ to ,icon, text }) => (
     </Link>
   </li>
 );
-
-
-
-
-
-    
-
 export default AdminDashboard;
+
+
+
+
+
+
+// <main className="flex-1 p-8 overflow-y-auto">
+// <Routes>
+//   <Route path="/admin/*" element={<Dashboard />} />
+//   <Route path="/admin/users" element={<UserManagement />} />
+//   <Route path="/admin/baristas" element={<BaristaManagement />} />
+//   <Route path="/admin/recipes" element={<RecipeManagement />} />
+//   <Route path="/admin/beverages" element={<BeverageManagement />} />
+//   <Route path="/admin/orders" element={<OrderManagement />} />
+//   <Route path="/admin/contact-messages" element={<ManageContactMessages />}/>
+// </Routes>
+// </main>
