@@ -14,8 +14,15 @@ const wishListRoute = require("./routes/wishListRoute");
 const contactRoutes = require("./routes/contactRoutes");
 const userRoutes = require("./routes/users");
 const baristaAuthRoutes = require("./routes/baristaAuthRoutes");
+
+
+
+
+
 const beverageRoutes= require("./routes/beverageRoutes")
 const recipeRoutes= require("./routes/recipeRoutes")
+const orderRoutes = require("./routes/ordersMRouter");
+
 
 app.use(cookieParser());
 app.use(express.json());
@@ -64,3 +71,31 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
+//stripe // mohammad
+const stripe = require("stripe")(
+  "sk_test_51PeAmLGFMsHudRVCdXHM5azFYtgX4en8crg9c7reVqX19nbkiJealMIbVmO3RJpXijpqXIQ85jozUJymsfMOaS43009rAUHPl8"
+); 
+
+app.post("/api/payment", async (req, res) => {
+  try {
+    const { amount, payment_method } = req.body;
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: "usd",
+      payment_method,
+      confirm: true,
+      payment_method_types: ["card"],
+    });
+
+    res.json({ success: true, paymentIntent });
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+app.use("/api/orders", orderRoutes);
+
