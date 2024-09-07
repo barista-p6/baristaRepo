@@ -35,6 +35,31 @@ router.get('/users/:id', async (req, res) => {
 
 
 
+// patch on user details 
+router.patch('/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updates = req.body; 
+
+    // Find the user by ID and apply the updates without using $set
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      updates, // Pass the updates directly
+      { new: true, runValidators: true } 
+    );
+
+    if (updatedUser) {
+      res.json(updatedUser); // Return the updated user data
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+
+
 
 
 
@@ -71,8 +96,23 @@ router.post('/recent-view', async (req, res) => {
 });
 
 
+// Delete Recent view
+router.delete('/recent-view', async (req, res) => {
+  try {
+    const { userId, recipeId } = req.body;
 
+    let user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
+    user.recentView = user.recentView.filter(view => view.recipeId.toString() !== recipeId);
+    await user.save();
+
+    res.json({ message: 'Recent view removed successfully', recentView: user.recentView });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 
 
