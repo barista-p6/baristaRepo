@@ -6,7 +6,10 @@ const auth = require("../middleware/auth");
 
 router.post(
   "/create",
-  upload.fields([{ name: "image", maxCount: 1 }]),
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "background", maxCount: 1 }
+  ]),
   auth,
   recipeController.createRecipe
 );
