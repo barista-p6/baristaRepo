@@ -3,8 +3,11 @@ import ProfileImage from "./ProfileImage";
 import ProfileForm from "./ProfileForm";
 import ApplicationStatus from "./ApplicationStatus";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ProfileAuth = () => {
+  const navigate = useNavigate();
   const [profileImage, setProfileImage] = useState(null);
   const [formData, setFormData] = useState({
     phone: "",
@@ -65,6 +68,13 @@ const handleSubmit = async (event) => {
       
       console.log('Response:', response.data);
       setApplicationStatus("pending");
+      navigate("/Login");
+      Swal.fire({
+        title: "Your application is pending",
+        text: "Your profile is under review. You will be notified once the review is complete.",
+        icon: "info",
+        confirmButtonText: "OK",
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
