@@ -3,14 +3,13 @@ const bcrypt = require("bcryptjs");
 const User = require("./../model/users");
 const Barista  = require("./../model/baristas");
 require("dotenv").config();
-
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email, isDeleted: false, isActive: true });
     if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid email or password, or account is inactive or deleted" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -33,14 +32,15 @@ exports.loginUser = async (req, res) => {
     res.status(500).send("Error logging in: " + error.message);
   }
 };
+
 // -----------------------------------------------------------------------
 exports.loginBarista = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const barista = await Barista.findOne({ email });
+    const barista = await Barista.findOne({ email, isDeleted: false, isActive: true });
     if (!barista) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ message: "Invalid email or password, or account is inactive or deleted" });
     }
 
     const isMatch = await bcrypt.compare(password, barista.password);
@@ -51,7 +51,6 @@ exports.loginBarista = async (req, res) => {
     const token = jwt.sign({ id: barista._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    // console.log(token);
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -64,6 +63,7 @@ exports.loginBarista = async (req, res) => {
     res.status(500).send("Error logging in: " + error.message);
   }
 };
+
 // ---------------------------------------------------------------------
 exports.registerUser = async (req, res) => {
   try {

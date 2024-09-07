@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import ProductPopup from "./ProductPopup";
 import axios from "axios"; // استيراد Axios
 
@@ -11,13 +11,27 @@ const AddBeverageForm = () => {
   const [quantityAvailable, setQuantityAvailable] = useState(""); 
   const [selectedSyrups, setSelectedSyrups] = useState([]);
   const [showSyrupPopup, setShowSyrupPopup] = useState(false);
+  const [syrups, setSyrups] = useState([]);
 
-  const syrups = [
-    { id: 1, name: "Vanilla Syrup" },
-    { id: 2, name: "Caramel Syrup" },
-    { id: 3, name: "Hazelnut Syrup" },
-    { id: 4, name: "Chocolate Syrup" },
-  ];
+    
+  const fetchSyrups = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/beverage/syrups`,
+        { withCredentials: true }
+      );
+      setSyrups(response.data)
+    } catch (error) {
+      console.error("Error fetching syrups:", error);
+    } 
+  };
+  
+  useEffect(() => {
+    fetchSyrups();
+  }, []);
+  
+
+  // ---------------------------------
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -33,6 +47,8 @@ const AddBeverageForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const syrupsArray = selectedSyrups.map(syrup => syrup._id);
+    // console.log('Selected Syrups IDs:', syrupsArray);
 
     const formData = new FormData(); // بستخدمها عشان برفع ملفات زي الصور
     formData.append("name", name);
@@ -41,6 +57,8 @@ const AddBeverageForm = () => {
     formData.append("category", category);
     formData.append("image", image);
     formData.append("quantityAvailable", quantityAvailable);
+    formData.append('syrups', JSON.stringify(syrupsArray));
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/beverage/create",
@@ -162,7 +180,7 @@ const AddBeverageForm = () => {
           />
           {image && (
             <img
-              src={image}
+              src={URL.createObjectURL(image)}
               alt="Preview"
               className="mt-2 w-32 h-32 object-cover rounded-md"
             />
@@ -206,4 +224,6 @@ const AddBeverageForm = () => {
       </form>
     </div>
   );
-};export default AddBeverageForm;
+};
+
+export default AddBeverageForm;
