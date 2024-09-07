@@ -1,17 +1,38 @@
 import React, { useState } from 'react';
-import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CardNumberElement, CardExpiryElement, CardCvcElement, PaymentRequestButtonElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 
-const CheckoutForm = ({ cartTotal, deliveryInfo, nextStep, prevStep, }) => {
+const CheckoutForm = ({ cartTotal, nextStep }) => {
     const stripe = useStripe();
     const elements = useElements();
-    const navigate = useNavigate(); // Hook for navigation
     const [paymentMethod, setPaymentMethod] = useState('creditCard');
+    const [paymentRequest, setPaymentRequest] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (event) => {
+    // Create a payment request for Apple Pay
+    React.useEffect(() => {
+        if (stripe) {
+            const pr = stripe.paymentRequest({
+                country: 'US',
+                currency: 'usd',
+                total: {
+                    label: 'Total',
+                    amount: Math.round(cartTotal * 100),
+                },
+                requestPayerName: true,
+                requestPayerEmail: true,
+            });
+
+            pr.canMakePayment().then(result => {
+                if (result) {
+                    setPaymentRequest(pr);
+                }
+            });
+        }
+    }, [stripe, cartTotal]);
+
+    const handleCardPayment = async (event) => {
         event.preventDefault();
         setLoading(true);
 
@@ -42,26 +63,32 @@ const CheckoutForm = ({ cartTotal, deliveryInfo, nextStep, prevStep, }) => {
                 setLoading(false);
                 return;
             }
-
-            const response = await axios.post('http://localhost:3000/api/payment', {
+            const response = await axios.post('https://70a6-92-253-81-109.ngrok-free.app/api/payment', {
                 amount: Math.round(cartTotal * 100),
                 payment_method: paymentMethod.id,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
             });
 
             if (response.data.success) {
+
+
+
+                console.log("payment success")
+                const response = await axios.post('http://localhost:3000/api/orders', 
+                    {
+
+                    }
+                ); 
+
+
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Payment Successful',
                     text: 'Your payment was successful!',
                     confirmButtonText: 'Go to Confirmation',
-                }).then((result) => {
+                }).then(result => {
                     if (result.isConfirmed) {
                         nextStep();
-
                     }
                 });
             } else {
@@ -82,43 +109,83 @@ const CheckoutForm = ({ cartTotal, deliveryInfo, nextStep, prevStep, }) => {
         }
     };
 
+    // Handle Apple Pay
+    React.useEffect(() => {
+        if (paymentRequest) {
+            paymentRequest.on('paymentmethod', async (event) => {
+                try {
+                    const { paymentIntent, error } = await stripe.confirmCardPayment(
+                        event.paymentMethod.id,
+                        { payment_method: event.paymentMethod.id }
+                    );
+
+                    if (error) {
+                        event.complete('fail');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Apple Pay Failed',
+                            text: error.message,
+                        });
+                    } else {
+                        event.complete('success');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Apple Pay Successful',
+                            text: 'Your payment was successful!',
+                        });
+                        nextStep();
+                    }
+                } catch (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Apple Pay Error',
+                        text: err.message,
+                    });
+                }
+            });
+        }
+    }, [paymentRequest, stripe, nextStep]);
+
     return (
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md space-y-6">
-            <div className="flex justify-between">
-                <label className="flex items-center space-x-2">
+        <form onSubmit={handleCardPayment} className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md space-y-6">
+            <div className="flex justify-between ">
+                <label className={`flex items-center  border p-2 rounded-md cursor-pointer ${paymentMethod === 'creditCard' ? 'border-blue-500 shadow-lg' : 'border-gray-300'}`}>
                     <input
+                        className="appearance-none"
                         type="radio"
                         value="creditCard"
                         checked={paymentMethod === 'creditCard'}
                         onChange={() => setPaymentMethod('creditCard')}
                     />
-                    <span className="text-gray-700">Pay with Credit Card</span>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" className="h-6" />
                     <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="MasterCard" className="h-6" />
                 </label>
-                <label className="flex items-center space-x-2">
+
+                <label className={`flex  items  border p-2 rounded-md cursor-pointer ${paymentMethod === 'apple' ? 'border-blue-500 shadow-lg' : 'border-gray-300'}`}>
                     <input
+                        className="appearance-none "
                         type="radio"
-                        value="paypal"
-                        checked={paymentMethod === 'paypal'}
-                        onChange={() => setPaymentMethod('paypal')}
+                        value="apple"
+                        checked={paymentMethod === 'apple'}
+                        onChange={() => setPaymentMethod('apple')}
                     />
-                    <span className="text-gray-700">Pay with PayPal</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-6" />
+                    <img src="https://wallpapers.com/images/hd/white-apple-pay-logo-msnykrqjc4mr4ldx-2.jpg" alt="Apple Pay" className="h-10" />
                 </label>
             </div>
+
+            {/* PaymentRequestButtonElement for Apple Pay */}
+            {paymentMethod === 'apple' && paymentRequest && (
+                <PaymentRequestButtonElement options={{ paymentRequest }} />
+            )}
 
             {/* Card Information */}
             {paymentMethod === 'creditCard' && (
                 <div className="space-y-4">
-                    {/* Cardholder's Name */}
                     <div className="flex flex-col">
                         <label className="text-gray-700">Cardholder's Name</label>
-                        <input type="text" className="w-full border border-gray-300 rounded-md p-2 focus:outline-none "
- placeholder="John Doe" required />
+                        <input type="text" className="w-full border border-gray-300 rounded-md p-2 focus:outline-none" placeholder="John Doe" required />
                     </div>
 
-                    {/* Card Number */}
                     <div className="flex flex-col">
                         <label className="text-gray-700">Card Number</label>
                         <div className="border border-gray-300 rounded-md p-2">
@@ -139,7 +206,6 @@ const CheckoutForm = ({ cartTotal, deliveryInfo, nextStep, prevStep, }) => {
                         </div>
                     </div>
 
-                    {/* Expiry and CVC */}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="text-gray-700">Valid Thru</label>
@@ -183,19 +249,12 @@ const CheckoutForm = ({ cartTotal, deliveryInfo, nextStep, prevStep, }) => {
                 </div>
             )}
 
-            {/* Buttons */}
-            <div className="flex justify-between mt-6">
-                <button type="button" className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md" onClick={prevStep}>Back
-                   
+            {/* Submit Button */}
+            {paymentMethod === 'creditCard' && (
+                <button type="submit" disabled={!stripe || loading} className="w-full bg-green-600 text-white rounded-md py-2 px-4 hover:bg-gre">
+                    {loading ? 'Processing...' : 'Pay Now'}
                 </button>
-                <button
-                    type="submit"
-                    className={`px-4 py-2 text-white rounded-md ${loading ? 'bg-gray-500' : 'bg-green-700'} hover:bg-green-800 transition duration-300`}
-                    disabled={loading}
-                >
-                    {loading ? 'Processing...' : 'Pay'}
-                </button>
-            </div>
+            )}
         </form>
     );
 };

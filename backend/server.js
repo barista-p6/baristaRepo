@@ -74,14 +74,14 @@ const stripe = require("stripe")(
 
 app.post("/api/payment", async (req, res) => {
   try {
-    const { amount, payment_method } = req.body;
+    const { amount, payment_method } = req.body; // payment_method from card
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: "usd",
       payment_method,
-      confirm: true,
-      payment_method_types: ["card"],
+      confirm: true, // Immediately confirms the payment
+      payment_method_types: ["card"], // Only allow card payments, as Apple Pay is handled separately
     });
 
     res.json({ success: true, paymentIntent });
