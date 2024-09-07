@@ -1,29 +1,34 @@
 import React from "react";
+import { Link } from "react-router-dom"; // استخدام Link للانتقال إلى صفحة الهوم
 
 const ApplicationStatus = ({ applicationStatus }) => {
-  const getStatusColor = () => {
-    switch (applicationStatus) {
-      case "approved":
-        return "text-green-500";
-      case "rejected":
-        return "text-red-500";
-      case "pending":
-        return "text-yellow-500";
-      default:
-        return "text-gray-500";
-    }
-  };
-
-  if (!applicationStatus) return null;
-
-  return (
-    <div className="flex items-center mt-4">
-      <span className="mr-2 text-lg font-semibold">Application Status:</span>
-      <span className={`font-medium ${getStatusColor()}`}>
-        {applicationStatus.charAt(0).toUpperCase() + applicationStatus.slice(1)}
-      </span>
-    </div>
-  );
+  if (applicationStatus === "Accept") {
+    return (
+      <div className="text-center mt-4">
+        <h2 className="text-green-500 font-bold text-2xl">تهانينا! تم قبول طلبك.</h2>
+        <Link
+          to="/" 
+          className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg"
+        >
+          اذهب إلى صفحة الهوم
+        </Link>
+      </div>
+    );
+  } else if (applicationStatus === "Reject") {
+    return (
+      <div className="text-center mt-4">
+        <h2 className="text-red-500 font-bold text-2xl">عذراً، تم رفض طلبك.</h2>
+      </div>
+    );
+  } else if (applicationStatus === "pending") {
+    return (
+      <div className="text-center mt-4">
+        <h2 className="text-yellow-500 font-bold text-2xl">طلبك قيد المراجعة.</h2>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default ApplicationStatus;

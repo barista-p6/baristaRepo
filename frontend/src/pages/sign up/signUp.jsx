@@ -347,7 +347,7 @@ function RegisterBarista() {
                         <p className="text-gray-800 text-sm mt-6 text-center">
                             Already have an account?{" "}
                             <a
-                                href="/Login"
+                                href=""
                                 className="text-blue-600 font-semibold hover:underline ml-1"
                             >
                                 Login here

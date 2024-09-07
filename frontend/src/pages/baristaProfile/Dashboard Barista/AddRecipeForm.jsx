@@ -1,23 +1,45 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ProductPopup from "./ProductPopup";
 
 const AddRecipeForm = () => {
-  const [name, setName] = useState('');
-  const [cookingTime, setCookingTime] = useState('');
-  const [categories, setCategories] = useState('');
-  const [dietaryRestrictions, setDietaryRestrictions] = useState('');
-  const [preparationSteps, setPreparationSteps] = useState(['']);
-  const [ingredients, setIngredients] = useState(['']);
+  const [name, setName] = useState("");
+  const [cookingTime, setCookingTime] = useState("");
+  const [categories, setCategories] = useState("");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState("");
+  const [preparationSteps, setPreparationSteps] = useState([""]);
+  const [ingredients, setIngredients] = useState([""]);
   const [image, setImage] = useState(null);
+  const [selectedSyrups, setSelectedSyrups] = useState([]);
+  const [showSyrupPopup, setShowSyrupPopup] = useState(false);
+  const [syrups, setSyrups] = useState([]);
+console.log(image);
+
+  const fetchSyrups = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/beverage/syrups",
+        { withCredentials: true }
+      );
+      setSyrups(response.data);
+    } catch (error) {
+      console.error("Error fetching syrups:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSyrups();
+  }, []);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(URL.createObjectURL(file));
+      setImage(file);
     }
   };
 
   const handleAddPreparationStep = () => {
-    setPreparationSteps([...preparationSteps, '']);
+    setPreparationSteps([...preparationSteps, ""]);
   };
 
   const handlePreparationChange = (index, value) => {
@@ -27,7 +49,7 @@ const AddRecipeForm = () => {
   };
 
   const handleAddIngredient = () => {
-    setIngredients([...ingredients, '']);
+    setIngredients([...ingredients, ""]);
   };
 
   const handleIngredientChange = (index, value) => {
@@ -36,19 +58,40 @@ const AddRecipeForm = () => {
     setIngredients(updatedIngredients);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({
-      name,
-      cookingTime,
-      categories,
-      dietaryRestrictions,
-      preparationSteps,
-      ingredients,
-      image,
-    });
+  const handleSyrupSelect = (syrup) => {
+    setSelectedSyrups([...selectedSyrups, syrup]);
+    setShowSyrupPopup(false);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const syrupsArray = selectedSyrups.map((syrup) => syrup._id);
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("cookingTime", cookingTime);
+    formData.append("categories", categories);
+    formData.append("dietaryRestrictions", dietaryRestrictions);
+    formData.append("preparationSteps", JSON.stringify(preparationSteps));
+    formData.append("ingredients", JSON.stringify(ingredients));
+    formData.append("image", image);
+    formData.append("syrups", JSON.stringify(syrupsArray));
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/recipe/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error adding Recipe:", error);
+    }
+  };
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Add New Recipe</h2>
@@ -56,7 +99,12 @@ const AddRecipeForm = () => {
         {/* Name and Categories */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Recipe Name</label>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Recipe Name
+            </label>
             <input
               type="text"
               id="name"
@@ -67,7 +115,12 @@ const AddRecipeForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="categories" className="block text-sm font-medium text-gray-700">Categories</label>
+            <label
+              htmlFor="categories"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Categories
+            </label>
             <input
               type="text"
               id="categories"
@@ -82,7 +135,12 @@ const AddRecipeForm = () => {
         {/* Cooking Time and Dietary Restrictions */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="cookingTime" className="block text-sm font-medium text-gray-700">Cooking Time</label>
+            <label
+              htmlFor="cookingTime"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Cooking Time
+            </label>
             <input
               type="text"
               id="cookingTime"
@@ -93,7 +151,12 @@ const AddRecipeForm = () => {
             />
           </div>
           <div>
-            <label htmlFor="dietaryRestrictions" className="block text-sm font-medium text-gray-700">Dietary Restrictions</label>
+            <label
+              htmlFor="dietaryRestrictions"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Dietary Restrictions
+            </label>
             <input
               type="text"
               id="dietaryRestrictions"
@@ -108,7 +171,9 @@ const AddRecipeForm = () => {
         {/* Preparation Steps and Ingredients */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Preparation Steps</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Preparation Steps
+            </label>
             {preparationSteps.map((step, index) => (
               <input
                 key={index}
@@ -119,12 +184,18 @@ const AddRecipeForm = () => {
                 placeholder={`Step ${index + 1}`}
               />
             ))}
-            <button type="button" onClick={handleAddPreparationStep} className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 mt-2">
-              Add Preparation Step
+            <button
+              type="button"
+              onClick={handleAddPreparationStep}
+              className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 mt-2"
+            >
+              Add Preparation 
             </button>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Ingredients</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Ingredients
+            </label>
             {ingredients.map((ingredient, index) => (
               <input
                 key={index}
@@ -135,26 +206,76 @@ const AddRecipeForm = () => {
                 placeholder={`Ingredient ${index + 1}`}
               />
             ))}
-            <button type="button" onClick={handleAddIngredient} className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 mt-2">
+            <button
+              type="button"
+              onClick={handleAddIngredient}
+              className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 mt-2"
+            >
               Add Ingredient
             </button>
           </div>
         </div>
 
+        {/* Syrups Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Syrups
+          </label>
+          <div className="mt-1 flex flex-wrap gap-2">
+            {selectedSyrups.map((syrup) => (
+              <span
+                key={syrup._id}
+                className="bg-blue-100 text-blue-800 px-2 py-1 rounded"
+              >
+                {syrup.name}
+              </span>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowSyrupPopup(true)}
+            className="mt-2 bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300"
+          >
+            Add Syrup
+          </button>
+          {showSyrupPopup && (
+            <ProductPopup
+              syrups={syrups}
+              onSelect={handleSyrupSelect}
+              onClose={() => setShowSyrupPopup(false)}
+            />
+          )}
+        </div>
+
         {/* Image Upload */}
         <div>
-          <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image</label>
+          <label
+            htmlFor="image"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Image
+          </label>
           <input
             type="file"
             id="image"
+            accept="image/*"
             onChange={handleImageUpload}
-            className="mt-1 block w-full"
+            className="mt-1"
           />
-          {image && <img src={image} alt="Preview" className="mt-2 w-32 h-32 object-cover rounded-md" />}
+          {image && (
+            <img
+              src={URL.createObjectURL(image)}
+              alt="Recipe preview"
+              className="mt-2 w-32 h-32 object-cover"
+            />
+          )}
         </div>
 
-        <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-          Add Recipe
+        <button
+          type="submit"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Submit Recipe
         </button>
       </form>
     </div>
