@@ -7,28 +7,43 @@ const RecipesDetails = () => {
 
   if (loading) return <p>Loading recipes...</p>;
   if (error) return <p>{error}</p>;
+
   return (
-    <div>
-      <h2>Recipes</h2>
+    <div className="container mx-auto p-6">
+      <h2 className="text-3xl font-bold text-center mb-6">Our Delicious Recipes</h2>
+
       {recipes && recipes.length > 0 ? (
-        <ul>
-          {recipes.map(recipe => (
-            <li key={recipe._id}>
-              <h3>{recipe.name}</h3>
-              <img src={recipe.bg}  className="mx-auto h-48 object-cover p-3 transition duration-300 ease-in-out transform group-hover:scale-105" />
-
-              <p>Categories: {recipe.categories.join(", ")}</p>
-             
-
-              <p>Dietary Restrictions: {recipe.dietaryRestrictions.join(", ")}</p>
-              <Link to={`/recipes/${recipe._id}`} className="view-more-link">
-                View More Details
-              </Link>
-            </li>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {recipes.map((recipe) => (
+            <div
+              key={recipe._id}
+              className="recipe-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              <img
+                src={recipe.bg}
+                alt={recipe.name}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-semibold mb-2">{recipe.name}</h3>
+                <p className="text-gray-700 mb-2">
+                  <span className="font-semibold">Categories:</span> {recipe.categories.join(", ")}
+                </p>
+                <p className="text-gray-700 mb-4">
+                  <span className="font-semibold">Dietary Restrictions:</span> {recipe.dietaryRestrictions.join(", ")}
+                </p>
+                <Link
+                  to={`/recipes/${recipe._id}`}
+                  className="inline-block bg-blue-500 text-white py-2 px-4 rounded-lg transition-colors hover:bg-blue-600"
+                >
+                  View More Details
+                </Link>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
-        <p>No recipes available</p>
+        <p className="text-center text-gray-500">No recipes available</p>
       )}
     </div>
   );
