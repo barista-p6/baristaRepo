@@ -76,18 +76,18 @@ app.listen(port, () => {
 //stripe // mohammad
 const stripe = require("stripe")(
   "sk_test_51PeAmLGFMsHudRVCdXHM5azFYtgX4en8crg9c7reVqX19nbkiJealMIbVmO3RJpXijpqXIQ85jozUJymsfMOaS43009rAUHPl8"
-); 
+);
 
 app.post("/api/payment", async (req, res) => {
   try {
-    const { amount, payment_method } = req.body;
+    const { amount, payment_method } = req.body; // payment_method from card
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: "usd",
       payment_method,
-      confirm: true,
-      payment_method_types: ["card"],
+      confirm: true, // Immediately confirms the payment
+      payment_method_types: ["card"], // Only allow card payments, as Apple Pay is handled separately
     });
 
     res.json({ success: true, paymentIntent });
