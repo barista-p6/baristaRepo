@@ -16,11 +16,16 @@ import AboutChiefPage from "./pages/AboutChiefPage/AboutChiefPage";
 import ContactUsPage from "./pages/ContactUs/ContactUs";
 import AdminDashboard from "./pages/AdminDashboard/HomeDash";
 
+
+
+import Aboutus from './pages/AboutUs/Aboutus';
+
 import { RecipesProvider } from "./components/useContext/RecipesContext";
 import ProfileAuth from "./pages/ChefProfileAuth/ProfileAuth";
 import ChefProfile from "./pages/baristaProfile/baristaProfile";
 import Login from "./pages/Login/Login";
 import RegisterBarista from "./pages/sign up/signUp";
+
 
 import BaristaADashboard from "./pages/baristaProfile/Dashboard Barista/dashboard";
 
@@ -96,6 +101,7 @@ function App() {
                 path="/admin/contact-messages"
                 element={<ManageContactMessages />}
               />
+              <Route path="/about" element={<Aboutus />} />
             </Routes>
           </main>
         </div>
