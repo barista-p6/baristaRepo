@@ -48,6 +48,13 @@ import ManageContactMessages from "./pages/AdminDashboard/ManageContactMessages"
 
 import { BaristaProfileProvider } from "./components/useContext/ProfileContext"; // تأكد من المسار الصحيح
 
+
+import BaristaUserProfile from './components/userProfile/MainuserProfile';
+
+
+
+
+
 import CheckoutPage from './pages/Checkout/CheckoutPage';
 
 import CartCheckoutFlow from './pages/CartAndCheckout/CartCheckoutFlow';
@@ -57,6 +64,7 @@ import LoginUser from "./pages/login user/login";
 function App() {
   return (
     <Router>
+
       <BaristaProfileProvider>
         <div className="flex flex-col min-h-screen">
           <main className="flex-grow">
@@ -105,6 +113,8 @@ function App() {
               <Route path="/about" element={<Aboutus />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/cart" element={<CartCheckoutFlow />} />
+              <Route path="/BaristaUserProfile" element={<BaristaUserProfile />} />
+
             </Routes>
           </main>
         </div>

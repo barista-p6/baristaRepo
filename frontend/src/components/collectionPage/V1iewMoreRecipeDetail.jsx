@@ -5,7 +5,6 @@ import V2iewMoreRecipeDetailReview from "./V2iewMoreRecipeDetailReview";
 import EnhancedRecipeReviews from "./EnhancedRecipeReviews";
 
 
-
 const V1iewMoreRecipeDetail = () => {
 
   const { id } = useParams(); 
@@ -15,6 +14,8 @@ const V1iewMoreRecipeDetail = () => {
   const [error, setError] = useState(null);
   const [baristaId, setBaristaId] = useState(null); 
   const [isInWishlist, setIsInWishlist] = useState(false);
+
+
 
 
 
@@ -63,6 +64,24 @@ const V1iewMoreRecipeDetail = () => {
 
 
 
+
+
+
+
+  /////////////// to RecentView
+
+  useEffect(() => {
+    const updateRecentView = async () => {
+      try {
+        await axios.post(`http://localhost:3000/api/recent-view`, { userId, recipeId: id });
+        
+      } catch (error) {
+        console.error('Error updating recent views:', error);
+      }
+    };
+  
+    updateRecentView();
+  }, [id, userId]);
 
 
 

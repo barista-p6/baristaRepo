@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { report } = require('../routes/userProfile');
 const Schema = mongoose.Schema;
 
 const recipeSchema = new Schema({

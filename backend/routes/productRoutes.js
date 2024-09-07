@@ -4,7 +4,7 @@ const Product = require('../model/products');
 const Recipe = require('../model/recipes') ;
 const Beverage = require('../model/beverages')
 const Barista = require('../model/baristas')
-
+const Users = require("../model/users")
 const Review = require("../model/reviews")
 
 
@@ -48,6 +48,18 @@ router.get('/product/:id', async (req, res) => {
 
 
 
+// All Recipes
+
+  router.get('/AllRecipes', async (req, res) => {
+    const recipes = await Recipe.find()
+
+    .populate({
+      path: 'products',
+      select: 'photos bg picture',  
+    })
+    .exec();
+    res.json(recipes);
+});
 
 
 
@@ -63,6 +75,10 @@ router.get('/recipes/:id', async (req, res) => {
             { path: 'userId', select: 'username' },
             { path: 'baristaId', select: 'username' }
           ]
+        })
+        .populate({
+          path: 'products',
+          select: 'photos bg picture',  
         });
         
 
@@ -102,27 +118,60 @@ router.get('/recipes/:id/reviews', async (req, res) => {
 
 
 
+// router.post('/recipes/:id/reviews', async (req, res) => {
+//   const recipeId = req.params.id;
+//   const { userId, baristaId, rating, comment } = req.body;
+
+//   try {
+//     const review = new Review({
+//       userId ,
+//       recipeId,
+//       baristaId,
+//       rating,
+//       comment
+//     });
+
+//     await review.save();
+
+    
+//     res.status(201).json(review);
+//   } catch (error) {
+//     res.status(500).json({ message: "Error adding review", error });
+//   }
+// });
+
 router.post('/recipes/:id/reviews', async (req, res) => {
   const recipeId = req.params.id;
   const { userId, baristaId, rating, comment } = req.body;
 
   try {
+    // Create a new review
     const review = new Review({
-      userId ,
+      userId,
       recipeId,
       baristaId,
       rating,
       comment
     });
 
+    // Save the review to the Review collection
     await review.save();
 
-    
+    // Find the user by userId and push the review into their review array
+    const user = await Users.findById(userId);
+    if (user) {
+      user.review.push(review._id); // Push the review ID into the user's review array
+      await user.save(); // Save the user with the updated reviews array
+    } else {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.status(201).json(review);
   } catch (error) {
     res.status(500).json({ message: "Error adding review", error });
   }
 });
+
 
 
 
