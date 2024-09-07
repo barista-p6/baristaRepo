@@ -173,6 +173,29 @@ router.post('/recipes/:id/reviews', async (req, res) => {
 });
 
 
+router.patch('/reviews/:id', async (req, res) => {
+  const reviewId = req.params.id;
+  const { rating, comment } = req.body;
+
+  try {
+    // Find the review by its ID and update the fields
+    const review = await Review.findByIdAndUpdate(
+      reviewId,
+      { rating, comment },
+      { new: true } // Return the updated document
+    );
+
+    if (!review) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating review", error });
+  }
+});
+
+
 
 
 
