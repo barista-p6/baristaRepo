@@ -99,7 +99,6 @@ exports.registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      
     });
 
     await newUser.save();
@@ -113,6 +112,13 @@ exports.registerUser = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "Lax",
     });
+
+    res.cookie("userId", newUser._id.toString(), {  // Ensure userId is a string
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+    });
+    
     res
       .status(201)
       .json({ message: "User registered successfully (First Method)!" });

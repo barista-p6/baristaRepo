@@ -4,8 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee, faClock, faShoppingBag, faStar, faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import RecipeGrid from './RecipeGrid';
 import ReviewList from './ReviewList';
+import Cookies from 'js-cookie'; // Import js-cookie
+import useUserId from '../CustomHooks/UserIdH';
 
 const BaristaUserProfile = () => {
+  const { userId, loading, error } = useUserId(); // Use the custom hook
   const [activeTab, setActiveTab] = useState('saved');
   const [user, setUser] = useState(null);
   const [recentViews, setRecentViews] = useState([]);
@@ -17,10 +20,16 @@ const BaristaUserProfile = () => {
     bio: '',
   });
 
-  const userId = '66dcb86f2991889cd91c8559';
+
+
 
   useEffect(() => {
     const fetchUserData = async () => {
+
+      if (!userId) {
+        console.error('User ID is not available in cookies');
+        return;
+      }
       try {
         // Fetch user data
         const userResponse = await axios.get(`http://localhost:3000/api/users/${userId}`);
