@@ -281,8 +281,10 @@ import TabButton from './TabButton';
 import SalesOverview from './SalesOverview';
 import RecentOrders from './RecentOrders';
 import AddBeverageForm from './AddBeverageForm';
-import { FaChartBar, FaShoppingCart, FaPlus ,FaCoffee } from 'react-icons/fa'; // Importing icons
+import { FaChartBar, FaShoppingCart, FaPlus ,FaCoffee  , FaList} from 'react-icons/fa'; // Importing icons
 import AddRecipeForm from './AddRecipeForm';
+import BeveragesAndRecipesList from './BeveragesAndRecipes'; 
+import Navbar from "../../../components/Navbar";
 import { useBaristaProfile } from '../../../components/useContext/ProfileContext';
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('sales');
@@ -291,45 +293,88 @@ const Dashboard = () => {
   if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
   if (error) return <div className="flex justify-center items-center h-screen">{error}</div>;
 
+  const TabButton = ({ label, icon: Icon, isActive, onClick }) => (
+    <button
+      onClick={onClick}
+      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-200 ${
+        isActive ? 'bg-black text-white' : 'text-gray-600 hover:bg-slate-400'
+      }`}
+    >
+      <Icon className="text-xl" />
+      <span>{label}</span>
+    </button>
+  );
+
+  const renderActiveTabContent = () => {
+    switch (activeTab) {
+      case 'sales':
+        return <SalesOverview />;
+      case 'orders':
+        return <RecentOrders />;
+      case 'addBeverage':
+        return <AddBeverageForm />;
+      case 'addRecipe':
+        return <AddRecipeForm />;
+      case 'beveragesAndRecipes':
+        return <BeveragesAndRecipesList />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="p-6 space-y-4">
-      <BaristaHeader 
-        name={barista?.baristaId.username} 
-        avatar={`http://localhost:3000/${barista.profileImage}`} 
-      />
-      <div className="flex space-x-4">
-        <TabButton 
-          label="Sales Overview" 
-          icon={() => <FaChartBar className="text-2xl" />} 
-          isActive={activeTab === 'sales'}
-          onClick={() => setActiveTab('sales')}
-        />
-        <TabButton 
-          label="Recent Orders" 
-          icon={() => <FaShoppingCart className="text-2xl" />} 
-          isActive={activeTab === 'orders'}
-          onClick={() => setActiveTab('orders')}
-        />
-        <TabButton 
-          label="Add Beverage" // Tab for Add Beverage
-          icon={() => <FaCoffee className="text-2xl" />} 
-          isActive={activeTab === 'addBeverage'}
-          onClick={() => setActiveTab('addBeverage')}
-        />
-        <TabButton 
-          label="Add Recipe" // Tab for Add Recipe
-          icon={() => <FaPlus className="text-2xl" />} 
-          isActive={activeTab === 'addRecipe'}
-          onClick={() => setActiveTab('addRecipe')}
-        />
-      </div>
-      <div>
-        {activeTab === 'sales' && <SalesOverview />}
-        {activeTab === 'orders' && <RecentOrders />}
-        {activeTab === 'addBeverage' && <AddBeverageForm />} {/* Show AddBeverageForm */}
-        {activeTab === 'addRecipe' && <AddRecipeForm />} {/* Show AddRecipeForm */}
+    <>
+    <Navbar />
+    <div className="min-h-screen bg-gray-100 mt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="py-10">
+          <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+            <BaristaHeader
+              name={barista?.baristaId.username}
+              avatar={`http://localhost:3000/${barista.profileImage}`}
+            />
+            <div className="p-6">
+              <div className="flex flex-wrap gap-2 mb-6">
+                <TabButton
+                  label="Sales Overview"
+                  icon={FaChartBar}
+                  isActive={activeTab === 'sales'}
+                  onClick={() => setActiveTab('sales')}
+                />
+                {/* <TabButton
+                  label="Recent Orders"
+                  icon={FaShoppingCart}
+                  isActive={activeTab === 'orders'}
+                  onClick={() => setActiveTab('orders')}
+                /> */}
+                <TabButton
+                  label="Add Beverage"
+                  icon={FaCoffee}
+                  isActive={activeTab === 'addBeverage'}
+                  onClick={() => setActiveTab('addBeverage')}
+                />
+                <TabButton
+                  label="Add Recipe"
+                  icon={FaPlus}
+                  isActive={activeTab === 'addRecipe'}
+                  onClick={() => setActiveTab('addRecipe')}
+                />
+                <TabButton
+                  label="Beverages & Recipes"
+                  icon={FaList}
+                  isActive={activeTab === 'beveragesAndRecipes'}
+                  onClick={() => setActiveTab('beveragesAndRecipes')}
+                />
+              </div>
+              <div className="bg-gray-50 rounded-lg p-4">
+                {renderActiveTabContent()}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    </>
   );
 };
 

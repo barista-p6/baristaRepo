@@ -1,7 +1,7 @@
 import React, { useState , useEffect} from "react";
 import ProductPopup from "./ProductPopup";
-import axios from "axios"; // استيراد Axios
-
+import axios from "axios"; 
+import Swal from "sweetalert2";
 const AddBeverageForm = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -47,17 +47,16 @@ const AddBeverageForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const syrupsArray = selectedSyrups.map(syrup => syrup._id);
-    // console.log('Selected Syrups IDs:', syrupsArray);
+    const syrupsArray = selectedSyrups.map((syrup) => syrup._id);
 
-    const formData = new FormData(); // بستخدمها عشان برفع ملفات زي الصور
+    const formData = new FormData();
     formData.append("name", name);
     formData.append("price", price);
     formData.append("description", description);
     formData.append("category", category);
     formData.append("image", image);
     formData.append("quantityAvailable", quantityAvailable);
-    formData.append('syrups', JSON.stringify(syrupsArray));
+    formData.append("syrups", JSON.stringify(syrupsArray));
 
     try {
       const response = await axios.post(
@@ -67,12 +66,33 @@ const AddBeverageForm = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          withCredentials: true 
+          withCredentials: true,
         }
       );
-      console.log(response.data);
+      
+      Swal.fire({
+        title: "Success!",
+        text: "Beverage added successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+      setName("");
+      setPrice("");
+      setDescription("");
+      setCategory("");
+      setImage(null);
+      setQuantityAvailable("");
+      setSelectedSyrups([]);
+
     } catch (error) {
       console.error("Error adding beverage:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to add beverage.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
@@ -142,11 +162,12 @@ const AddBeverageForm = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+            required
           >
             <option value="">Select a category</option>
-            <option value="coffee">Coffee</option>
-            <option value="tea">Tea</option>
-            <option value="smoothie">Smoothie</option>
+            <option value="coffee">Mojito</option>
+            <option value="tea">IcedTea</option>
+            <option value="smoothie">Coffee</option>
           </select>
         </div>
         <div>
@@ -203,7 +224,7 @@ const AddBeverageForm = () => {
           <button
             type="button"
             onClick={() => setShowSyrupPopup(true)}
-            className="mt-2 bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300"
+            className="mt-2 bg-black text-white px-3 py-1 rounded hover:bg-slate-400"
           >
             Add Syrup
           </button>
@@ -217,7 +238,7 @@ const AddBeverageForm = () => {
         )}
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
         >
           Add Beverage
         </button>
