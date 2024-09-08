@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const BeveragesFilter = ({ onCategoryChange }) => {
+const SyrupFilter = ({ onCategoryChange }) => {
     const [selectedCategory, setSelectedCategory] = useState([]);
 
     const handleCategoryChange = (category) => {
@@ -15,9 +15,8 @@ const BeveragesFilter = ({ onCategoryChange }) => {
     };
 
     const category = [
-        { label: 'Mojito', value: 'Mojito' },
-        { label: 'Iced Tea', value: 'IcedTea' },
-        { label: 'Coffee', value: 'Coffee' }
+        { label: 'Syrup', value: 'Syrup' },
+        { label: 'Swirls', value: 'Swirls' },
     ];
 
     return (
@@ -43,4 +42,4 @@ const BeveragesFilter = ({ onCategoryChange }) => {
     );
 };
 
-export default BeveragesFilter;
+export default SyrupFilter;

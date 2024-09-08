@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from 'react-use-cart';
 import axios from 'axios';
 import SearchBar from './SearchBar';
-import FilterBar from './CoffeeFilter';
+import BeveragesFilter from './CoffeeFilter';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import EspMachineLoader from '../../components/leaders/esprMachine';
 import Toast from './Toast';
+import SyrupFilter from './SyrupsFilter';
 
 const BrowseProducts = () => {
     const [products, setProducts] = useState([]);
-    const [category, setCategory] = useState('coffees');
+    const [category, setCategory] = useState('beverages');
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -23,7 +24,7 @@ const BrowseProducts = () => {
     const navigate = useNavigate();
 
     const fetchUrl =
-        category === 'coffees'
+        category === 'beverages'
             ? 'http://localhost:3000/api/allBeverages'
             : 'http://localhost:3000/api/Allproducts';
 
@@ -98,7 +99,7 @@ const BrowseProducts = () => {
             <div className="min-h-screen bg-white text-black p-8 font-serif">
                 <div className="container mx-auto">
                     <h1 className="text-4xl font-bold text-center mb-8">
-                        {category === 'coffees' ? 'Our Coffees' : 'Delicious Syrups'}
+                        {category === 'beverages' ? 'Our Beverages' : 'Delicious Syrups'}
                     </h1>
                     <div className="flex flex-col md:flex-row gap-8">
                         <div className="md:w-1/4 p-6 bg-gray-100 rounded-lg shadow-lg">
@@ -106,13 +107,13 @@ const BrowseProducts = () => {
                             <h2 className="text-2xl font-semibold mt-6 mb-4">Category</h2>
                             <div className="space-y-3">
                                 <button
-                                    className={`w-full py-3 px-6 rounded-lg transition ${category === 'coffees'
+                                    className={`w-full py-3 px-6 rounded-lg transition ${category === 'beverages'
                                         ? 'bg-gray-300 text-black'
                                         : 'bg-gray-200 text-gray-600'
                                         }`}
-                                    onClick={() => setCategory('coffees')}
+                                    onClick={() => setCategory('beverages')}
                                 >
-                                    Coffees
+                                    Beverages
                                 </button>
                                 <button
                                     className={`w-full py-3 px-6 rounded-lg transition ${category === 'syrups'
@@ -125,7 +126,7 @@ const BrowseProducts = () => {
                                 </button>
                             </div>
                             <h2 className="text-2xl font-semibold mt-8 mb-4">Filter by category</h2>
-                            {category === "coffees" ? <FilterBar onCategoryChange={setSelectedCategory} /> : <p>Syrup filter</p>}
+                            {category === "beverages" ? <BeveragesFilter onCategoryChange={setSelectedCategory} /> : <SyrupFilter onCategoryChange={setSelectedCategory} ></SyrupFilter>   }
                         </div>
 
                         <div className="md:w-3/4">
