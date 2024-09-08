@@ -63,7 +63,7 @@ const CheckoutForm = ({ cartTotal, nextStep }) => {
                 setLoading(false);
                 return;
             }
-            const response = await axios.post('https://70a6-92-253-81-109.ngrok-free.app/api/payment', {
+            const response = await axios.post('http://localhost:3000/api/payment', {
                 amount: Math.round(cartTotal * 100),
                 payment_method: paymentMethod.id,
             });
@@ -72,12 +72,12 @@ const CheckoutForm = ({ cartTotal, nextStep }) => {
 
 
 
-                console.log("payment success")
-                const response = await axios.post('http://localhost:3000/api/orders', 
-                    {
+                // console.log("payment success")
+                // const response = await axios.post('http://localhost:3000/api/orders', 
+                //     {
 
-                    }
-                ); 
+                //     }
+                // ); 
 
 
 
