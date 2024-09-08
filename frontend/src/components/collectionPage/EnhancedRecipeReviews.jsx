@@ -92,7 +92,7 @@ const EnhancedRecipeReviews = ({ recipeId, userId, baristaId, Reviews = [] }) =>
             rows={4}
             required
           />
-          <button type="submit" className="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 transition duration-300 flex items-center justify-center">
+          <button type="submit" className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-500 transition duration-300 flex items-center justify-center">
             <Send className="w-5 h-5 mr-2" />
             Submit Review
           </button>

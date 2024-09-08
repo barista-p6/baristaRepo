@@ -124,7 +124,7 @@ const V1iewMoreRecipeDetail = () => {
 
     <button 
         onClick={handleWishlistToggle}
-        className={`p-2 mt-4 ${isInWishlist ? 'bg-red-500' : 'bg-blue-500'} text-white rounded`}
+        className={`p-2 mt-4 ${isInWishlist ? 'bg-black' : 'bg-gray-500'} text-white rounded`}
       >
         {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
       </button>
