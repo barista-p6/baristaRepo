@@ -5,6 +5,8 @@ import { BeveragesProvider } from "../useContext/BeveragesContext";
 import axios from "axios";
 import RecipesDetails from "./D3RecipesDetails";
 import BeverageDetails from "./D2BaverageDetails";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 function DetailsCollection() {
   const { id } = useParams();
@@ -30,6 +32,8 @@ function DetailsCollection() {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
+    <>
+    <Navbar/>
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow">
         {/* Background image with product name */}
@@ -79,9 +83,10 @@ function DetailsCollection() {
             
             {/* Flavor profile chart */}
             <div className="w-1/2">
-              <div className="w-64 h-64 mx-auto bg-gray-300">
+              <div className="w-64 h-64 mx-auto ">
                 {/* Replace this with actual chart component */}
-                <p className="text-center pt-28">Flavor Profile Chart</p>
+               <img src= {product.picture} />
+                <p className="text-center pt-28"></p>
               </div>
             </div>
           </div>
@@ -98,6 +103,9 @@ function DetailsCollection() {
         </div>
       </main>
     </div>
+    
+    <Footer/>
+    </>
   );
 }
 

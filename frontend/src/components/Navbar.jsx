@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaCoffee, FaShoppingCart } from 'react-icons/fa'; // Using react-icons for icons
+import { FaCoffee, FaShoppingCart } from 'react-icons/fa';
 
 const StickyNavbar = () => {
   const location = useLocation();
@@ -21,31 +21,36 @@ const StickyNavbar = () => {
     };
   }, []);
 
+  const isHomePage = location.pathname === "/";
+
   return (
     <nav
       className={`fixed w-full z-30 transition-all duration-300 ${
-        isScrolled ? "bg-black/60 backdrop-blur-xl shadow-lg" : "bg-black"
+        isScrolled || !isHomePage ? "bg-black/40 backdrop-blur-lg shadow-lg" : "bg-transparent"
       }`}
     >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        {/* Logo or Title */}
-        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse text-[#E1BA94] hover:text-white">
-          <FaCoffee className="text-2xl" />
-          <span className="self-center text-2xl font-bold">CoffeeHub</span>
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse text-white hover:text-white">
+          <span className="self-center text-2xl font-bold">BARISTA HUB</span>
         </Link>
 
-        {/* Navigation Links */}
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <Link to="/cart" className="flex items-center space-x-2 text-[#E1BA94] hover:text-white">
-            <FaShoppingCart className="h-6 w-6" />
-            <span>Cart</span>
-          </Link>
+        {/* Cart Link */}
+        <div className="flex md:order-2 space-x-3 rtl:space-x-reverse">
+       
         </div>
 
+        {/* Navbar Links */}
         <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1">
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0">
-            <li className={`relative group ${location.pathname === "/" ? "active" : ""}`}>
-              <Link to="/" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
+            {/* Home Dropdown */}
+            <li className="relative group">
+              <Link
+                to="/"
+                className={`block py-2 px-3 md:p-0 ${
+                  isHomePage ? "text-white" : "text-white"
+                } hover:text-white`}
+              >
                 Home
               </Link>
               <span
@@ -53,108 +58,108 @@ const StickyNavbar = () => {
                   location.pathname === "/" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
                 }`}
               ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/categories" ? "active" : ""}`}>
-              <Link to="/categories" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Categories
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/categories" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/marketplace" ? "active" : ""}`}>
-              <Link to="/marketplace" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Marketplace
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/marketplace" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/about" ? "active" : ""}`}>
-              <Link to="/about" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                About
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/about" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/contact" ? "active" : ""}`}>
-              <Link to="/contact" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Contact
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/contact" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
+
+              {/* Dropdown Menu for Home */}
+              <ul className="absolute left-0 w-48 mt-2 bg-black/40 backdrop-blur-lg shadow-lg rounded-lg hidden group-hover:block">
+                {[
+                
+                  { path: "/collection", label: "Collection" },
+                ].map((subItem, subIdx) => (
+                  <li key={subIdx} className="relative group">
+                    <Link
+                      to={subItem.path}
+                      className="block px-4 py-2 text-white hover:bg-white hover:text-black"
+                    >
+                      {subItem.label}
+                    </Link>
+
+                    {/* Second-Level Dropdown for Coffee Beans */}
+                    {subItem.label === "Collection" && (
+                      <ul className="absolute left-full top-0 w-48 mt-0 bg-black/40 backdrop-blur-lg shadow-lg rounded-lg hidden group-hover:block">
+                        {[
+                          // { path: "/product", label: "Product" },
+                        ].map((nestedItem, nestedIdx) => (
+                          <li key={nestedIdx}>
+                            <Link
+                              to={nestedItem.path}
+                              className="block px-4 py-2 text-white hover:bg-white hover:text-black"
+                            >
+                              {nestedItem.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </li>
 
-            {/* New Routes */}
-            <li className={`relative group ${location.pathname.startsWith("/admin") ? "active" : ""}`}>
-              <Link to="/admin/*" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Admin
+            {/* Other Navbar Links */}
+            {[
+              { path: "/market", label: "Marketplace" },
+              { path: "/about", label: "About" },
+              { path: "/contact", label: "Contact" },
+
+              
+            ].map((link, index) => (
+              <li
+                key={index}
+                className={`relative group ${location.pathname === link.path ? "active" : ""}`}
+              >
+                <Link
+                  to={link.path}
+                  className={`block py-2 px-3 md:p-0 ${
+                    isHomePage ? "text-white" : "text-white"
+                  } hover:text-white`}
+                >
+                  {link.label}
+                </Link>
+                <span
+                  className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
+                    location.pathname === link.path
+                      ? "w-full"
+                      : "w-0 group-hover:w-full group-hover:left-0"
+                  }`}
+                ></span>
+              </li>
+            ))}
+
+            {/* Login Dropdown */}
+            <li className="relative group">
+              <Link
+                to="/login"
+                className={`block py-2 px-3 md:p-0 ${
+                  isHomePage ? "text-white" : "text-white"
+                } hover:text-white`}
+              >
+                Join us
               </Link>
               <span
                 className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname.startsWith("/admin") ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
+                  location.pathname === "/login"
+                    ? "w-full"
+                    : "w-0 group-hover:w-full group-hover:left-0"
                 }`}
               ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/profile" ? "active" : ""}`}>
-              <Link to="/profile" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Profile
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/profile" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/chefprofile" ? "active" : ""}`}>
-              <Link to="/chefprofile" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Chef Profile
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/chefprofile" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/login" ? "active" : ""}`}>
-              <Link to="/login" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Login
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/login" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/registeruser" ? "active" : ""}`}>
-              <Link to="/registeruser" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Register User
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/registeruser" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
-            </li>
-            <li className={`relative group ${location.pathname === "/BaristaADashboard" ? "active" : ""}`}>
-              <Link to="/BaristaADashboard" className="block py-2 px-3 md:p-0 text-[#E1BA94] hover:text-white">
-                Barista Dashboard
-              </Link>
-              <span
-                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
-                  location.pathname === "/BaristaADashboard" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
-                }`}
-              ></span>
+
+              {/* Dropdown Menu for Login */}
+              <ul className="absolute left-0 w-48 mt-2 bg-black/40 backdrop-blur-lg shadow-lg rounded-lg hidden group-hover:block">
+                {[
+                   { path: "/LoginUser", label: " As Customer " },
+                   { path: "/login", label: " As Barista " },
+                 
+                ].map((loginItem, loginIdx) => (
+                  <li key={loginIdx}>
+                    <Link
+                      to={loginItem.path}
+                      className="block px-4 py-2 text-white hover:bg-white hover:text-black"
+                    >
+                      {loginItem.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </li>
           </ul>
         </div>

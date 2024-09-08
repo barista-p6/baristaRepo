@@ -10,6 +10,7 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
     backgroundColor: '#f9f9f9',
     position: 'relative', // Allows absolute positioning of child elements
     fontFamily: "'Roboto', sans-serif", // نوع خط احترافي
+ 
   };
 
   const contentStyle = {
@@ -20,6 +21,7 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
     alignItems: 'center',
     position: 'relative',
     zIndex: 1,
+    marginTop: '10%',
   };
 
   const recipeImgStyle = {
@@ -98,9 +100,9 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
   };
 
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} >
       <div style={contentStyle}>
-        <h3 style={nameStyle}>{recipe.name}</h3>
+        <h3 style={nameStyle}>{recipe.name} </h3>
         {/* تقسيم المكونات والتعليمات بطريقة أكثر حداثة */}
         <div style={ingredientsInstructionsStyle}>
           <div>
@@ -116,16 +118,42 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
             <p style={instructionsStyle}>{recipe.ingredients}</p>
           </div>
         </div>
-        <p style={textStyle}>
-          <strong>Categories:</strong> {recipe.categories.join(", ")}
-        </p>
-        <p style={textStyle}>
-          <strong>Dietary Restrictions:</strong> {recipe.dietaryRestrictions.join(", ")}
-        </p>
-        <img src={`http://localhost:3000/${recipe.photos}`} alt="Recipe" style={recipeImgStyle} />
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+  <p style={{ marginRight: '20px', marginBottom: '0' }}>
+    <strong>Categories:</strong> {recipe.categories.join(", ")}
+  </p>
+  <p style={{ margin: '0 20px' }}>
+    <strong>|</strong>
+  </p>
+  <p style={{ marginRight: '20px', marginBottom: '0' }}>
+    <strong>Cooking Time:</strong> {recipe.cookingTime}
+  </p>
+  <p style={{ margin: '0 20px' }}>
+    <strong>|</strong>
+  </p>
+  <p style={{ marginBottom: '0' }}>
+    <strong>Cuisine:</strong> {recipe.cuisine}
+  </p>
+</div>
+      
+        <img src={recipe.photos 
+        ? recipe.photos
+        : `http://localhost:3000/${recipe.photos}`}
+         alt={recipe.photos} 
+          onError={(e) => {
+                    e.target.src = `http://localhost:3000/${recipe.photos}`;
+                  }}  style={recipeImgStyle} />
       </div>
       <div style={bgContainerStyle}>
-        <img src={`http://localhost:3000/${recipe.bg}`} alt="Background" style={bgImgStyle} />
+    
+        <img  src={recipe.bg
+                    ? recipe.bg
+                    : `http://localhost:3000/${recipe.bg}`
+                  }  alt={recipe.bg}
+                  onError={(e) => {
+                    e.target.src = `http://localhost:3000/${recipe.bg}`;
+                  }} 
+                   style={bgImgStyle} />
       </div>
     </div>
   );
