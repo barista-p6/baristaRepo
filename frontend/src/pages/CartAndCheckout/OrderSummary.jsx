@@ -71,7 +71,7 @@ const OrderSummary = ({ promoCode, setPromoCode, discount, discountApplied, appl
                     onClick={nextStep}
                     className="bg-black text-white px-6 py-3 rounded-md hover:bg-zinc-700 transition duration-300 mt-10 "
                 >
-                    Next Step →
+                    Continue →
                 </button>
 
             </div>
