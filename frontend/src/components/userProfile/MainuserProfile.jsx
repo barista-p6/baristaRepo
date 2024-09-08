@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee, faClock, faShoppingBag, faStar, faEdit, faTimes } from '@fortawesome/free-solid-svg-icons';
 import RecipeGrid from './RecipeGrid';
 import ReviewList from './ReviewList';
-import Cookies from 'js-cookie'; // Import js-cookie
 import useUserId from '../CustomHooks/UserIdH';
+import GetSharedRecipes from '../shared/Getshared';
+import StickyNavbar from '../Navbar';
 
 const BaristaUserProfile = () => {
-  const { userId, loading, error } = useUserId(); // Use the custom hook
   const [activeTab, setActiveTab] = useState('saved');
   const [user, setUser] = useState(null);
   const [recentViews, setRecentViews] = useState([]);
@@ -19,17 +19,12 @@ const BaristaUserProfile = () => {
     email: '',
     bio: '',
   });
-
+  const { userId, loading, error } = useUserId(); // Use the custom hook
 
 
 
   useEffect(() => {
     const fetchUserData = async () => {
-
-      if (!userId) {
-        console.error('User ID is not available in cookies');
-        return;
-      }
       try {
         // Fetch user data
         const userResponse = await axios.get(`http://localhost:3000/api/users/${userId}`);
@@ -48,6 +43,7 @@ const BaristaUserProfile = () => {
         // Fetch reviews
         const reviewsResponse = await axios.get(`http://localhost:3000/api/user/${userId}/review`);
         setReviews(reviewsResponse.data.review);
+        console.log(reviewsResponse.data.review)
 
       } catch (error) {
         console.error('Error fetching user data', error);
@@ -104,7 +100,15 @@ const BaristaUserProfile = () => {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <>
+    <StickyNavbar/>
+    <div className="bg-black text-white min-h-screen mt-10">
+
+
+
+
+
+
       {/* Header */}
       <header className="bg-black bg-opacity-50 py-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center filter blur-sm" style={{backgroundImage: "url('https://www.1883.com/app/uploads/2023/04/Sirop_Chocolat_Ruby-1.webp')"}}></div>
@@ -139,6 +143,8 @@ const BaristaUserProfile = () => {
           </div>
         </div>
       </header>
+      <GetSharedRecipes    userId={userId}/>
+
 
       {/* User Info */}
       <div className="container mx-auto mt-8 px-4">
@@ -228,7 +234,7 @@ const BaristaUserProfile = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div></>
   );
 };
 
