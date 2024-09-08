@@ -6,14 +6,14 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
   const containerStyle = {
     display: 'flex',
     width: '100%',
-    height: '100vh', // Ensures the container takes full viewport height
+    height: '140vh', // Ensures the container takes full viewport height
     backgroundColor: '#f9f9f9',
     position: 'relative', // Allows absolute positioning of child elements
-    fontFamily: "'Roboto', sans-serif", // نوع خط احترافي
- 
+    fontFamily: "'Trebuchet MS', sans-serif", // نوع خط احترافي
   };
 
   const contentStyle = {
+    fontFamily: "'Trebuchet MS', sans-serif", // نوع خط احترافي
     width: '67%',
     padding: '40px', // زيادة المسافة بين العناصر لتحريكها لأسفل
     display: 'flex',
@@ -31,12 +31,13 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
     position: 'absolute',
     top: '15%', // Adjusted positioning for more modern look
     left: '100%',
-    transform: 'translate(-50%, 0)', 
+    transform: 'translate(-50%, 0)',
     zIndex: 2,
   };
 
   const bgContainerStyle = {
-    width: '33%',
+    width: '50%',
+    marginRight: "100px",
     position: 'relative',
   };
 
@@ -44,22 +45,23 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    borderRadius: '8px',
     position: 'absolute',
     top: '0',
     left: '0',
     zIndex: 0,
+    // Remove borderRadius to ensure the image is not rounded
   };
 
   const nameStyle = {
-    fontSize: '32px', // تكبير حجم الخط لجعل الاسم أكثر بروزًا
+    fontSize: '32px',
     fontWeight: 'bold',
     margin: '20px 0',
     color: '#333',
-    textAlign: 'center',
     textTransform: 'uppercase', // لتحويل النص إلى أحرف كبيرة
     letterSpacing: '2px', // إضافة مسافة بين الأحرف لمظهر عصري
-    fontFamily: "'Montserrat', sans-serif", // نوع خط احترافي
+    fontFamily: "'Trebuchet MS', sans-serif", // نوع خط احترافي
+    margin: "10%",
+    marginLeft: "-30%",
   };
 
   const textStyle = {
@@ -72,10 +74,12 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
 
   const ingredientsInstructionsStyle = {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr', // جعلها شبكة عمودية لمظهر عصري
-    gap: '40px', // إضافة مسافة بين الأعمدة
-    width: '100%',
-    margin: '30px 0',
+    gridTemplateColumns: '1fr 1fr', 
+    gap: '40px', 
+    width: '90%',
+    margin: '200px 100px 80px 110px',
+    
+
   };
 
   const ingredientsStyle = {
@@ -87,7 +91,7 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
   const ingredientItemStyle = {
     fontSize: '16px',
     color: '#333',
-    fontFamily: "'Roboto', sans-serif", // الخط المحترف
+    fontFamily: "'Trebuchet MS', sans-serif", // الخط المحترف
     lineHeight: '1.8',
   };
 
@@ -95,65 +99,84 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
     textAlign: 'left',
     fontSize: '16px',
     color: '#333',
-    fontFamily: "'Roboto', sans-serif", // الخط المحترف
+    fontFamily: "'Trebuchet MS', sans-serif", 
     lineHeight: '1.8',
+  };
+  const Categorycookingcusin ={
+
+     display: 'flex', 
+     flexDirection: 'row',
+    flexWrap: 'wrap' ,
+    marginLeft: "-20%" , 
+    marginBottom : " 10px" ,
+    borderBottom: '1px solid gray ' , 
   };
 
   return (
-    <div style={containerStyle} >
+    <div style={containerStyle}>
       <div style={contentStyle}>
-        <h3 style={nameStyle}>{recipe.name} </h3>
-        {/* تقسيم المكونات والتعليمات بطريقة أكثر حداثة */}
+        <div className="w-[300px] ml-[6%] mr-auto mb-[-7%]">
+          <div>
+            <div className="flex items-center justify-between text-gray-600 text-xs font-bold font-Trebuchet tracking-wide">
+              <span className="border-r border-gray-900 pr-10">Cold</span>
+              <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+              <span className="border-r border-gray-900 pr-10">COLD</span>
+              <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+              <span>SHORT DRINK</span>
+            </div>
+          </div>
+        </div>
+        <h3 style={nameStyle}>{recipe.name || "Recipe Name Not Available"}</h3>
+
+        <div className="w-[400px] ml-[6%] mt-[-6%] mr-auto text-gray-700">
+          {recipe.description || "Perfect for a revitalizing start to your day"}
+        </div>
         <div style={ingredientsInstructionsStyle}>
           <div>
             <strong style={{ fontSize: '20px', color: '#222', fontWeight: 'bold' }}>Ingredients:</strong>
             <ul style={ingredientsStyle}>
-              {recipe.ingredients.map((ingredient, index) => (
-                <li key={index} style={ingredientItemStyle}>{ingredient}</li>
-              ))}
+              {(recipe.ingredients && recipe.ingredients.length > 0)
+                ? recipe.ingredients.map((ingredient, index) => (
+                    <li key={index} style={ingredientItemStyle}>{ingredient}</li>
+                  ))
+                : <li>No ingredients listed</li>
+              }
             </ul>
           </div>
           <div>
             <strong style={{ fontSize: '20px', color: '#222', fontWeight: 'bold' }}>Instructions:</strong>
-            <p style={instructionsStyle}>{recipe.ingredients}</p>
+            <p style={instructionsStyle}>
+              {recipe.instructions || "No instructions provided"}
+            </p>
           </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-  <p style={{ marginRight: '20px', marginBottom: '0' }}>
-    <strong>Categories:</strong> {recipe.categories.join(", ")}
-  </p>
-  <p style={{ margin: '0 20px' }}>
-    <strong>|</strong>
-  </p>
-  <p style={{ marginRight: '20px', marginBottom: '0' }}>
-    <strong>Cooking Time:</strong> {recipe.cookingTime}
-  </p>
-  <p style={{ margin: '0 20px' }}>
-    <strong>|</strong>
-  </p>
-  <p style={{ marginBottom: '0' }}>
-    <strong>Cuisine:</strong> {recipe.cuisine}
-  </p>
-</div>
-      
-        <img src={recipe.photos 
-        ? recipe.photos
-        : `http://localhost:3000/${recipe.photos}`}
-         alt={recipe.photos} 
-          onError={(e) => {
-                    e.target.src = `http://localhost:3000/${recipe.photos}`;
-                  }}  style={recipeImgStyle} />
+        <div  style={Categorycookingcusin}> 
+          <p >
+            <strong>Categories:</strong> {recipe.categories ? recipe.categories.join(", ") : "Not specified"}
+          </p>
+          <p style={{ margin: '0 20px' }}>
+            <strong>|</strong>
+          </p>
+          <p style={{ marginRight: '20px', marginBottom: '0' }}>
+            <strong>Cooking Time:</strong> {recipe.cookingTime || "Not specified"}
+          </p>
+          <p style={{ margin: '0 20px' }}>
+            <strong>|</strong>
+          </p>
+          <p style={{ marginBottom: '0' }}>
+            <strong>Cuisine:</strong> {recipe.cuisine || "Not specified"}
+          </p>
+        </div>
       </div>
       <div style={bgContainerStyle}>
-    
-        <img  src={recipe.bg
-                    ? recipe.bg
-                    : `http://localhost:3000/${recipe.bg}`
-                  }  alt={recipe.bg}
-                  onError={(e) => {
-                    e.target.src = `http://localhost:3000/${recipe.bg}`;
-                  }} 
-                   style={bgImgStyle} />
+        <img 
+          src={recipe.bg ? recipe.bg : `http://localhost:3000/default-bg.jpg`} 
+          alt={recipe.bg ? recipe.bg : "Default Background"}
+          onError={(e) => {
+            e.target.src = `http://localhost:3000/default-bg.jpg`;
+          }} 
+          style={bgImgStyle} 
+        />
       </div>
     </div>
   );

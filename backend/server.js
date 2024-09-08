@@ -17,7 +17,9 @@ const baristaAuthRoutes = require("./routes/baristaAuthRoutes");
 const beverageRoutes = require("./routes/beverageRoutes");
 const recipeRoutes = require("./routes/recipeRoutes");
 const orderRoutes = require("./routes/ordersMRouter");
-const ordersRoutes = require("./routes/ordersRoutes")
+const ordersRoutes = require("./routes/ordersRoutes");
+const share = require("./routes/shareUserRoutes");
+const report = require('./routes/report');
 
 app.use(cookieParser());
 app.use(express.json());
@@ -57,6 +59,8 @@ app.use('/api/orders' , ordersRoutes)
 app.use("/api", productRoutes);
 app.use("/api", userProfileRoutes);
 app.use("/api", wishListRoute);
+app.use("/api" , share )
+app.use('/api' , report)
 // Mohammad Routes
 app.use("/api", beveragesMarketRoute);
 app.use("/api/admin", adminRoutes);

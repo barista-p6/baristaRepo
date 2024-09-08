@@ -18,6 +18,8 @@ const recipeSchema = new Schema({
 
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], 
+  reportedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] ,
+
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
