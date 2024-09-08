@@ -13,6 +13,7 @@ const auth = (req, res, next) => {
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
     req.user = user.id;
+    req.body.userId = user.id;  
     console.log("Token verified successfully. User ID:", req.user);
     next();
   } catch (error) {

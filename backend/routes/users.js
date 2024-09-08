@@ -8,4 +8,14 @@ router.post("/register/user", userController.registerUser);
 router.post("/login/user", userController.loginUser);
 
 
+// Check cookies route
+router.get("/check-cookies", (req, res) => {
+    const userId = req.cookies.userId;
+    if (!userId) {
+        return res.status(400).json({ error: 'userId cookie not found' });
+    }
+    res.json({ success: true, userId });
+});
+
 module.exports = router;
+

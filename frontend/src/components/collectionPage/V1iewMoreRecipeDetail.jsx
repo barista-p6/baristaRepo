@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import V2iewMoreRecipeDetailReview from "./V2iewMoreRecipeDetailReview";
 import EnhancedRecipeReviews from "./EnhancedRecipeReviews";
+import useUserId from '../CustomHooks/UserIdH';
 
 
 const V1iewMoreRecipeDetail = () => {
-
+  const { userId } = useUserId(); 
   const { id } = useParams(); 
   const [recipe, setRecipe] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -20,7 +21,6 @@ const V1iewMoreRecipeDetail = () => {
 
 
 
-  const userId = "66dcb86f2991889cd91c8559"; 
 
   useEffect(() => {
     const fetchRecipe = async () => {

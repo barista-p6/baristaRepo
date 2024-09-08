@@ -50,6 +50,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/barista-auth", baristaAuthRoutes);
 app.use("/api/beverage", beverageRoutes);
 app.use("/api/recipe", recipeRoutes);
+app.use('/api/users' , userRoutes)
 
 // Tasneem Routes
 app.use("/api", productRoutes);

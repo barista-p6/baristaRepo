@@ -1,13 +1,16 @@
 import React from 'react';
 import { Star, Clock, Heart, X, ChefHat } from 'lucide-react';
 import axios from 'axios';
+import useUserId from '../CustomHooks/UserIdH';
+
 
 const RecipeGrid = ({ recipes, icon, setRecentViews, removeFromWishlist }) => {
+  const { userId, loading, error } = useUserId(); // Use the custom hook
+
   const handleRemove = async (recipeId) => {
     try {
-      const userId = '66dcb86f2991889cd91c8559'; // Replace with the actual user ID
       const endpoint = removeFromWishlist
-        ? `http://localhost:3000/api/users/${userId}/wishlist/${recipeId}`
+        ? `http://localhost:3000/api/users/${userId}/wishlist/${recipeId}` 
         : 'http://localhost:3000/api/recent-view';
 
       const response = removeFromWishlist
