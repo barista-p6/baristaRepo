@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar"; // تأكد من استيراد SearchBar
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 function Collection() {
   const [products, setProducts] = useState([]);
@@ -25,6 +27,8 @@ function Collection() {
   );
 
   return (
+    <>
+   <Navbar />
     <div className="">
       {/* خلفية الصفحة */}
       <div
@@ -126,6 +130,7 @@ function Collection() {
         )}
       </div>
     </div>
+    </>
   );
 }
 

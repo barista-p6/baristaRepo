@@ -30,13 +30,15 @@ const OrderConfirmation = ({ deliveryInfo }) => {
             </div>
             <div className="text-center">
                 <p className="text-green-600 font-semibold mb-4">Your order has been placed successfully!</p>
-                <p>You will receive an email confirmation shortly.</p>
+
             </div>
-            <Link to = "/">
-            <button className='bg-black text-white'> 
-                back to home page
-                </button>
-            </Link>
+            <div className="flex items-center justify-center ">
+                <Link to="/">
+                    <button className="bg-black text-white py-3 px-6 rounded-lg font-semibold shadow-md transition duration-300 ease-in-out transform hover:bg-gray-800 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Back to Home Page
+                    </button>
+                </Link>
+            </div>
         </div>
         
     );

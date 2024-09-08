@@ -16,7 +16,7 @@ const stripePromise = loadStripe('pk_test_51PeAmLGFMsHudRVCgSW72go7mjfilxpPFDqgl
 const CartCheckoutFlow = () => {
     const [step, setStep] = useState(1);
     const [deliveryInfo, setDeliveryInfo] = useState({});
-    const { cartTotal } = useCart();  // Get cartTotal from useCart
+    const { cartTotal } = useCart();
 
     
 

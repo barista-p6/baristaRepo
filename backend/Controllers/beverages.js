@@ -4,9 +4,26 @@ const Review = require("../model/reviews");
 
 exports.getBeverages = async (req, res) => {
   try {
-    const beverages = await Beverage.find({isDeleted:false}).populate("baristaId","username");
-    console.log(beverages);
-    res.json(beverages);
+    const { search = '', page = 1, limit = 7 } = req.query;
+    
+    const searchQuery = search ? { name: { $regex: search, $options: 'i' }, isDeleted: false } : { isDeleted: false };
+    const beverages = await Beverage.find(searchQuery)
+      .populate('baristaId', 'username')
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const totalBeverages = await Beverage.countDocuments(searchQuery);
+    const totalPages = Math.ceil(totalBeverages / limit);
+
+    res.json({
+      beverages,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        totalPages,
+        totalBeverages,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Error fetching beverages" });
   }

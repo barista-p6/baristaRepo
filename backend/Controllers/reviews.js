@@ -1,17 +1,45 @@
 const Review = require("../model/reviews");
 
+// In your review controller
+
 exports.getReviews = async (req, res) => {
   try {
-    const reviews = await Review.find({ isDeleted: false }).populate(
-      "userId",
-      "username"
-    );
-      
-    res.json(reviews);
+    const { search = '', page = 1, limit = 7 } = req.query;
+
+    // Construct search query
+    const searchQuery = search
+      ? {
+          $or: [
+            { 'userId.username': { $regex: search, $options: 'i' } },
+            { comment: { $regex: search, $options: 'i' } }
+          ],
+          isDeleted: false
+        }
+      : { isDeleted: false };
+
+    // Fetch reviews with search, pagination and populate
+    const reviews = await Review.find(searchQuery)
+      .populate('userId', 'username')
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const totalReviews = await Review.countDocuments(searchQuery);
+    const totalPages = Math.ceil(totalReviews / limit);
+
+    res.json({
+      reviews,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        totalPages,
+        totalReviews
+      }
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching reviews" });
+    res.status(500).json({ message: 'Error fetching reviews' });
   }
 };
+
 exports.softDeleteReview = async (req, res) => {
   try {
     const { id } = req.params;
