@@ -92,7 +92,6 @@ function App() {
               <Route path="/dashboard" element={<AdminDashboard />} />
               <Route path="/ProfileAuth" element={<ProfileAuth />} />
               <Route path="/chefprofile" element={<ChefProfile />} />
-              <Route path="/Login" element={<Login />} />
               <Route path="/RegisterBarista" element={<RegisterBarista />} />
               <Route
                 path="/BaristaADashboard"

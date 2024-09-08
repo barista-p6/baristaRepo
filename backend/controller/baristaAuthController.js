@@ -153,7 +153,7 @@ exports.getApplicationStatus = async (req, res) => {
   try {
       const baristaId = req.user; 
 
-      const barista = await Barista.findById(baristaId).select("applicationStatus");
+      const barista = await BaristaAuth.findOne({ baristaId: baristaId }).select("applicationStatus");
 
       if (!barista) {
           return res.status(404).json({ message: "Barista not found" });
