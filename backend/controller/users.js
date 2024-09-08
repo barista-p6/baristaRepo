@@ -80,6 +80,7 @@ exports.registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      
     });
 
     await newUser.save();

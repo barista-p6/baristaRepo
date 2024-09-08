@@ -20,7 +20,7 @@ const V1iewMoreRecipeDetail = () => {
 
 
 
-  const userId = "66dc76dfbc3b446dd371bf19"; 
+  const userId = "66dcb86f2991889cd91c8559"; 
 
   useEffect(() => {
     const fetchRecipe = async () => {
