@@ -25,7 +25,7 @@ const CartContent = ({ nextStep }) => {
             <div className="md:w-2/3">
                 {items.map((item) => (
                     <div key={item._id} className="flex items-center gap-4 mb-4 pb-4 border-b">
-                        <img src={item.photos} alt={item.name} className="w-24 h-24 object-cover" />
+                        <img src={item.photos} alt={item.name} className="w-24 h-24 object-contain" />
                         <div className="flex-grow">
                             <h4 className="font-bold">{item.name}</h4>
                             <p className="text-sm text-gray-600">Description: {item.description}</p>
