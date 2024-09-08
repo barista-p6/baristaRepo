@@ -10,6 +10,9 @@ router.post(
   auth,
   beverageController.createBeverage
 );
+router.get("/get", auth, beverageController.getAllBeverages);
+router.delete("/del/:id", beverageController.deleteBeverage);
+router.put("/update/:id", auth, upload.single("image"), beverageController.updateBeverage);
 
-router.get('/syrups' , auth , beverageController.AllSyrups)
+router.get("/syrups", auth, beverageController.AllSyrups);
 module.exports = router;
