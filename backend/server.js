@@ -17,7 +17,7 @@ const baristaAuthRoutes = require("./routes/baristaAuthRoutes");
 const beverageRoutes = require("./routes/beverageRoutes");
 const recipeRoutes = require("./routes/recipeRoutes");
 const orderRoutes = require("./routes/ordersMRouter");
-
+const ordersRoutes = require("./routes/ordersRoutes")
 
 app.use(cookieParser());
 app.use(express.json());
@@ -51,6 +51,7 @@ app.use("/api/barista-auth", baristaAuthRoutes);
 app.use("/api/beverage", beverageRoutes);
 app.use("/api/recipe", recipeRoutes);
 app.use('/api/users' , userRoutes)
+app.use('/api/orders' , ordersRoutes)
 
 // Tasneem Routes
 app.use("/api", productRoutes);

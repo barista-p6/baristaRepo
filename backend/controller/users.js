@@ -153,7 +153,7 @@ exports.registerBarista = async (req, res) => {
 
     await newBarista.save();
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: newBarista._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
