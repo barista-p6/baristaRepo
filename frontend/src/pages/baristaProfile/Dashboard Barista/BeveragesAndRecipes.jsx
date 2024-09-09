@@ -53,8 +53,8 @@ const BeveragesAndRecipesList = () => {
           withCredentials: true,
         });
         setBeverages(beverages.filter((beverage) => beverage._id !== id));
-      } else {
-        await axios.delete(`http://localhost:3000/api/recipe/del/${id}`, {
+      } else {        
+        await axios.delete(`http://localhost:3000/api/recipe/delete/${id}`, {
           withCredentials: true,
         });
         setRecipes(recipes.filter((recipe) => recipe._id !== id));
@@ -253,23 +253,45 @@ const BeveragesAndRecipesList = () => {
                     }}
                   />
                 )}
-                <div>
-                  <p>Associated Products:</p>
-                  {products.map((product) => (
-                    <label
-                      key={product._id}
-                      style={{ display: "block", marginBottom: "4px" }}
-                    >
-                      <input
-                        type="checkbox"
-                        value={product._id}
-                        checked={editForm.products.includes(product._id)}
-                        onChange={handleProductChange}
-                      />
-                      {product.name}
-                    </label>
-                  ))}
-                </div>
+                <details style={{ width: "250px", margin: "10px 0" }}>
+                  <summary
+                    style={{
+                      padding: "10px",
+                      backgroundColor: "#f0f0f0",
+                      cursor: "pointer",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Select Syrup
+                  </summary>
+                  <div
+                    style={{
+                      maxHeight: "150px",
+                      overflowY: "auto",
+                      padding: "10px",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                      backgroundColor: "#fff",
+                    }}
+                  >
+                    {products.map((product) => (
+                      <label
+                        key={product._id}
+                        style={{ display: "block", marginBottom: "8px" }}
+                      >
+                        <input
+                          type="checkbox"
+                          value={product._id}
+                          checked={editForm.products.includes(product._id)}
+                          onChange={handleProductChange}
+                          style={{ marginRight: "8px" }}
+                        />
+                        {product.name}
+                      </label>
+                    ))}
+                  </div>
+                </details>
                 <input
                   type="file"
                   name="image"
@@ -315,7 +337,7 @@ const BeveragesAndRecipesList = () => {
                       left: 0,
                       width: "100%",
                       height: "100%",
-                      objectFit: "cover",
+                      objectFit: "fill",
                     }}
                   />
                 </div>
