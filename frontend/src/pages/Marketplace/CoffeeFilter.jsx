@@ -1,47 +1,41 @@
 import React, { useState } from 'react';
 
-const FilterBar = ({ onStyleChange }) => {
-    const [selectedStyles, setSelectedStyles] = useState([]);
+const BeveragesFilter = ({ onCategoryChange }) => {
+    const [selectedCategory, setSelectedCategory] = useState([]);
 
-    const handleStyleChange = (style) => {
-        let updatedStyles = [];
-        if (selectedStyles.includes(style)) {
-            updatedStyles = selectedStyles.filter((s) => s !== style);
+    const handleCategoryChange = (category) => {
+        let updatedCategory = [];
+        if (selectedCategory.includes(category)) {
+            updatedCategory = selectedCategory.filter((s) => s !== category);
         } else {
-            updatedStyles = [...selectedStyles, style];
+            updatedCategory = [...selectedCategory, category];
         }
-        setSelectedStyles(updatedStyles);
-        onStyleChange(updatedStyles);
+        setSelectedCategory(updatedCategory);
+        onCategoryChange(updatedCategory);
     };
 
-    const styles = [
-        { label: 'Espresso', value: 'espresso' },
-        { label: 'Latte', value: 'latte' },
-        { label: 'Cappuccino', value: 'cappuccino' },
-        { label: 'Mocha', value: 'mocha' },
-        { label: 'Drip', value: 'drip' },
-        { label: 'Cold Brew', value: 'coldBrew' },
-        { label: 'Tea', value: 'tea' },
-        { label: 'Fruit', value: 'fruit' },
-        { label: 'Spiced', value: 'spiced' },
+    const category = [
+        { label: 'Mojito', value: 'Mojito' },
+        { label: 'Iced Tea', value: 'IcedTea' },
+        { label: 'Coffee', value: 'Coffee' }
     ];
 
     return (
         <div className="space-y-4">
-            {styles.map((style) => (
+            {category.map((category) => (
                 <label
-                    key={style.value}
+                    key={category.value}
                     className="flex items-center space-x-3 cursor-pointer group"
                 >
                     <input
                         type="checkbox"
-                        value={style.value}
-                        checked={selectedStyles.includes(style.value)}
-                        onChange={() => handleStyleChange(style.value)}
-                        className="appearance-none h-5 w-5 border border-[#B8916B] rounded-md bg-white checked:bg-[#B8916B] checked:border-transparent transition duration-300 group-hover:ring group-hover:ring-[#B8916B]"
+                        value={category.value}
+                        checked={selectedCategory.includes(category.value)}
+                        onChange={() => handleCategoryChange(category.value)}
+                        className="appearance-none h-5 w-5 border border-gray-300 rounded-md bg-white checked:bg-black checked:border-transparent transition duration-300 group-hover:ring group-hover:ring-black"
                     />
-                    <span className="text-gray-700 group-hover:text-[#B8916B] transition duration-300">
-                        {style.label}
+                    <span className="text-gray-800 group-hover:text-black transition duration-300">
+                        {category.label}
                     </span>
                 </label>
             ))}
@@ -49,4 +43,4 @@ const FilterBar = ({ onStyleChange }) => {
     );
 };
 
-export default FilterBar;
+export default BeveragesFilter;

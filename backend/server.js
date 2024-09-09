@@ -14,10 +14,12 @@ const wishListRoute = require("./routes/wishListRoute");
 const contactRoutes = require("./routes/contactRoutes");
 const userRoutes = require("./routes/users");
 const baristaAuthRoutes = require("./routes/baristaAuthRoutes");
-
 const beverageRoutes = require("./routes/beverageRoutes");
 const recipeRoutes = require("./routes/recipeRoutes");
 const orderRoutes = require("./routes/ordersMRouter");
+const ordersRoutes = require("./routes/ordersRoutes");
+const share = require("./routes/shareUserRoutes");
+const report = require('./routes/report');
 
 app.use(cookieParser());
 app.use(express.json());
@@ -50,11 +52,15 @@ app.use("/api/users", userRoutes);
 app.use("/api/barista-auth", baristaAuthRoutes);
 app.use("/api/beverage", beverageRoutes);
 app.use("/api/recipe", recipeRoutes);
+app.use('/api/users' , userRoutes)
+app.use('/api/orders' , ordersRoutes)
 
 // Tasneem Routes
 app.use("/api", productRoutes);
 app.use("/api", userProfileRoutes);
 app.use("/api", wishListRoute);
+app.use("/api" , share )
+app.use('/api' , report)
 // Mohammad Routes
 app.use("/api", beveragesMarketRoute);
 app.use("/api/admin", adminRoutes);

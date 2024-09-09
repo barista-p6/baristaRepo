@@ -5,7 +5,7 @@ import "./index.css";
 import HomePage from "./pages/Home/Home";
 import LoginPage from "./pages/Login/Login";
 import UserProfilePage from "./pages/UserProfile/UserProfilePage";
-
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import RecipeDetailPage from "./pages/RecipeDetail/RecipeDetail";
 import MarketplacePage from "./pages/Marketplace/Marketplace";
 import DrinkDetailPage from "./pages/DrinkDetail/DrinkDetailPage";
@@ -63,6 +63,11 @@ import RegisterUser from "./pages/sigin up user/siginUp";
 import LoginUser from "./pages/login user/login";
 function App() {
   return (
+    <GoogleOAuthProvider
+    clientId={
+      "656316712927-3pubdt3macb98e4j1ndv2jqgk7knl3hj.apps.googleusercontent.com"
+    }
+  >
     <Router>
 
       <BaristaProfileProvider>
@@ -92,7 +97,6 @@ function App() {
               <Route path="/dashboard" element={<AdminDashboard />} />
               <Route path="/ProfileAuth" element={<ProfileAuth />} />
               <Route path="/chefprofile" element={<ChefProfile />} />
-              <Route path="/Login" element={<Login />} />
               <Route path="/RegisterBarista" element={<RegisterBarista />} />
               <Route
                 path="/BaristaADashboard"
@@ -120,6 +124,8 @@ function App() {
         </div>
       </BaristaProfileProvider>
     </Router>
+    </GoogleOAuthProvider>
+
   );
 }
 

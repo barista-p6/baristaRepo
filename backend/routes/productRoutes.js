@@ -14,7 +14,6 @@ router.get('/Allproducts', async (req, res) => {
 });
 
 
-
 router.get('/product/:id', async (req, res) => {
       const productId = req.params.id;
   

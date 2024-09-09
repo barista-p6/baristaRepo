@@ -3,6 +3,9 @@ import axios from "axios";
 import siginUser from "./../../assets/images/siginUser.jpg";
 import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
+import { GoogleLogin } from "@react-oauth/google";
+import Swal from "sweetalert2";
+import { FaEnvelope, FaLock, FaUser, FaGoogle } from "react-icons/fa";
 
 function RegisterUser() {
     const navigate = useNavigate();
@@ -55,6 +58,46 @@ function RegisterUser() {
             );
         }
     };
+// --------------------------------google
+const handleGoogleSignupSuccess = async (response) => {
+    try {
+      const idToken = response.credential;
+      const res = await axios.post(
+        "http://localhost:3000/api/users/register/google",
+        { id_token: idToken },
+        { withCredentials: true }
+      );
+
+      if (res.data.token) {
+        Swal.fire({
+          icon: "success",
+          title: "Signup Successful",
+          text: "You have successfully signed up with Google!",
+          confirmButtonText: "OK",
+        }).then(() => {
+          navigate("/");
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Signup Error",
+        text:
+          error.response?.data?.message ||
+          "There was an error during Google signup. Please try again.",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+
+  const handleGoogleSignupError = (error) => {
+    Swal.fire({
+      icon: "error",
+      title: "Signup Error",
+      text: "There was an error during Google signup. Please try again.",
+      confirmButtonText: "OK",
+    });
+  };
 
     return (
         <motion.div 
@@ -149,6 +192,14 @@ function RegisterUser() {
                             Login here
                         </a>
                     </p>
+                    <GoogleLogin
+                onSuccess={handleGoogleSignupSuccess}
+                onError={handleGoogleSignupError}
+                logo="Google"
+                buttonText="Sign up with Google"
+                className="w-full bg-[#4285F4] text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center justify-center"
+                icon={<FaGoogle className="mr-2" />}
+              />
                 </form>
             </div>
         </motion.div>

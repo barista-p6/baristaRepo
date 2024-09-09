@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import loginBarista from "./../../assets/images/loginBarista.jpg";
 import { useNavigate } from "react-router-dom";
@@ -14,21 +14,6 @@ function LoginBarista() {
   const [errorMessage, setErrorMessage] = useState("");
   const [applicationStatus, setApplicationStatus] = useState(null);
 
-  useEffect(() => {
-    const fetchApplicationStatus = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/barista-auth/status",
-          { withCredentials: true }
-        );
-        setApplicationStatus(response.data.applicationStatus); // تأكد من أن هذا هو الحقل الصحيح
-      } catch (error) {
-        console.error("Error fetching application status:", error);
-      }
-    };
-    fetchApplicationStatus();
-  }, []);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -40,45 +25,64 @@ function LoginBarista() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = formData;
-
+  
     if (!email || !password) {
       setErrorMessage("All fields are required.");
       return;
     }
-
+  
     try {
       await axios.post(
         "http://localhost:3000/api/users/login/cheif",
         { email, password },
         { withCredentials: true }
       );
-
-      if (applicationStatus === "pending") {
-        Swal.fire({
-          title: "Your application is pending",
-          text: "Your profile is under review. You will be notified once the review is complete.",
-          icon: "info",
-          confirmButtonText: "OK",
-        });
-      } else if (applicationStatus === "Accept") {
-        navigate("/");
-      } else if (applicationStatus === "Reject") {
-        Swal.fire({
-          icon: "error",
-          title: "Application Rejected",
-          text: "Your application has been rejected.",
-        });
-      } else {
-        navigate("/ProfileAuth");
+  
+      try {
+        const statusResponse = await axios.get(
+          "http://localhost:3000/api/barista-auth/status",
+          { withCredentials: true }
+        );
+  
+        const applicationStatus = statusResponse.data.applicationStatus;
+        console.log("Application Status:", applicationStatus); // تأكد من القيمة هنا
+  
+        if (applicationStatus === "pending") {
+          Swal.fire({
+            title: "Your application is pending",
+            text: "Your profile is under review. You will be notified once the review is complete.",
+            icon: "info",
+            confirmButtonText: "OK",
+          });
+        } else if (applicationStatus === "Accept") {
+          navigate("/");
+        } else if (applicationStatus === "Reject") {
+          Swal.fire({
+            icon: "error",
+            title: "Application Rejected",
+            text: "Your application has been rejected.",
+          });
+        } else if (applicationStatus === null || applicationStatus === undefined) {
+          navigate("/ProfileAuth");
+        } else {
+          console.warn("Unexpected application status:", applicationStatus);
+        }
+      } catch (statusError) {
+        navigate("/ProfileAuth"); 
       }
-    } catch (error) {
+    } catch (loginError) {
+      // التعامل مع أخطاء تسجيل الدخول
+      console.error("Login Error:", loginError); 
       Swal.fire({
         icon: "error",
         title: "Login Error",
-        text: "Error logging in: " + error.response.data.message,
+        text: "Error logging in: " + (loginError.response?.data?.message || loginError.message),
       });
     }
   };
+  
+  
+  
 
   return (
     <motion.div

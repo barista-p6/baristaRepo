@@ -3,7 +3,9 @@ import axios from "axios";
 import loginUser from "./../../assets/images/loginUser.jpg";
 import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
-
+import { GoogleLogin } from "@react-oauth/google";
+import { FaEnvelope, FaLock, FaUser, FaGoogle } from "react-icons/fa";
+import Swal from "sweetalert2";
 function LoginUser() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -43,7 +45,35 @@ function LoginUser() {
             );
         }
     };
+// ---------------------------------google
+const handleGoogleLoginSuccess = async (response) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/api/users/login/google",
+        { id_token: response.credential },
+        { withCredentials: true }
+      );
 
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: "You have successfully logged in with Google!",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/");
+      });
+    } catch (error) {
+      console.error("Google login error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Error",
+        text:
+          error.response?.data?.message ||
+          "There was an error during Google login. Please try again.",
+        confirmButtonText: "OK",
+      });
+    }
+  };
     return (
         <motion.div 
             className="min-h-screen flex items-center justify-center bg-cover bg-center"
@@ -114,6 +144,15 @@ function LoginUser() {
                             Register here
                         </a>
                     </p>
+                    <GoogleLogin
+                            onSuccess={handleGoogleLoginSuccess}
+                            onError={(error) => console.error("Google login error:", error)}
+                            style={{ width: '100%' }}
+                            className="flex items-center justify-center gap-2 bg-[#4285F4] text-white font-medium rounded-lg text-sm px-5 py-2.5"
+                        >
+                            <FaGoogle className="text-xl" />
+                            <span>Sign in with Google</span>
+                        </GoogleLogin>
                 </form>
             </div>
         </motion.div>

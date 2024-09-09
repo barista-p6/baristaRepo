@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import ProductPopup from "./ProductPopup";
+import Swal from "sweetalert2";
 
 const AddRecipeForm = () => {
   const [name, setName] = useState("");
@@ -86,11 +87,6 @@ const AddRecipeForm = () => {
     }
     formData.append("syrups", JSON.stringify(syrupsArray));
   
-    console.log("FormData contents:");
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-  
     try {
       const response = await axios.post(
         "http://localhost:3000/api/recipe/create",
@@ -102,11 +98,32 @@ const AddRecipeForm = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+      
+      // عرض SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'تم إضافة الوصفة بنجاح!',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      
+      // تفريغ الحقول
+      setName("");
+      setCookingTime("");
+      setCategories("");
+      setDietaryRestrictions("");
+      setPreparationSteps([""]);
+      setIngredients([""]);
+      setImage(null);
+      setBg(null);
+      setSelectedSyrups([]);
     } catch (error) {
       console.error("Error adding Recipe:", error);
     }
   };
+  
+
+
   const { getRootProps: getImageRootProps, getInputProps: getImageInputProps } = useDropzone({
     onDrop: (acceptedFiles) => handleDrop(acceptedFiles, "image"),
     accept: "image/*",
@@ -267,7 +284,7 @@ const AddRecipeForm = () => {
             <button
               type="button"
               onClick={() => setShowSyrupPopup(true)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className="bg-black text-white px-4 py-2 rounded hover:bg-slate-400"
             >
               Select Syrups
             </button>
@@ -314,7 +331,7 @@ const AddRecipeForm = () => {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-slate-400"
         >
           Add Recipe
         </button>

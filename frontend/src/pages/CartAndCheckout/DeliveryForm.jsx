@@ -101,7 +101,7 @@ const DeliveryForm = ({ nextStep, prevStep, setDeliveryInfo }) => {
                     type="submit"
                     className="bg-black text-white px-4 py-2 rounded-md hover:bg-zinc-700 transition duration-300"
                 >
-                    Next Step
+                    Continue →
                 </button>
             </div>
         </form>

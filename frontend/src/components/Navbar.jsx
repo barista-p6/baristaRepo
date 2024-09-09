@@ -161,6 +161,23 @@ const StickyNavbar = () => {
                 ))}
               </ul>
             </li>
+            <li className="relative group">
+              <Link
+                to="/BaristaUserProfile"
+                className={`block py-2 px-3 md:p-0 ${
+                  isHomePage ? "text-white" : "text-white"
+                } hover:text-white`}
+              >
+                Profile
+              </Link>
+              <span
+                className={`absolute top-full mt-1 bottom-0 left-0 h-1 bg-white transition-all duration-500 ${
+                  location.pathname === "/BaristaUserProfile" ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"
+                }`}
+              ></span>
+
+            
+            </li>
           </ul>
         </div>
       </div>
