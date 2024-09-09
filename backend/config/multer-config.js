@@ -48,6 +48,9 @@ const upload = multer({ storage: storage });
 
 module.exports = upload;
 
+// multer.diskStorage يقوم بإعداد كيفية تخزين الملفات.
+// destination هو دالة تُحدد المجلد الذي سيتم تخزين الملفات فيه. في هذا المثال، يتم تخزين الملفات في مجلد uploads/.
+// filename هو دالة تُحدد اسم الملف المخزن. يتم إنشاء اسم الملف بناءً على اسم الحقل (file.fieldname)، والوقت الحالي (لضمان أن الاسم فريد)، وامتداد الملف الأصلي (path.extname(file.originalname)).
 // -------------------------------------------------------------
 // const multer = require('multer');
 // const path = require('path');
