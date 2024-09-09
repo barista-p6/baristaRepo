@@ -53,7 +53,7 @@ const BeveragesAndRecipesList = () => {
           withCredentials: true,
         });
         setBeverages(beverages.filter((beverage) => beverage._id !== id));
-      } else {        
+      } else {
         await axios.delete(`http://localhost:3000/api/recipe/delete/${id}`, {
           withCredentials: true,
         });
