@@ -384,7 +384,7 @@ const BeverageManagement = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-300">
-              <thead className="bg-gray-200">
+              <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Name</th>
                   <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">Barista</th>

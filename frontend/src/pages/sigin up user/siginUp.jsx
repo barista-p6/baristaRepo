@@ -111,7 +111,7 @@ const handleGoogleSignupSuccess = async (response) => {
             <div className="relative w-full max-w-md bg-[#F6F2EF]/30 backdrop-blur-lg py-6 px-6 sm:px-16 shadow-lg rounded-xl">
                 <form onSubmit={handleSubmit} className="flex flex-col">
                     <div className="mb-6">
-                        <h3 className="text-gray-800 text-2xl font-bold text-center">
+                        <h3 className="text-black text-2xl font-bold text-center">
                             Create an account for User
                         </h3>
                     </div>
@@ -122,53 +122,53 @@ const handleGoogleSignupSuccess = async (response) => {
 
                     <div className="space-y-6">
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Name</label>
+                            <label className="text-black text-sm mb-2 block">Name</label>
                             <input
                                 name="username"
                                 type="text"
                                 value={formData.username}
                                 onChange={handleChange}
                                 required
-                                className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
+                                className="text-black bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                                 placeholder="Enter name"
                             />
                         </div>
 
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
+                            <label className="text-black text-sm mb-2 block">Email Id</label>
                             <input
                                 name="email"
                                 type="email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
+                                className="text-black bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                                 placeholder="Enter email"
                             />
                         </div>
 
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Password</label>
+                            <label className="text-black text-sm mb-2 block">Password</label>
                             <input
                                 name="password"
                                 type="password"
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
+                                className="text-black bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                                 placeholder="Enter password"
                             />
                         </div>
 
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Confirm Password</label>
+                            <label className="text-black text-sm mb-2 block">Confirm Password</label>
                             <input
                                 name="confirmPassword"
                                 type="password"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 required
-                                className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
+                                className="text-black bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                                 placeholder="Confirm password"
                             />
                         </div>
@@ -177,21 +177,23 @@ const handleGoogleSignupSuccess = async (response) => {
                     <div className="mt-6">
                         <button
                             type="submit"
-                            className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-[#E1BB94] hover:bg-[#C8A67D] focus:outline-none"
+                            className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-[#73122e]  hover:bg-[#841535] focus:outline-none"
                         >
                             Create an account
                         </button>
                     </div>
 
-                    <p className="text-gray-800 text-sm mt-6 text-center">
+                    <p className="text-black text-sm mt-6 text-center">
                         Already have an account?{" "}
                         <a
                             href="/LoginUser"
-                            className="text-blue-600 font-semibold hover:underline ml-1"
+                            className="text-[#73122e] font-semibold hover:underline ml-1"
                         >
                             Login here
                         </a>
                     </p>
+
+                    <div className="flex justify-center mt-[1rem]">
                     <GoogleLogin
                 onSuccess={handleGoogleSignupSuccess}
                 onError={handleGoogleSignupError}
@@ -200,6 +202,8 @@ const handleGoogleSignupSuccess = async (response) => {
                 className="w-full bg-[#4285F4] text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center justify-center"
                 icon={<FaGoogle className="mr-2" />}
               />
+              </div>
+
                 </form>
             </div>
         </motion.div>

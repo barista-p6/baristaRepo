@@ -710,7 +710,6 @@
 
 
 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaToggleOn, FaToggleOff, FaTrash } from "react-icons/fa";
@@ -817,7 +816,7 @@ const BaristaManagement = () => {
           </select>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md divide-y divide-gray-200">
+          <table className="min-w-full bg-white  rounded-lg shadow-md divide-y divide-gray-200">
             <thead className="bg-gray-50 border-b border-gray-300">
               <tr>
                 <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
@@ -854,11 +853,6 @@ const BaristaManagement = () => {
                 return (
                   <tr key={barista._id} className="hover:bg-gray-100 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap flex items-center">
-                      <img
-                        src={barista.profilePic}
-                        alt={`${barista.username}'s profile`}
-                        className="w-10 h-10 rounded-full mr-4"
-                      />
                       {barista.username}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-600">
