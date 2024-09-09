@@ -4,6 +4,7 @@ import loginBarista from "./../../assets/images/loginBarista.jpg";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
+import bg from "../../assets/bg-login.jpg"
 
 function LoginBarista() {
   const navigate = useNavigate();
@@ -92,14 +93,22 @@ function LoginBarista() {
       exit={{ opacity: 0, x: -100 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="font-[sans-serif] max-w-6xl flex items-center mx-auto md:h-screen p-4">
-        <div className="grid md:grid-cols-[3fr_2fr] items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden">
-          <form
-            className="w-full h-full bg-[#F6F2EF] py-6 px-6 sm:px-16 flex flex-col justify-center"
-            onSubmit={handleSubmit}
-          >
+      <div className="font-[sans-serif] bg-black flex w-screen h-screen justify-center items-center mx-auto md:h-screen p-4">
+        <div className="grid md:grid-cols-[3fr_2fr] w-3/5 h-2/3 items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden"
+        style={{
+          backgroundImage: `url(${bg})`, // Replace with the direct URL to your image
+          backgroundPosition: "center",
+          backgroundSize: "cover", // Change to "contain" if you want the whole image to be visible
+          backgroundRepeat: "no-repeat",
+        }} >
+        <form
+  className="w-full h-full  py-6 px-6 sm:px-16 flex flex-col justify-center"
+
+  onSubmit={handleSubmit}
+>
+ 
             <div className="mb-6">
-              <h3 className="text-gray-800 text-2xl font-bold">
+              <h3 className="text-2xl text-white font-bold">
                 Login as Barista
               </h3>
             </div>
@@ -110,7 +119,7 @@ function LoginBarista() {
 
             <div className="space-y-6">
               <div>
-                <label className="text-gray-800 text-sm mb-2 block">
+                <label className="text-white text-sm mb-2 block">
                   Email Id
                 </label>
                 <div className="relative flex items-center">
@@ -127,7 +136,7 @@ function LoginBarista() {
               </div>
 
               <div>
-                <label className="text-gray-800 text-sm mb-2 block">
+                <label className="text-white text-sm mb-2 block">
                   Password
                 </label>
                 <div className="relative flex items-center">
@@ -147,28 +156,28 @@ function LoginBarista() {
             <div className="!mt-12">
               <button
                 type="submit"
-                className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-[#E1BB94] hover:bg-[#C8A67D] focus:outline-none"
+                className="w-full py-3 px-4 tracking-wider text-white text-sm rounded-md  bg-[#73122e]  hover:bg-[#841535] focus:outline-none"
               >
                 Login
               </button>
             </div>
 
-            <p className="text-gray-800 text-sm mt-6 text-center">
+            <p className="text-white text-sm mt-6 text-center">
               Don't have an account?{" "}
               <a
                 href="/RegisterBarista"
-                className="text-blue-600 font-semibold hover:underline ml-1"
+                className="text-gray-200 font-semibold hover:underline ml-1"
               >
                 Register here
               </a>
             </p>
           </form>
 
-          <div className="flex justify-center items-center w-full h-full bg-gradient-to-r from-gray-900 to-gray-700">
+          <div className="relative flex justify-center items-center w-full h-full ">
             <img
-              src={loginBarista}
+              src='https://www.1883.com/app/uploads/2024/08/Cranberry_elements_1883_v2-1.webp'
               alt="Login Barista"
-              className="w-full h-full object-cover"
+              className="absolute w-1/2 h-full object-cover"
             />
           </div>
         </div>
