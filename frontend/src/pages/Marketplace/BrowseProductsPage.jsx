@@ -63,7 +63,9 @@ const BrowseProducts = () => {
                 name: product.name,
                 price: product.price,
                 description: product.description,
-                photos: product.photos
+                photos: product.photos,
+                category: product.category,
+                baristaID: product.baristaId
             });
             setToast({
                 message: `${product.name} has been added to your cart!`,
@@ -96,7 +98,7 @@ const BrowseProducts = () => {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-white text-black p-8 font-serif">
+            <div className="min-h-screen bg-white text-black p-8 font-serif mt-16">
                 <div className="container mx-auto">
                     <h1 className="text-4xl font-bold text-center mb-8">
                         {category === 'beverages' ? 'Our Beverages' : 'Delicious Syrups'}

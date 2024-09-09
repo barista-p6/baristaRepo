@@ -9,9 +9,9 @@ const RecipesDetails = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="container mx-auto p-6 ">
+    <div className="container mx-auto p-6 mt-20 ">
       <h2 className="text-3xl font-light text-center mb-6">
-        Our Delicious Recipes
+        Chefs Delicious Recipes
       </h2>
 
       {recipes && recipes.length > 0 ? (
@@ -25,12 +25,15 @@ const RecipesDetails = () => {
                 src={
                   recipe.bg ? recipe.bg : `http://localhost:3000/${recipe.bg}`
                 }
+                
                 alt={recipe.name}
                 className="w-full h-48 object-cover"
                 onError={(e) => {
                   e.target.src = `http://localhost:3000/${recipe.bg}`;
                 }}
+                
               />
+              {console.log(recipe.bg)}
               <div className="p-4 ">
                 <h3 className="text-xl font-light mb-2 ">{recipe.name}</h3>
                 <p className="text-gray-700 mb-2">
