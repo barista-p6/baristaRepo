@@ -115,7 +115,6 @@ function App() {
                 element={<ManageContactMessages />}
               />
               <Route path="/about" element={<Aboutus />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/cart" element={<CartCheckoutFlow />} />
               <Route path="/BaristaUserProfile" element={<BaristaUserProfile />} />
 

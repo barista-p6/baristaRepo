@@ -28,7 +28,7 @@ const CartCheckoutFlow = () => {
         <Elements stripe={stripePromise}>
 
             <Navbar></Navbar>
-            <div className="container mx-auto p-6 font-sans">
+            <div className="container mx-auto p-6 font-sans mt-16">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

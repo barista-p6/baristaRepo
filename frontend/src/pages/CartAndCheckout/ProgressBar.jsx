@@ -20,7 +20,7 @@ const ProgressBar = ({ step }) => {
     };
 
     return (
-        <div className="relative flex items-center justify-between mb-10 mt-20">
+        <div className="relative flex items-center justify-between mb-10 mt-10">
             {/* Progress bar background */}
             <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-300 rounded-full"></div>
 
