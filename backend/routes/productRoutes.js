@@ -8,11 +8,55 @@ const Users = require("../model/users")
 const Review = require("../model/reviews")
 
 
+router.post('/Allproducts', async (req, res) => {
+  const {
+    name,
+    description,
+    price,
+    category,
+    photos = [],
+    bg = [],
+    picture = [],
+    recipes = [],
+    beverages = []
+  } = req.body;
+
+  // التحقق من الحقول الأساسية
+  if (!name || !price) {
+    return res.status(400).json({ message: "Name and price are required" });
+  }
+
+  const newProduct = new Product({
+    name,
+    description,
+    price,
+    category,
+    photos,
+    bg,
+    picture,
+    recipes,
+    beverages,
+  });
+
+  try {
+    const savedProduct = await newProduct.save();
+    res.status(201).json(savedProduct);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
+
 router.get('/Allproducts', async (req, res) => {
-    const products = await Product.find()
+  const products = await Product.find({ category: "Syrup" });
     res.json(products);
 });
 
+router.get('/Swirlsproducts', async (req, res) => {
+  const products = await Product.find({ category: "Swirls" });
+    res.json(products);
+});
 
 router.get('/product/:id', async (req, res) => {
       const productId = req.params.id;

@@ -28,13 +28,30 @@ exports.createContact = async (req, res) => {
   }
 };
 
-
 exports.getContactMessages = async (req, res) => {
   try {
-    const messages = await Contact.find();
+    // Get the page number and limit from query parameters
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 9;
+
+    // Calculate the number of messages to skip
+    const skip = (page - 1) * limit;
+
+    // Get the total number of messages
+    const totalMessages = await Contact.countDocuments();
+
+    // Find the messages for the current page
+    const messages = await Contact.find()
+      .skip(skip)
+      .limit(limit);
+
+    // Calculate total pages
+    const totalPages = Math.ceil(totalMessages / limit);
+
     res.status(200).json({
       success: true,
       data: messages,
+      totalPages, // Include totalPages in the response
     });
   } catch (error) {
     res.status(500).json({
@@ -44,4 +61,3 @@ exports.getContactMessages = async (req, res) => {
     });
   }
 };
-

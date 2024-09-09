@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import loginUser from "./../../assets/images/loginUser.jpg";
+import loginUser from "./../../assets/5.avif";
 import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
 import { GoogleLogin } from "@react-oauth/google";
@@ -77,7 +77,8 @@ const handleGoogleLoginSuccess = async (response) => {
     return (
         <motion.div 
             className="min-h-screen flex items-center justify-center bg-cover bg-center"
-            style={{ backgroundImage: `url(${loginUser})` }} 
+            style={{ backgroundImage: `url(${loginUser})` ,
+            backgroundPosition: "center"}} 
             initial={{ opacity: 0, x: 100 }} 
             animate={{ opacity: 1, x: 0 }} 
             exit={{ opacity: 0, x: -100 }}
@@ -89,7 +90,7 @@ const handleGoogleLoginSuccess = async (response) => {
                     onSubmit={handleSubmit}
                 >
                     <div className="mb-6">
-                        <h3 className="text-gray-800 text-2xl font-bold text-center">
+                        <h3 className="text-black text-2xl font-bold text-center">
                             Login as user
                         </h3>
                     </div>
@@ -100,27 +101,27 @@ const handleGoogleLoginSuccess = async (response) => {
 
                     <div className="space-y-6">
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
+                            <label className="text-black text-sm mb-2 block">Email Id</label>
                             <input
                                 name="email"
                                 type="email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
+                                className="text-black bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                                 placeholder="Enter email"
                             />
                         </div>
 
                         <div>
-                            <label className="text-gray-800 text-sm mb-2 block">Password</label>
+                            <label className="text-black text-sm mb-2 block">Password</label>
                             <input
                                 name="password"
                                 type="password"
                                 value={formData.password}
                                 onChange={handleChange}
                                 required
-                                className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
+                                className="text-black bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                                 placeholder="Enter password"
                             />
                         </div>
@@ -129,21 +130,23 @@ const handleGoogleLoginSuccess = async (response) => {
                     <div className="mt-6">
                         <button
                             type="submit"
-                            className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-[#E1BB94] hover:bg-[#C8A67D] focus:outline-none"
+                            className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-[#73122e]  hover:bg-[#841535] focus:outline-none"
                         >
                             Login
                         </button>
                     </div>
 
-                    <p className="text-gray-800 text-sm mt-6 text-center">
+                    <p className="text-black text-sm mt-6 text-center">
                         Don't have an account?{" "}
                         <a
                             href="/registeruser"
-                            className="text-blue-600 font-semibold hover:underline ml-1"
+                            className="text-[#73122e] font-semibold hover:underline ml-1"
                         >
                             Register here
                         </a>
                     </p>
+                    <div className="flex justify-center mt-[1rem]">
+
                     <GoogleLogin
                             onSuccess={handleGoogleLoginSuccess}
                             onError={(error) => console.error("Google login error:", error)}
@@ -153,6 +156,8 @@ const handleGoogleLoginSuccess = async (response) => {
                             <FaGoogle className="text-xl" />
                             <span>Sign in with Google</span>
                         </GoogleLogin>
+
+                        </div>
                 </form>
             </div>
         </motion.div>
