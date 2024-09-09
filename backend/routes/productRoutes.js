@@ -58,7 +58,6 @@ router.get('/Swirlsproducts', async (req, res) => {
     res.json(products);
 });
 
-
 router.get('/product/:id', async (req, res) => {
       const productId = req.params.id;
   

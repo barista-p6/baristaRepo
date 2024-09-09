@@ -192,6 +192,7 @@ const handleGoogleSignupSuccess = async (response) => {
                             Login here
                         </a>
                     </p>
+
                     <div className="flex justify-center mt-[1rem]">
                     <GoogleLogin
                 onSuccess={handleGoogleSignupSuccess}
@@ -202,6 +203,7 @@ const handleGoogleSignupSuccess = async (response) => {
                 icon={<FaGoogle className="mr-2" />}
               />
               </div>
+
                 </form>
             </div>
         </motion.div>

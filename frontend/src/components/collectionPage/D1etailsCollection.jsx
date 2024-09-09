@@ -97,6 +97,7 @@ function DetailsCollection() {
           <RecipesProvider productId={id}>
             <RecipesDetails />
           </RecipesProvider>
+          
           <BeveragesProvider productId={id}>
             <BeverageDetails />
           </BeveragesProvider>

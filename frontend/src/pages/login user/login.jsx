@@ -146,6 +146,7 @@ const handleGoogleLoginSuccess = async (response) => {
                         </a>
                     </p>
                     <div className="flex justify-center mt-[1rem]">
+
                     <GoogleLogin
                             onSuccess={handleGoogleLoginSuccess}
                             onError={(error) => console.error("Google login error:", error)}
@@ -155,6 +156,7 @@ const handleGoogleLoginSuccess = async (response) => {
                             <FaGoogle className="text-xl" />
                             <span>Sign in with Google</span>
                         </GoogleLogin>
+
                         </div>
                 </form>
             </div>

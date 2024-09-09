@@ -163,7 +163,8 @@ function RegisterBarista() {
                             Already have an account?{" "}
                             <a
                                 href="/Login"
-                                className="text-gray-200 font-semibold hover:underline ml-1"
+
+                                className="text-blue-600 font-semibold hover:underline ml-1"
                             >
                                 Login here
                             </a>

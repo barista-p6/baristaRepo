@@ -1,6 +1,8 @@
 import React from "react";
 import { Carousel } from "flowbite-react";
 import { Link } from "react-router-dom";
+import SliderComponents from "./SliderComponents";
+import V1Slider from "./V1Slider";
 
 function SliderComponent() {
   return (
@@ -8,7 +10,7 @@ function SliderComponent() {
       <Carousel
         className="h-full"
         autoPlay={true}
-        interval={5000}
+        interval={500}
         pauseOnHover={true}
       >
         <div className="relative h-full">
@@ -27,7 +29,7 @@ function SliderComponent() {
               <Link
                 to="/contact"
                 className=" text-white text-xl  font-semibold"
-              >Join
+              >GET In Touch
 </Link>
             </div>
             
@@ -75,7 +77,12 @@ function SliderComponent() {
               </p>
             </div>
           </div>
+         
+      
+
         </div>
+        <div>    <SliderComponents /></div>
+        <div><V1Slider/></div>
       </Carousel>
     </div>
   );
