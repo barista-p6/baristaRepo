@@ -140,13 +140,13 @@ const BrowseProducts = () => {
                             ) : (
                                 <>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                                        {currentProducts.map((product) => (
+                                            {currentProducts.map((product) => (
                                             <div
                                                 key={product.id}
                                                 className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 flex flex-col justify-between h-auto"
                                             >
                                                 <img
-                                                    src={product.photos}
+                                                    src={product.photos }
                                                     alt={product.name}
                                                     className="w-full h-96 object-cover mb-4 rounded"
                                                 />

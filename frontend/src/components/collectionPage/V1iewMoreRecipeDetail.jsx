@@ -8,6 +8,7 @@ import ShareRecipeForm from "../shared/Share";
 import { FaShareAlt } from "react-icons/fa"; 
 import ReportRecipe from "../report/ReportRecipe";
 import StickyNavbar from '../Navbar';
+import Footer from "../Footer";
 
 
 const V1iewMoreRecipeDetail = () => {
@@ -146,7 +147,8 @@ const V1iewMoreRecipeDetail = () => {
 
 
      
-    </div>
+      </div>
+      <Footer></Footer>
     </>
   );
 };

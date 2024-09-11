@@ -26,7 +26,7 @@ const ReviewList = ({ reviews, onUpdateReview }) => {
           <div key={review._id} className="bg-gradient-to-br bg-[#F6F2EF]/30 backdrop-blur-lg to-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
             <div className="relative">
               <img 
-                src={review.recipeId?.photos || '/api/placeholder/400/200'} 
+                src={review.recipeId?.bg || '/api/placeholder/400/200'} 
                 alt={review.recipeId?.name || 'Recipe'} 
                 className="w-full h-48 object-cover"
               />

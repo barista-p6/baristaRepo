@@ -6,7 +6,9 @@ const StickyNavbar = ({ username }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [userType, setuserType] = useState("user");
+  //barista
+  //user
+  const [userType, setuserType] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {

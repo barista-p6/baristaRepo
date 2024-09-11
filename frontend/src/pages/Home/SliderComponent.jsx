@@ -13,7 +13,7 @@ function SliderComponent() {
         interval={500}
         pauseOnHover={true}
       >
-        <div className="relative h-full">
+        <div className="relative w-screen h-full">
           <img
             src="https://www.1883.com/app/uploads/2022/10/1883_WebDD-All-designers-collectif-copie-2.jpg" // Placeholder image
             alt="Beverage Showcase"
