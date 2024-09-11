@@ -150,7 +150,7 @@ router.get('/user/:userId/review', async (req, res) => {
             path: 'review',
             populate: {
               path: 'recipeId',
-              select: 'name preparation ingredients cookingTime photos'  // Select fields you want to include from Recipe
+              select: 'name preparation ingredients cookingTime photos bg'  // Select fields you want to include from Recipe
             },
             select: 'rating comment createdAt'  // Select fields you want to include from Review
           })

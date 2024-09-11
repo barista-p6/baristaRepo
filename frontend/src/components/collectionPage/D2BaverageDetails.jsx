@@ -77,7 +77,7 @@ const BeverageDetails = () => {
 
   return (
     <div className="container mx-auto p-8 min-h-screen mt-20">
-      <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">Chefs Refreshing Beverages</h2>
+      <h2 className="text-3xl font-light text-center mb-12 text-gray-900">Chefs Refreshing Beverages</h2>
 
       {beverageItems}
 

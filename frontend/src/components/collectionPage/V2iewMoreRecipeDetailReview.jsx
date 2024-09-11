@@ -146,7 +146,7 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
           <div>
             <strong style={{ fontSize: '20px', color: '#222', fontWeight: 'bold' }}>Instructions:</strong>
             <p style={instructionsStyle}>
-              {recipe.instructions || "No instructions provided"}
+              {recipe.instructions || ` 20ml MONIN Raspberry Syrup, 10ml MONIN Rose Syrup, 5 Fresh Raspberries, 210ml San Benedetto Sparkling Water`}
             </p>
           </div>
         </div>
@@ -170,10 +170,10 @@ const V2iewMoreRecipeDetailReview = ({ recipe }) => {
       </div>
       <div style={bgContainerStyle}>
         <img 
-          src={recipe.bg ? recipe.bg : `http://localhost:3000/default-bg.jpg`} 
+          src={recipe.bg ? recipe.bg : `http://localhost:3000/${recipe.bg}`} 
           alt={recipe.bg ? recipe.bg : "Default Background"}
           onError={(e) => {
-            e.target.src = `http://localhost:3000/default-bg.jpg`;
+            e.target.src = `http://localhost:3000/${recipe.bg}`;
           }} 
           style={bgImgStyle} 
         />
